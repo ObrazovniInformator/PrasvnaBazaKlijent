@@ -1,0 +1,93 @@
+﻿@model IEnumerable<PrasvnaBazaKlijent.Models.RubrikaCasopis>
+@{
+    obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+    List<CasopisNaslov> casopisi = (List<CasopisNaslov>)ViewBag.Casopisi;
+    int idBroj = ViewBag.IdBroj;
+    string brojCasopisa = (from b in _context.CasopisBroj
+                           where b.Id == idBroj
+                           select b.Naziv).Single();
+    int idGod = (int)(from g in _context.CasopisBroj
+                      where g.Id == idBroj
+                      select g.IdGodina).Single();
+    string godina = (from god in _context.CasopisGodina
+                     where god.Id == idGod
+                     select god.Naziv).Single();
+    List<PodrubrikaCasopis> podrubrike = (List<PodrubrikaCasopis>)ViewBag.Podrubrike;
+}
+<style>
+
+    .glavnopolje {
+        margin-left: 5%;
+    }
+</style>
+
+<script>
+    document.getElementById("BudzetskoRacunovodstvo").style.backgroundColor = "#565682";
+      document.getElementById("Godina @idGod").style.backgroundColor = "#60608a";
+    document.getElementById("Broj @idBroj").style.backgroundColor = "#73739c";
+    //slova
+    document.getElementById("BudzetskoRacunovodstvoP").style.color = "#fff";
+    document.getElementById("GodinaP @idGod").style.color = "#fff";
+    document.getElementById("BrojP @idBroj").style.color = "#fff";
+</script>
+<section>
+    <div class="glavnopolje navbar-expand">
+        <h1>
+            БУЏЕТСКО РАЧУНОВОДСТВО @brojCasopisa / @godina <br>
+        </h1>
+
+
+
+        @if (podrubrike.Count > 0)
+        {
+            <ul style="display:block">
+                @foreach (RubrikaCasopis rc in Model)
+                {
+                    <li style="margin-top:4%">@rc.NazivRubrike |</li>
+                    <ul>
+                        @foreach (PodrubrikaCasopis pc in podrubrike)
+                        {
+                            @if (pc.IdRubrika == rc.ID)
+                            {
+                            <li style="margin-top:2%;margin-left:2%">@pc.Naziv |</li>
+                            <ul>
+                                @foreach (CasopisNaslov cn in casopisi)
+                                {
+                                    @if (cn.IdPodrubrika == pc.Id)
+                                    {
+                                        <li style="margin-left:4%"><a href="~/BudzetskoRacunovodstvo/Prikaz/@cn.Id"> @cn.Naslov</a></li>
+                                    }
+                                }
+                            </ul>
+                                }
+                            }
+                    </ul>
+                }
+            </ul>
+
+        }
+        else
+        {
+            <ul style="display:block">
+                @foreach(RubrikaCasopis rc in Model)
+                {
+                    <li style="margin-top:4%">@rc.NazivRubrike |</li>
+                    <ul>
+                        @foreach (CasopisNaslov cn in casopisi)
+                        {
+                            @if (cn.IdRubrika == rc.ID)
+                            {
+                            <li><a href="~/BudzetskoRacunovodstvo/Prikaz/@cn.Id">@cn.Naslov</a></li>
+                            }
+                        }
+                    </ul>
+                }
+            </ul>
+
+        }
+
+
+
+
+        </div>
+</section>

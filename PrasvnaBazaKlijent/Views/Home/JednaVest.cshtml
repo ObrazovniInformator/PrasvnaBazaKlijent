@@ -1,0 +1,13 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+*@
+@{
+    Vest vest = ViewBag.Vest;
+    obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+}
+    <div class="container">
+        <p>@vest.DanUMesecu. @vest.Mesec. @vest.Godina</p>
+        <h1>@vest.Naslov</h1>
+        @Html.Raw(vest.Tekst)
+    </div>

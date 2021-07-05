@@ -1,0 +1,453 @@
+﻿@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+    string ReturnUrl = ViewBag.Url;
+
+}
+
+<link rel="stylesheet" type="text/css" href="styles.css" />
+<head>
+    <meta name="google-site-verification" content="uoY4HPn4Ns6UHs7ufCeVzt-7RP5LzKwiSwS9QHYBzrY" />
+    <title>Infoleks Log in</title>
+</head>
+
+<!DOCTYPE html>
+<html>
+<style>
+    body {
+        font-family: 'influbg';
+    }
+
+    html {
+        height: 100vh !important;
+    }
+
+    .slika {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #674772 inset !important;
+    }
+
+    input:-webkit-autofill {
+        -webkit-text-fill-color: white !important;
+    }
+
+    /*input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+            -webkit-text-fill-color: #674772;*/
+    /*-webkit-text-fill-backgroun*/
+    /*-webkit-box-shadow:*/ /*your box-shadow*/ /*,0 0 0 50px white inset;
+        }*/
+
+    *:focus {
+        outline: none;
+    }
+
+    .bojapreko {
+        position: relative;
+        width: 100%;
+        background-image: url('slike/Naslovna.png');
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+    }
+
+    h1 {
+        margin-top: 2%;
+        width: 100%;
+        position: absolute;
+        height: 105px;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        font-size: 56px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: 2.22px;
+        text-align: center;
+        color: white;
+    }
+
+    h2 {
+        margin-top: 110px;
+        width: 100%;
+        position: absolute;
+        height: 110px;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        font-size: 30px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: 1.19px;
+        text-align: center;
+        color: white;
+    }
+
+    .Mask {
+        margin-top: 200px;
+        text-align: center;
+        width: 100%;
+        height: 570px;
+        border-radius: 20px;
+        background-color: #ffffff;
+    }
+
+    #slika {
+        width: 400px !important;
+        height: 100%;
+        position: relative;
+        margin-left: 15px;
+        margin-top: 190px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .kutija {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 35%;
+    }
+
+    #proba {
+        font-family: "InfluBG", "Book Antiqua", Palatino, serif;
+        font-size: 40px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: -0.02px;
+        color: #674772;
+        margin-bottom: 20px;
+    }
+
+    .polje {
+        width: 330px;
+        height: 50px;
+        border-radius: 20px;
+        border-style: none;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+        box-sizing: none;
+        border-image: none;
+        color: #674772;
+        font-size: 22px;
+        shape-margin-left: 5px;
+        text-align: left;
+    }
+
+        .polje:focus {
+            width: 330px;
+            height: 50px;
+            border-radius: 20px;
+            border-style: none;
+            box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+            border: 1px;
+            box-sizing: none;
+            border-image: none;
+            color: #ffffff;
+            background-color: #674772;
+            font-size: 22px;
+            shape-margin-left: 5px;
+            text-align: left;
+        }
+
+    input:focus::-webkit-input-placeholder {
+        color: white;
+        text-align: left;
+        margin-left: 10px;
+    }
+
+    input::-webkit-input-placeholder {
+        color: #979797;
+        text-align: left;
+        margin-left: 10px;
+    }
+
+    .polje2 {
+        text-align: left;
+        width: 330px;
+        height: 50px;
+        font-size: 22px;
+        border-radius: 20px;
+        margin-top: 20px;
+        border: 0.5px;
+        color: #674772;
+        background-color: white;
+        margin-bottom: 10px;
+        border-style: none;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+    }
+
+        .polje2:focus {
+            text-align: left;
+            width: 330px;
+            height: 50px;
+            font-size: 22px;
+            border-radius: 20px;
+            margin-top: 20px;
+            border: 0.5px;
+            color: white;
+            background-color: #674772;
+            margin-bottom: 10px;
+            border-style: none;
+            box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+        }
+
+    .dugme img {
+        width: 65px;
+    }
+
+    .dugme {
+        margin-left: 130px;
+        margin-top: 10px;
+        border-style: none;
+        border-radius: 100%;
+    }
+
+    @@font-face {
+        font-family: 'influbg';
+        src: url('influbg/influbg.otf') format('opentype');
+    }
+
+    a {
+        color: white;
+    }
+
+    .c-container {
+        background: white;
+        max-width: 90vw;
+        width: 100%;
+        height: 100%;
+        max-height: 60vh;
+        border-radius: 2em;
+        box-shadow: 1px 1px 100px rgba(0, 0, 0, 0.2);
+        display: -webkit-box;
+        display: flex;
+        -webkit-box-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        align-items: center;
+    }
+
+
+    .c-btn__continue {
+        background: #674772;
+        width: 200px;
+        margin-top: 40px;
+        height: 50px;
+        color: white;
+        font-size: 15px;
+        border: 0;
+        border-radius: 1.5em;
+        text-transform: uppercase;
+        font-family: 'influbg';
+        letter-spacing: 1px;
+        font-weight: 500;
+        overflow: hidden;
+    }
+
+        .c-btn__continue:hover {
+            cursor: pointer;
+            opacity: 0.9;
+        }
+
+        .c-btn__continue:active {
+            -webkit-transform: scale(0.97);
+            transform: scale(0.97);
+        }
+
+    .c-btn__loading span {
+        display: none;
+    }
+
+    .c-btn__loading .u-loading {
+        display: block;
+        margin: 0 auto;
+        width: 90%;
+        stroke-dasharray: 200;
+        stroke-dashoffset: 200;
+        -webkit-animation: dash 1s ease-in infinite alternate;
+        animation: dash 1s ease-in infinite alternate;
+    }
+
+
+
+    .u-loading {
+        width: 25px;
+        height: 25px;
+    }
+
+    .u-success {
+        width: 30px;
+        height: 30px;
+    }
+
+    .u-hide {
+        display: none;
+    }
+
+    .u-logo {
+        position: absolute;
+        right: 1em;
+        bottom: 1em;
+        color: white;
+    }
+
+    .u-logo__svg {
+        margin-left: 0.5em;
+    }
+
+    .u-logo:hover {
+        opacity: 0.9;
+        cursor: pointer;
+    }
+</style>
+<body>
+
+
+    <div class="bojapreko">
+        <div class="background-img">
+            <img style="position: fixed;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+
+    " src="~/slike/Naslovna.png">
+        </div>
+
+    </div>
+    <h1> ИНФОЛЕКС</h1>
+    <h2>
+        ПРАВНА БАЗА
+    </h2>
+    <div style=" text-align: center; width: 100%; height: 600px;">
+
+        <img id="slika" src="~/slike/box background cc.png">
+    </div>
+    <div class="Mask">
+
+
+        <section>
+            <form id="account" asp-action="Index" asp-route-ReturnUrl="@ReturnUrl" class="login" asp->
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="kutija">
+                    <h3 id="proba">ПРИЈАВА</h3>
+                    <div class="form-group">
+
+                        <input type="email" class="polje" id="text1" name="Email" placeholder="Мејл адреса" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+
+                        <input type="password" id="myInput" name="Lozinka" class="polje2" onchange="checkFilled()" placeholder="Лозинка" />
+                        <input type="checkbox" onclick="myFunction()" style="float:left; width:100%;"><br />Прикажи лозинку
+
+                        <script>
+                            function myFunction() {
+                                var x = document.getElementById("myInput");
+                                if (x.type === "password") {
+                                    x.type = "text";
+                                } else {
+                                    x.type = "password";
+                                }
+                            }
+                        </script>
+                        <span a class="text-danger"></span> <br>
+
+                        <button type="submit" class="c-btn__continue" id="continue-btn">
+                            <span>Пријави се</span>
+                        </button>
+                    </div>
+                    @if (ViewBag.Msg != null)
+                    {
+
+                        <p style="color:red">@ViewBag.Msg</p>
+
+                    }
+
+                    @*@if(ViewBag.Url != null)
+                        {
+                            <p style="color:red"> @ViewBag.Url</p>
+                        }*@
+                </div>
+
+
+
+            </form>
+        </section>
+    </div>
+
+
+</body>
+</html>
+<!--section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+-->
+@*@{
+        ViewData["Title"] = "Log in";
+        Layout = null;
+
+    }
+
+    <h1>@ViewData["Title"]</h1>
+
+        <div class="col-md-10">
+            <section>
+                <form id="account" method="post">
+                    <h4>Use a local account to log in.</h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label asp-for="Input.RememberMe">
+                                <input asp-for="Input.RememberMe" />
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Log in</button>
+                    </div>
+                    <div class="form-group">
+                        <p>
+                            <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                        </p>
+                        <p>
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                        </p>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }*@

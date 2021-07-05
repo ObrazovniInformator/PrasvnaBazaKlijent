@@ -1,0 +1,741 @@
+﻿@using PrasvnaBazaKlijent.Models;
+
+@{
+    ViewData["Title"] = "Index";
+    Propis propis = (Propis)ViewBag.Propis;
+    List<Podnaslov> podnaslovi = (List<Podnaslov>)ViewBag.Podnaslovi;
+   
+    List<Clan> clanovi = (List<Clan>)ViewBag.Clanovi;
+    List<Stav> stavovi = (List<Stav>)ViewBag.Stavovi;
+    List<Tacka> tacke = (List<Tacka>)ViewBag.Tacke;
+    List<Alineja> alineje = (List<Alineja>)ViewBag.Alineje;
+    List<PropisSluzbenoMisljenje> vezeSluzbenoMisljenje = (List<PropisSluzbenoMisljenje>)ViewBag.VezeSluzbenoMisljenje;
+    List<int> idStavovaPSM = (List<int>)ViewBag.IdStavovaDis;
+    List<SluzbenoMisljenje> sluzbenaMisljenja = (List<SluzbenoMisljenje>)ViewBag.SluzbenaMisljenja;
+    int duzinaIdStavosaPsm = idStavovaPSM.Count;
+
+    List<PropisInAkta> vezePropisInAkta = ViewBag.VezeInAkta;
+    List<InAkta> inAkta = ViewBag.InAkta;
+    List<int?> inAktaStavoviDis = ViewBag.InAktaStavoviDis;
+
+    List<PropisSudskaPraksa> vezeSudskaPraksa = ViewBag.VezeSudskaPraksa;
+    List<SudskaPraksa> sudskaPraksa = ViewBag.SudskaPraksa;
+    List<int> sudskaPraksaStavoviDis = ViewBag.SPStavoviDis;
+
+}
+
+<style>
+    /*  .content-wrapper {
+        background-image: url("/slike/Naslovna.png")!important;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        height: 1800px;
+        max-height: 1800px;
+        min-height: 888px;
+    }*/
+    .glavnopolje {
+        padding-left: 15px;
+        padding-right: 15px;
+        text-align: justify;
+    }
+
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        margin-left: 10px;
+        margin-top: 5px;
+        outline: none;
+        scroll-behavior: smooth;
+        vertical-align: baseline;
+    }
+
+    .MsoNormal span {
+        display: inline;
+    }
+</style>
+
+<style type="text/css">
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+
+
+
+    li p {
+        margin: 0cm 0cm 0cm;
+    }
+
+
+
+    .fa-print:before {
+        margin-right: 10px;
+    }
+
+    .fa-save:before {
+        margin-right: 10px;
+    }
+
+    .fa-fingerprint:before {
+        margin-right: 10px;
+    }
+
+
+
+    .moja ul li {
+        list-style: none;
+        text-decoration: none;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 7px 0;
+    }
+    
+    select {
+        outline:none;
+        width:100px;
+    }
+</style>
+
+
+<script type="text/javascript">
+    function myFunction() {
+        var x = document.getElementById("myDIV");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+
+
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+            //documnent.getElementById('glavnopolje'.style.display=)
+        }
+    }
+
+    @*window.load = function mojafunkcija() {
+        var d = new Date("@propis.DatumStupanjaNaSnaguOsnovnogTekstaPropisa");
+        document.getElementById("demo").innerHTML = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+      
+
+    }*@
+    @*window.onload = function mojafunkcija1() {
+        var d = new Date("@propis.DatumPrestankaVerzije");
+        document.getElementById("demo1").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+    }
+
+    window.onload = function datumDatumStupanjaNaSnaguVerzijePropisa() {
+        var d = new Date("@propis.DatumStupanjaNaSnaguVerzijePropisa");
+        document.getElementById("demo2").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+    }*@
+
+    @*window.onload = function datumDatumObjavljivanjaVerzije() {
+         var d = new Date("@propis.DatumObjavljivanjaVerzije");
+        document.getElementById("demo3").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+    }
+    window.onload = function datumDatumObjavljivanjaOsnovnogTeksta() {
+         var d = new Date("@propis.DatumObjavljivanjaOsnovnogTeksta");
+        document.getElementById("demo4").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+    }
+    window.onload = function datumDatumStupanjaNaSnaguMeđunarodnogUgovora() {
+         var d = new Date("@propis.DatumStupanjaNaSnaguMeđunarodnogUgovora");
+        document.getElementById("demo5").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+    }
+    window.onload = function datumDatumPrestankaVazenjaPropisa() {
+         var d = new Date("@propis.DatumPrestankaVazenjaPropisa");
+        document.getElementById("demo6").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+    }
+    window.onload = function datumDatumPocetkaPrimene() {
+         var d = new Date("@propis.DatumPocetkaPrimene");
+        document.getElementById("demo7").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+    }*@
+
+    function myFunction1() {
+        var x = document.getElementById("myDIV1");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+        }
+    }
+    function myFunction2() {
+        var x = document.getElementById("myDIV2");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+        }
+    }
+    function myFunction3() {
+        var x = document.getElementById("myDIV3");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+
+        } else {
+            x.style.display = "block";
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV').style.display = "none";
+        }
+    }
+    var e = document.querySelectorAll('option')
+    e.forEach(x => {
+        if (x.textContent.length > 20)
+            x.textContent = x.textContent.substring(0, 20) + '...';
+    })
+</script>
+<script>
+    $(document).click(function (e) {
+        if (!$(e.target).hasClass("action")
+            && $(e.target).parents(".kopriva").length === 0) {
+            $(".kopriva").hide();
+        }
+    }
+</script>
+<section>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .gotopbtn {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            opacity: 30;
+            background: white;
+            bottom: 40px;
+            left: 300px;
+            border-radius: 35px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+            text-decoration: none;
+            text-align: center;
+            line-height: 50px;
+            color: black;
+            font-size: 22px;
+        }
+        .sidebarmoj {
+            height: 100%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            background-color: #565682;
+            overflow-x: hidden;
+            padding-top: 65px;
+            z-index: 1;
+        }
+            /* Style sidebar links */
+            .sidebarmoj a {
+                padding: 6px 4px 6px 16px;
+                text-decoration: none;
+                font-size: 20px;
+                color: #818181;
+                display: block;
+            }
+                /* Style links on mouse-over */
+                .sidebarmoj a:hover {
+                    color: #f1f1f1;
+                }
+        /* Style the main content */
+        .main {
+            margin-left: 160px; /* Same as the width of the sidenav */
+            padding: 0px 10px;
+        }
+        #myDIV {
+            width: 20%;
+            height: 90vh;
+            float: right;
+            list-style: none;
+            padding: 10px;
+            border-radius: 5px;
+            top: 73px;
+            display: none;
+            position: fixed;
+            box-shadow: 0 1px 4px 0;
+            right: 30px;
+            overflow: scroll;
+        }
+            #myDIV li {
+                list-style: none;
+                font-family: InfluBG;
+                text-transform: capitalize;
+                padding-right: 20px;
+            }
+        #myDIV1 {
+            width: 20%;
+            height: 90vh;
+            float: right;
+            list-style: none;
+            padding: 10px;
+            border-radius: 5px;
+            top: 73px;
+            display: none;
+            position: fixed;
+            box-shadow: 0 1px 4px 0;
+            right: 30px;
+            overflow: scroll;
+        }
+            #myDIV1 li {
+                list-style: none;
+                font-family: InfluBG;
+                text-transform: capitalize;
+                padding-right: 20px;
+            }
+        #myDIV2 {
+            width: 20%;
+            height: 90vh;
+            float: right;
+            list-style: none;
+            padding: 10px;
+            border-radius: 5px;
+            top: 73px;
+            display: none;
+            position: fixed;
+            box-shadow: 0 1px 4px 0;
+            right: 30px;
+            overflow: scroll;
+        }
+
+            #myDIV2 li {
+                list-style: none;
+                font-family: InfluBG;
+                text-transform: capitalize;
+                padding-right: 20px;
+            }
+
+                #myDIV2 li p {
+                    list-style: none;
+                    font-family: InfluBG !important;
+                    text-transform: initial !important;
+                    font-weight: 100;
+                    text-align: left !important;
+                    padding-right: 20px;
+                    font-style: normal !important;
+                }
+                #myDIV2 li span {
+                    list-style: none;
+                    font-family: InfluBG !important;
+                    text-transform: initial !important;
+                    font-weight: 100;
+                    text-align: left !important;
+                    padding-right: 20px;
+                    font-style: normal !important;
+                }
+        option {
+            width: 250px;
+        }
+    </style>
+
+    <div class="sidebarmoj">
+        <a onclick="myFunction()" href="#home"><i class="far fa-lightbulb" style="padding-left: 4px; color: white;" aria-hidden="true"></i></a>
+        <a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>
+        <a onclick="myFunction2()" href="#home"><i class="fas fa-align-right" style="color: white;" aria-hidden="true"></i></a>
+        <a onclick="myFunction3()" href="~/TekstPropisa/StampajPropis/@propis.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
+
+
+    </div>
+
+    <div class="glavnopolje" id="glavnopolje" style="width:90%; margin-left:2%!important; box-shadow: 0 1px 4px 0; padding-left: 10px;
+
+    padding-right: 10px;">
+        <a class="gotopbtn" href="#"> <i class="fas fa-arrow-up"></i> </a>
+
+
+        <p><a href="~/Propis/Index/@propis.IdPodrubrike">Врати се подрубрику којој пропис припада</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
+
+
+        @*<p>@Html.Raw(@propis.Preambula)</p>*@
+        <h1 style="width:100%;
+             margin: 0 auto;
+
+             text-align: center;">
+            @propis.Naslov
+
+        </h1><br />
+        <br />
+        <h4 style=" justify-content:center;
+        text-align: center;">
+            @propis.GlasiloIdatumObjavljivanja
+        </h4>
+
+        @foreach (Podnaslov podnaslov in podnaslovi)
+        {
+            <span id="@podnaslov.Id"></span>
+            @Html.Raw(podnaslov.PodnaslovTekst)
+            @foreach (Clan clan in clanovi)
+            {
+                if (clan.IdPodnaslov == podnaslov.Id)
+                {
+                    <p style="text-align: center; text-indent: 24pt; line-height: normal; background: white; font-size: 13pt; font-family: Calibri, sans-serif;">
+                        <span style="font-size: 9.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                            @Html.Raw(clan.Naziv)
+                        </span><br />
+                    </p>
+
+                    @foreach (Stav stav in stavovi)
+                    {
+                        if (stav.IdClan == clan.Id)
+                        {
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span id="@stav.Id"> @Html.Raw(stav.Tekst)</span>
+                                    </td>
+                                    @*@for (int i = 0; i < duzinaIdStavosaPsm; i++)
+                                        {*@
+                                    @if (idStavovaPSM.Contains(stav.Id) || inAktaStavoviDis.Contains(stav.Id) || sudskaPraksaStavoviDis.Contains(stav.Id))
+                                    {
+                                        <td>
+                                            <select name="select" onchange="location = this.value;" id="selectid" style=" width:25px; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
+
+                                                <option>
+                                                </option>
+                                                @if (idStavovaPSM != null)
+                                                {
+                                                    <optgroup label="Службена Мишљења">
+                                                        @foreach (PropisSluzbenoMisljenje psm in vezeSluzbenoMisljenje)
+                                                        {
+                                                            @if (psm.IdStav == stav.Id)
+                                                            {
+
+                                                                @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+                                                                {
+                                                                    if (sm.Id == psm.IdSluzbenoMisljenje)
+                                                                    {
+
+
+                                                                        <option class="short" data-limit="37" value="/./TekstPropisa/VezaPropisSm/@propis.Id/@sm.Id/#@psm.IdStav"> @sm.Naslov</option>
+
+
+
+                                                                    }
+                                                                }
+
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                }
+
+                                                @if (inAktaStavoviDis != null)
+                                                {
+                                                    <optgroup label="ИнАкта">
+                                                        @foreach (PropisInAkta propisInAkta in vezePropisInAkta)
+                                                        {
+                                                            @if (propisInAkta.IdStav == stav.Id)
+                                                            {
+                                                                @foreach (InAkta ina in inAkta)
+                                                                {
+                                                                    @if (ina.Id == propisInAkta.IdInAkta)
+                                                                    {
+                                                                        <option value="/./TekstPropisa/VezaPropisInAkta/@propis.Id/@ina.Id/#@propisInAkta.IdStav"> @ina.Naslov</option>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                }
+                                                @if (sudskaPraksaStavoviDis != null)
+                                                {
+                                                    <optgroup label="Судска пракса">
+                                                        @foreach (PropisSudskaPraksa psp in vezeSudskaPraksa)
+                                                        {
+                                                            @if (psp.IdStav == stav.Id)
+                                                            {
+                                                                @foreach (SudskaPraksa sp in sudskaPraksa)
+                                                                {
+                                                                    @if (sp.Id == psp.IdSudskaPraksa)
+                                                                    {
+                                                                        <option value="/./TekstPropisa/VezaPropisSP/@propis.Id/@sp.Id/#@psp.IdStav"> @sp.Naslov</option>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                }
+
+                                            </select>
+                                        </td>
+
+
+
+
+                                    }
+                                </tr>
+                            </table>
+
+
+                            @foreach (Tacka tacka in tacke)
+                            {
+                                if (tacka.IdStav == stav.Id)
+                                {
+                                    @Html.Raw(tacka.Tekst);
+                                }
+                            }
+
+                            @foreach (Alineja alineja in alineje)
+                            {
+                                if (alineja.IdStav == stav.Id)
+                                {
+                                    @Html.Raw(alineja.Tekst);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        @Html.Raw(@propis.TekstPropisa)
+
+
+    </div>
+    <div id="myDIV2">
+        <ul>
+            @foreach (Podnaslov p in podnaslovi)
+            {
+                <li><a href="#@p.Id">@Html.Raw(@p.PodnaslovTekst)</a></li>
+            }
+        </ul>
+    </div>
+    <div id="myDIV">
+        <div>
+            <ul>
+
+                <li>Наслов:<br /> @propis.Naslov</li>
+                <br />
+                <li>Гласило и датум: <br /> @propis.GlasiloIdatumObjavljivanja</li>
+                <br />
+                <li>Врста прописа:<br /> @propis.VrstaPropisa</li>
+                <br />
+                <li>Доносилац:<br /> @propis.Donosilac </li>
+                <br />
+                <li>Ниво важења:<br /> @propis.NivoVazenja</li>
+                <br />
+                @if (propis.DatumStupanjaNaSnaguVerzijePropisa != null)
+                {
+                    <li>Датум ступања на снагу верзије прописа:<br />@Convert.ToDateTime(@propis.DatumStupanjaNaSnaguVerzijePropisa).ToString("dd/MM/yyyy") </li>
+                    <br />
+                }
+                @if (propis.DatumPrestankaVerzije != null)
+                {
+                    <li>Датум престанка верзије:<br />@Convert.ToDateTime(propis.DatumPrestankaVerzije).ToString("dd/MM/yyyy") </li>
+                    <br />
+
+                }
+                @if (propis.DatumObjavljivanjaVerzije != null)
+                {
+                    <li>Датум објављивања верзије:<br /> @Convert.ToDateTime(propis.DatumObjavljivanjaVerzije).ToString("dd/MM/yyyy")</li>
+                    <br />
+                }
+                @if (propis.DatumObjavljivanjaOsnovnogTeksta != null)
+                {
+                    <li>Датум објављивања основног текста:<br />@Convert.ToDateTime(propis.DatumObjavljivanjaOsnovnogTeksta).ToString("dd/MM/yyyy")</li>
+                    <br />
+                }
+                @if (propis.DatumStupanjaNaSnaguMeđunarodnogUgovora != null)
+                {
+                    <li>Датум ступања на снагу међународног уговора:<br />@Convert.ToDateTime(propis.DatumStupanjaNaSnaguMeđunarodnogUgovora).ToString("dd/MM/yyyy")</li>
+                    <br />
+                }
+                @if (propis.DatumStupanjaNaSnaguOsnovnogTekstaPropisa != null)
+                {
+                    <li>Датум ступања на снагу основног текста прописа:<br />@Convert.ToDateTime(propis.DatumStupanjaNaSnaguOsnovnogTekstaPropisa).ToString("dd/MM/yyyy") </li>
+
+                    <br />
+                }
+                @if (propis.DatumPrestankaVazenjaPropisa != null)
+                {
+                    <li>Датум престанка важења прописа:<br />@Convert.ToDateTime(propis.DatumPrestankaVazenjaPropisa).ToString("dd/MM/yyyy")</li>
+                    <br />
+                }
+                @if (propis.DatumPocetkaPrimene != null)
+                {
+                    <li> Датум почетка примене:<br /> @Convert.ToDateTime(propis.DatumPocetkaPrimene).ToString("dd/MM/yyyy")</li>
+                    <br />
+                }
+                @if (propis.PravniOsnovZaDonosenjaPropisa != null)
+                {
+                    <li>Правни основ за доношење прописа:<br /> @propis.PravniOsnovZaDonosenjaPropisa </li>
+                    <br />
+                }
+                @if (propis.NormaOsnovaZaDonosenje != null)
+                {
+                    <li>Норма основа за доношење:<br /> @propis.NormaOsnovaZaDonosenje</li>
+                    <br />
+                }
+                @if (propis.PropisKojiJePrestaoDaVazi != null)
+                {
+                    <li>Пропис које је престао да важи:<br /> @propis.PropisKojiJePrestaoDaVazi</li>
+                    <br />
+                }
+                @if (propis.NormaOsnovaZaPrestanakVazenja != null)
+                {
+                    <li>Норма основа за престанак важења:<br /> @propis.NormaOsnovaZaPrestanakVazenja</li>
+                    <br />
+                }
+                @if (propis.IstorijskaVerzijaPropisa != null)
+                {
+                    <li>Историјска верзија прописа:<br /> @propis.IstorijskaVerzijaPropisa</li>
+                    <br />
+                }
+            </ul>
+        </div>
+
+    </div>
+    <div id="myDIV1">
+        <div>
+            <h3 style="font-size:17px; color:#565682">
+                Документи који су у вези са овим прописом:
+            </h3>
+            <br />
+            <h4 style="font-size:15px; color:#565682"><i>Службена мишљења:</i></h4>
+            <ul>
+
+
+
+                @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+                {
+
+
+
+                    <li><a style="font-size:14px; color:#565682;font-weight:600; text-transform: capitalize; " href="~/SluzbenaMisljenja/Prikaz/@sm.Id">@sm.Naslov</a></li>
+                    <style>
+                        .moja ul li a:first-letter {
+                            text-transform: uppercase
+                        }
+                    </style>
+
+
+
+                }
+
+
+
+            </ul>
+            <br />
+            <h4 style="font-size:15px; color:#565682"><i>ИнАкта:</i></h4>
+            <ul>
+
+                @foreach (InAkta i in inAkta)
+                {
+
+                    <li><a style="font-size:14px; color:#565682; text-transform: capitalize;" href="~/InAkta/Prikaz/@i.Id">@i.Naslov</a></li>
+                    <style>
+                        .moja ul li a:first-letter {
+                            text-transform: uppercase
+                        }
+                    </style>
+
+                }
+
+            </ul>
+            <br />
+            <h4 style="font-size:15px; color:#565682"><i>Судска пракса:</i></h4>
+
+            @foreach (SudskaPraksa sp in sudskaPraksa)
+            {
+
+                <li><a style="font-size:14px; color:#565682; text-transform: capitalize;" href="~/SudskaPraksa/Prikaz/@sp.Id">@sp.Naslov</a></li>
+                <style>
+                    .moja ul li a:first-letter {
+                        text-transform: uppercase
+                    }
+                </style>
+            }
+        </div>
+    </div>
+    @*<div class="glavnopolje2" style="width:25%; box-shadow: 0 1px 4px 0; background-color:white; height:auto; float:right;margin-right: 4%; margin-top: 1%;">
+            <div class="moja" style="padding: 20px; border: 1px gray">
+            <h3 style="font-size:17px; color:#565682">
+                    Документи који су у вези са овим прописом:
+                </h3>
+                <br />
+                <h4 style="font-size:15px; color:#565682"><i>Службена мишљења:</i></h4>
+                <ul>
+
+
+
+                        @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+                        {
+
+
+
+                                <li><a style="font-size:14px; color:#565682;font-weight:600; text-transform: lowercase; " href="~/SluzbenaMisljenja/Prikaz/@sm.Id">@sm.Naslov</a></li>
+                                <style>
+                                    .moja ul li a:first-letter {
+                                        text-transform: uppercase
+                                    }
+                                </style>
+
+
+
+                        }
+
+
+
+                </ul>
+                <br />
+                <h4 style="font-size:15px; color:#565682"><i>ИнАкта:</i></h4>
+                <ul>
+
+                        @foreach (InAkta i in inAkta)
+                        {
+
+                                <li><a style="font-size:14px; color:#565682; text-transform: lowercase;" href="~/InAkta/Prikaz/@i.Id">@i.Naslov</a></li>
+                                <style>
+                                    .moja ul li a:first-letter {
+                                        text-transform: uppercase
+                                    }
+                                </style>
+
+                        }
+
+                </ul>
+                <br />
+                <h4 style="font-size:15px; color:#565682"><i>Судска пракса:</i></h4>
+
+                    @foreach (SudskaPraksa sp in sudskaPraksa)
+                    {
+
+                            <li><a style="font-size:14px; color:#565682; text-transform: lowercase;" href="~/SudskaPraksa/Prikaz/@sp.Id">@sp.Naslov</a></li>
+                            <style>
+                                .moja ul li a:first-letter {
+                                    text-transform: uppercase
+                                }
+                            </style>
+
+                    }
+
+
+
+            </div>
+        </div>*@
+</section>
+

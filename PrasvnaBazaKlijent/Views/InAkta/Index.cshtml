@@ -1,0 +1,56 @@
+﻿@model IEnumerable<PrasvnaBazaKlijent.Models.InAkta>
+
+@{
+    ViewData["Title"] = "Index";
+    obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+    int p = ViewBag.IdPodpodrubrike;
+    int? ria = (int?)(from r in _context.PodrubrikaInAkta where r.Id == p select r.IdRubrika).SingleOrDefault();
+    int? pp = (int?)(from r in _context.PodpodrubrikaInAkta where r.Id == p select r.IdPodrubrika).SingleOrDefault();
+
+}
+<script>
+    document.getElementById("InAkta").style.backgroundColor = "#565682";
+    document.getElementById("InAktaR @ria").style.backgroundColor = "#60608a";
+    document.getElementById("InAktaP @p").style.backgroundColor = "#73739c";
+    document.getElementById("InAktaP @pp").style.backgroundColor = "#73739c";
+
+    //Slova
+    document.getElementById("InAktaP").style.color = "#fff";
+    document.getElementById("InAktaRP @ria").style.color = "#fff";
+    document.getElementById("InAktaPP @p").style.color = "#fff";
+    document.getElementById("InAktaPPP @pp").style.color = "#fff";
+
+</script>
+<section>
+    <div class="glavnopolje navbar-expand">
+        <h1>
+            ИнАкта <br>
+        </h1>
+
+        <table class="table float-lg-right" style="margin-top:4%; width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Наслов")
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr style="margin-left:0px;">
+                        <td style="margin-left:0px">
+                            <a href="~/InAkta/Prikaz/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.DatumObjavljivanja)</i></a>
+                        </td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+</section>

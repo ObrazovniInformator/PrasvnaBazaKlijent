@@ -1,0 +1,157 @@
+﻿@model IEnumerable<PrasvnaBazaKlijent.Models.Propis>
+@using PrasvnaBazaKlijent.Models;
+
+@{
+    ViewData["Title"] = "Index";
+    List<SluzbenoMisljenje> sluzbenaMisljenja = (List<SluzbenoMisljenje>)ViewBag.SluzbenaMisljenja;
+    IQueryable<ProsvetniPropis> prosvetniPropiisi = (IQueryable<ProsvetniPropis>)ViewBag.ProsvetniPropisi;
+    IQueryable<Propis> ostaliPropisi = (IQueryable<Propis>)ViewBag.OstaliPropisi;
+    IQueryable<ProsvetniPropis> ostaliProsveetniPropisi = ViewBag.OstaliProsvetniPropisi;
+
+    string[] reci = ViewBag.Reci;
+}
+<style>
+</style>
+<section>
+    <div class="glavnopolje navbar-expand">
+        <h1>
+           ПРОНАЂЕНИ ПОЈМОВИ <br>
+        </h1>
+
+        <table class="table float-lg-right" style="margin-top:4%; width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Наслов")
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach(string rec in reci)
+        {
+            <tr>
+                <td>@rec</td>
+            </tr>
+        }*@
+                @foreach (var item in Model)
+                {
+
+                    @if (item.DatumPrestankaVazenjaPropisa == null && item.DatumPrestankaVerzije == null)
+                    {
+
+                        <tr style="margin-left:0px;">
+                            <td style="margin-left:0px">
+                                <a href="~/TekstPropisa/Index/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja)</i></a>
+                            </td>
+
+
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="margin-left:0px;">
+                            <td style="margin-left:0px; color:#525A65!important; " id="listahover">
+                                <a href="~/TekstPropisa/Index/@item.Id" class="nav-link" style="color:darkred"><strike><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja) | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
+                            </td>
+
+
+                        </tr>
+                    }
+
+                }
+                @foreach (ProsvetniPropis pp in prosvetniPropiisi)
+                {
+                    @if (pp.DatumPrestankaVazenjaPropisa == null && pp.DatumPrestankaVerzije == null)
+                    {
+
+                        <tr style="margin-left:0px;">
+                            <td style="margin-left:0px">
+                                <a href="~/TekstPropisaPP/Index/@pp.Id" class="nav-link"><strong>@pp.Naslov</strong> <span style="margin-left:10px;"></span> <i>@pp.GlasiloIDatumObjavljivanja</i></a>
+                            </td>
+
+
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="margin-left:0px;">
+                            <td style="margin-left:0px">
+                                <a href="~/TekstPropisaPP/Index/@pp.Id" class="nav-link" style="color:darkred"><strike><strong>@pp.Naslov</strong> <span style="margin-left:10px;"></span> <i>@pp.GlasiloIDatumObjavljivanja | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
+                            </td>
+
+
+                        </tr>
+
+                    }
+                }
+                @foreach (Propis op in ostaliPropisi)
+                {
+                    @if (op.DatumPrestankaVazenjaPropisa == null && op.DatumPrestankaVerzije == null)
+                    {
+
+                        <tr style="margin-left:0px;">
+                            <td style="margin-left:0px">
+                                <a href="~/TekstPropisa/Index/@op.Id" class="nav-link"><strong>@op.Naslov</strong> <span style="margin-left:10px;"></span> <i>@op.GlasiloIdatumObjavljivanja</i></a>
+                            </td>
+
+
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="margin-left:0px;">
+                            <td style="margin-left:0px">
+                                <a href="~/TekstPropisa/Index/@op.Id" class="nav-link" style="color:darkred"><strike><strong>@op.Naslov</strong> <span style="margin-left:10px;"></span> <i>@op.GlasiloIdatumObjavljivanja | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
+                            </td>
+
+
+                        </tr>
+
+                    }
+
+                }
+                @foreach (var opp in ostaliProsveetniPropisi)
+                {
+                    @if (opp.DatumPrestankaVazenjaPropisa == null && opp.DatumPrestankaVerzije == null)
+                    {
+
+
+                        <tr style="margin-left:0px;">
+                            <td style="margin-left:0px">
+                                <a href="~/TekstPropisaPP/Index/@opp.Id" class="nav-link"><strong>@opp.Naslov</strong> | <span style="margin-left:10px;"><i>@opp.GlasiloIDatumObjavljivanja</i></span></a>
+                            </td>
+
+
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="margin-left:0px;">
+                            <td style="margin-left:0px">
+                                <a href="~/TekstPropisaPP/Index/@opp.Id" class="nav-link" style="color:darkred"><strike><strong>@opp.Naslov</strong> | <span style="margin-left:10px;"><i>@opp.GlasiloIDatumObjavljivanja</i></span></strike></a>
+                            </td>
+
+
+                        </tr>
+                    }
+
+
+                }
+                @*@foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+        {
+            <tr style="margin-left:0px;">
+                <td style="margin-left:0px">
+                    <a href="~/SluzbenaMisljenja/Prikaz/@sm.Id" class="nav-link"><strong>@sm.Naslov</strong> <span style="margin-left:10px;"></span> <i>@sm.Podnaslov</i></a>
+                </td>
+
+
+            </tr>
+        }*@
+            </tbody>
+        </table>
+
+
+    </div>
+</section>

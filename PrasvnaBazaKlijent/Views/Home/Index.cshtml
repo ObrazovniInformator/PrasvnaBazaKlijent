@@ -1,0 +1,636 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+    Vest[] vesti = ViewBag.Vest;
+    List<PropisVest> veza = ViewBag.VezePropis;
+    int vestiMax = (from ves in _context.Vest
+                    select ves.Id).Count() - 1;
+    int vestiMin = vestiMax - 6;
+}
+<style>
+    #ac-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, .6);
+        z-index: 1001;
+    }
+
+    #popup {
+        width: 555px;
+        height: 375px;
+        background: #FFFFFF;
+        -moz-border-radius: 25px;
+        -webkit-border-radius: 25px;
+        position: relative;
+        top: 30%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<style>
+    strong {
+    }
+
+    login-trigger {
+        font-weight: bold;
+        color: #fff;
+        background: linear-gradient(to bottom right, #B05574, #F87E7B);
+        padding: 15px 30px;
+        position: relative;
+        top: 50%;
+    }
+
+    .dugmedetalji {
+        margin-top: 0px !important;
+        border-style: none;
+        outline: none;
+    }
+    /*Modal*/
+    h4 {
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .close {
+        color: #fff;
+        transform: scale(2);
+        margin-right: 25px;
+        margin-top: 20px;
+        border-style: none;
+    }
+
+    .modal-content {
+        font-weight: bold;
+        width: 800px;
+        overflow: scroll;
+        height: 1000px;
+    }
+
+    .hedervesti {
+        height: 70px;
+        background: linear-gradient(to bottom, #8f8de2, #565682);
+        font-weight: bold;
+    }
+
+    .kutija span a {
+        color: blue !important;
+    }
+
+    .hedervesti h4 {
+        color: white;
+        font-size: 30px;
+        float: left;
+        margin-left: 1.3%;
+        margin-top: 16px;
+        font-family: InfluBG;
+        letter-spacing: 0.32px;
+    }
+
+    .hedervesti p {
+        color: white;
+        float: left;
+        margin-left: 2%;
+        margin-top: 10px;
+        font-size: 15px;
+        font-family: InfluBG;
+        letter-spacing: 0.32px;
+    }
+
+    .popuppolje {
+        color: #525a65;
+        background-color: white;
+        margin-left: 15px;
+    }
+
+    #popunipoljeh4 {
+        padding-top: 15px;
+        padding-bottom: 30px;
+        width: 100%;
+        float: left;
+        margin: 0;
+        color: #525a65;
+        font-size: 21px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #525a65;
+    }
+
+    #popunipoljep {
+        color: #525a65;
+        padding-left: 40px;
+        padding-right: 40px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        font-family: InfluBG;
+    }
+
+    .popuppolje span {
+        font-weight: normal;
+    }
+
+    .popuppolje strong {
+        font-weight:
+    }
+
+    .form-control {
+        margin: 0;
+    }
+
+        .form-control:hover, .form-control:focus {
+            box-shadow: none;
+            border-color: #fff;
+        }
+
+    .glavnopolje {
+        box-shadow: 0 2px 4px 0 var(--black-50);
+    }
+
+    .form-control::-webkit-input-placeholder {
+        color: #eee;
+    }
+
+    .glavnopolje h1 {
+        font-family: InfluBG;
+        font-size: 30px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #565682;
+        margin-top: 2%;
+    }
+
+    .kutija {
+        width: 23% !important;
+        margin-left: 7.5% !important;
+        margin-bottom: 7% !important;
+        margin-top: 3% !important;
+    }
+
+    .kutijaheader h1 {
+        color: white;
+        margin-left: 3%;
+    }
+
+    .kutijaheader p {
+        margin-left: 3%;
+    }
+
+    .MsoNormal p {
+        margin: 0px !important;
+        text-align: left;
+    }
+
+    #kutijah1 {
+        font-size: 14px;
+        text-align: center;
+        margin-top: 4%;
+        height: 70px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #525a65;
+        margin-left: 8%;
+        margin-right: 8%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* number of lines to show */
+        -webkit-box-orient: vertical;
+    }
+
+    .kutija span {
+        font-family: InfluBG !important;
+        font-size: 13px !important;
+        font-weight: normal !important;
+        font-stretch: normal !important;
+        line-height: normal !important;
+        letter-spacing: normal !important;
+        /*  text-align: justify !important;*/
+        /*color: #525a65!important;*/
+    }
+
+    .kutijaheader p {
+        margin-left: 4%;
+        margin-right: 2%;
+    }
+
+    .kutija a {
+        font-family: InfluBG;
+        font-size: 15px !important;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        /*color: #525a65;*/
+    }
+
+
+    .textpolja {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+
+        .textpolja p {
+            margin-right: 0pt !important;
+            text-align: left !important;
+            text-indent: 0pt !important;
+        }
+
+
+
+    .poljereci p {
+        font-size: 13px !important;
+        font-family: InfluBG !important;
+        color: #525a65 !important;
+        font-weight: normal !important;
+        font-stretch: normal !important;
+        line-height: normal !important;
+        letter-spacing: normal !important;
+        margin: 0px !important;
+        text-align: justify;
+        padding-left: 4px;
+        padding-right: 4px;
+        word-spacing: -1px;
+    }
+
+
+
+    .textpolja span {
+        margin-right: 0px !important;
+        text-indent: 0pt !important;
+        font-family: InfluBG;
+        font-size: 15px !important;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        /* color: #525a65;*/
+        margin-top: 4%;
+        text-align: left !important;
+        margin-left: 0;
+    }
+
+        .textpolja span a {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+    .poljedugme {
+        float: left;
+        margin-top: 40px;
+        width: 100%;
+        height: 100px;
+    }
+
+    .content-wrapper {
+        background-image: url('/slike/background img.png');
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        height: 1200px;
+        max-height: 1800px;
+        min-height: 888px;
+    }
+</style>
+<script>
+
+    document.getElementById("Naslovna").style.backgroundColor = "#565682";
+    document.getElementById("Naslovna").style.borderRadius = "5px";
+    document.getElementById("NaslovnaP").style.color = "white";
+</script>
+<section>
+
+
+    <div>
+        @*<div class="glavnopolje">*@
+
+
+    </div>
+    <script>
+
+
+                    function GFG_Fun() {
+                        for (param = @vestiMax; param > @vestiMin; param--) {
+                            document.getElementById('login').id = 'login' + param;
+
+                            document.getElementById('dugmeD').id = 'dugmeD' + param;
+                            $('#dugmeD').attr('data-target', '#login' + param);
+
+                        }
+                    }
+                    //window.onload = function () {
+                    //    this.GFG_Fun();
+                    //}
+            function start() {
+                GFG_Fun()
+                PopUp('show')
+            }
+
+    </script>
+    <script>
+        function PopUp(hideOrshow) {
+            if (hideOrshow == 'hide') document.getElementById('ac-wrapper').style.display = "none";
+            else document.getElementById('ac-wrapper').removeAttribute('style');
+        }
+        window.onload = function () {
+            start()
+            //setTimeout(function () {
+            //    PopUp('show');
+            //}, 1000);
+
+        }
+
+    </script>
+    @*<div id="ac-wrapper" style='display:none'>
+        <div id="popup">
+            <center>
+                <input style="font-family: InfluBG; float: left; border-radius: 8px; background-color: #565682; border: 0; text-align: center;  margin-top: 0 !important; width: 40%;  margin-bottom:10px; height: 30px; color: white; display: table-cell; text-align: center; vertical-align: bottom; border-style: none;" type="submit" name="submit" value="Затвори" onClick="PopUp('hide')" />
+                <a href="http://www.obrazovni.rs/seminari.php" target="_blank">
+                    <input style="font-family: InfluBG; float: right; border-radius: 8px; background-color: #565682; border: 0; text-align: center;  margin-top: 0 !important; width: 40%; margin-bottom:10px; height: 30px; color: white; display: table-cell; text-align: center; vertical-align: bottom; border-style: none;" type="submit" value="Детаљније" />
+                </a>
+                <img onclick="http://www.obrazovni.rs/seminari.php" style="width:100%; height:800%;" src="~/jpg/sajt prospekt.jpg" />
+
+
+            </center>
+        </div>
+    </div>*@
+    <style>
+        .kartica1 {
+            width: 170px;
+            float: left;
+            height: 50px;
+            border-radius: 0px 0px 20px 20px;
+            background-color: #565682;
+            margin-left: 8px;
+            text-align: center;
+            font-size: 8px;
+            font-style: none;
+            font-weight: 10px;
+            padding-top: 14px;
+        }
+
+            .kartica1 h1 {
+                font-size: 16px;
+                font-family: InfluBG;
+                color: white;
+            }
+
+        .kartica2 {
+            width: 170px;
+            float: left;
+            height: 50px;
+            border-radius: 0px 0px 20px 20px;
+            background-color: #565682;
+            margin-left: 8px;
+            text-align: center;
+            font-size: 8px;
+            font-style: none;
+            font-weight: 10px;
+            padding-top: 14px;
+            margin-left: 8px;
+        }
+
+            .kartica2 h1 {
+                font-size: 16px;
+                font-family: InfluBG;
+                color: white;
+            }
+
+        .kartica3 {
+            width: 170px;
+            float: left;
+            height: 50px;
+            border-radius: 0px 0px 20px 20px;
+            background-color: #565682;
+            text-align: center;
+            font-size: 8px;
+            font-style: none;
+            font-weight: 10px;
+            padding-top: 14px;
+            margin-left: 8px;
+        }
+
+            .kartica3 h1 {
+                font-size: 16px;
+                font-family: InfluBG;
+                color: white;
+            }
+
+        .kartica4 {
+            width: 170px;
+            float: left;
+            height: 50px;
+            border-radius: 0px 0px 20px 20px;
+            background-color: #565682;
+            text-align: center;
+            font-size: 8px;
+            font-style: none;
+            font-weight: 10px;
+            padding-top: 14px;
+            margin-left: 8px;
+        }
+
+            .kartica4 h1 {
+                font-size: 16px;
+                font-family: InfluBG;
+                color: white;
+            }
+
+        .kartica5 {
+            width: 170px;
+            float: left;
+            height: 50px;
+            border-radius: 0px 0px 20px 20px;
+            background-color: #565682;
+            text-align: center;
+            font-size: 8px;
+            font-style: none;
+            font-weight: 10px;
+            padding-top: 14px;
+            margin-left: 8px;
+        }
+
+            .kartica5 h1 {
+                font-size: 16px;
+                font-family: InfluBG;
+                color: white;
+            }
+
+        .kartica6 {
+            width: 170px;
+            float: left;
+            height: 50px;
+            border-radius: 0px 0px 20px 20px;
+            background-color: #565682;
+            text-align: center;
+            font-size: 8px;
+            font-style: none;
+            font-weight: 10px;
+            padding-top: 14px;
+            margin-left: 8px;
+        }
+
+            .kartica6 h1 {
+                font-size: 16px;
+                font-family: InfluBG;
+                color: white;
+            }
+
+        .kartica {
+            width: 170px;
+            float: left;
+            height: 50px;
+            border-radius: 0px 0px 20px 20px;
+            background-color: #Ff2139;
+            text-align: center;
+            font-size: 8px !important;
+            font-style: none;
+            font-weight: 10px;
+            padding-top: 14px;
+            margin-left: 2.5%;
+        }
+
+            .kartica h1 {
+                font-size: 16px;
+                font-family: InfluBG;
+                color: white;
+            }
+
+        @@media {
+            max
+        }
+    </style>
+
+    <div class="row float-lg-left">
+
+        <div class="kartica1">
+            <h1><a href="~/Home/PrikazVestiSve/1" style="color:white"> Службени гласник РС</a></h1>
+        </div>
+        <div class="kartica2">
+            <h1>
+                <a href="~/Home/PrikazVestiSve/2" style="color:white">  Просветни гласник</a>
+            </h1>
+        </div>
+        <div class="kartica3">
+            <h1>
+                <a href="~/Home/PrikazVestiSve/3" style="color:white">  Међународни уговори</a>
+            </h1>
+        </div>
+        <div class="kartica4">
+            <h1>
+                <a href="~/Home/PrikazVestiSve/4" style="color:white">  Службени лист АПВ </a>
+            </h1>
+        </div>
+        <div class="kartica5">
+            <h1>
+                <a href="~/Home/PrikazVestiSve/6" style="color:white">  Службени лист Бг </a>
+            </h1>
+        </div>
+        <div class="kartica6">
+            <h1>
+                <a href="~/Home/PrikazVestiSve/5" style="color:white">Архива вести</a>
+            </h1>
+        </div>
+
+        <h1 style="width:100%; text-align:center;margin-top:2%; font-family: InfluBG;">
+            ВЕСТИ <br>
+        </h1>
+        @for (int i = @vestiMax; i > @vestiMin; i--)
+        {
+            <div class="kutija">
+                <div class="kutijaheader">
+                    <h1>@vesti[i].DanUMesecu</h1> <p>@vesti[i].Mesec @vesti[i].Godina<br>@vesti[i].DanUNedelji </p>
+                </div>
+                <h1 id="kutijah1">@vesti[i].Naslov</h1>
+                <div class="poljereci" style="        float: left;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2; /* number of lines to show */
+                            -webkit-box-orient: vertical;
+                            color: #525a65;
+    ">
+
+                    @Html.Raw(@vesti[i].Sazetak)
+                </div>
+                <div class="poljedugme">
+                    <input type="button" id="dugmeD" class="dugmedetalji login-trigger" data-target="#login" data-toggle="modal" value="ДЕТАЉНИЈЕ" />
+                </div>
+
+                <section>
+                    <div id="login" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body2">
+                                    <button data-dismiss="modal" class="close">&times;</button>
+                                    <div class="hedervesti">
+                                        <h4>
+                                            @vesti[i].DanUMesecu
+                                        </h4>
+                                        <p>@vesti[i].Mesec @vesti[i].Godina<br> @vesti[i].DanUNedelji </p>
+                                    </div>
+                                    <form id="popuppolje">
+                                        <h1 id="popunipoljeh4"> @vesti[i].Naslov </h1>
+                                        <div class="textpolja">
+                                            <div>
+
+                                                @foreach (PropisVest pv in veza)
+                                                {
+                                                    @if (pv.IdVest == vesti[i].Id)
+                                                    {
+
+                                                        List<Propis> propisi = (from p in _context.Propis
+                                                                                where p.Id == pv.IdPropis
+                                                                                select p).ToList();
+                                                        @foreach (Propis propi in propisi)
+                                                        {
+                                                            <a href="~/TekstPropisa/Index/@propi.Id" style="color:darkred;display:block;float:none; margin-left:5%">@propi.Naslov</a><br />
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                            <p id="popunipoljep" class="scroll-smooth">
+                                                @Html.Raw(@vesti[i].Tekst)
+                                            </p>
+                                        </div>
+                                        <br />
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div>
+
+                </div>
+                @if (i == vestiMin)
+                {
+                    break;
+                }
+
+            </div>
+
+        }
+
+    </div>
+    <br /><br /><br />
+
+    @*</div>*@
+
+</section>
+

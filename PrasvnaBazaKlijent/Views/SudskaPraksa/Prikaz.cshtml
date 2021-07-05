@@ -1,0 +1,699 @@
+﻿@model PrasvnaBazaKlijent.Models.SudskaPraksa
+@{
+    List<PropisSudskaPraksa> vezePropis = ViewBag.VezePropis;
+    List<Propis> propisi = ViewBag.Propisi;
+}
+<style>
+    .glavnopolje {
+        padding-left: 15px;
+        padding-right: 15px;
+        text-align: justify;
+        margin-left: 2%;
+        width: 90%;
+        font-family: InfluBG;
+    }
+
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        margin-left: 10px;
+        margin-top: 5px;
+        outline: none;
+        scroll-behavior: smooth;
+        vertical-align: baseline;
+    }
+
+    .MsoNormal span {
+        display: inline;
+    }
+</style>
+<style type="text/css">
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    .action {
+        position: fixed;
+        bottom: 50px;
+        left: 97%;
+        top: 50%;
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.1);
+    }
+
+        .action span {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-size: 2em;
+            transition: .3s ease-in-out;
+        }
+
+        .action.active span {
+        }
+/*
+    #myDIV ul {
+        
+        bottom: -10%;
+        right: 3%;
+        overflow: scroll;
+        background: #fff;
+        min-width: 400px;
+        padding: 20px;
+        border-radius: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: .3s;
+        list-style-type: none;
+    }*/
+
+  /*      .action.active ul {
+            bottom: -310px;
+            right: 60px;
+            height: 700px;
+            width: 450px;
+            opacity: 1;
+            visibility: visible;
+            border: 1px gray;
+            overflow: scroll;
+            transition: .3s;
+            list-style-type: none;
+            background-color: #F0F0F0;
+        }
+
+    #myDIV ul {
+        list-style: none;
+        text-decoration: none;
+        display: flex;
+        text-align: left;
+        font-weight: normal;
+        font-size: 15px;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 7px 0;
+        font-style: normal;
+    }
+
+    #myDIV li p {
+        margin: 0cm 0cm 0cm;
+    }
+
+     ul li:hover {
+        font-weight: 600;
+    }
+
+    #myDIV ul li:not(:last-child) {
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+*/
+    .action ul li img {
+        margin-right: 15px;
+        opacity: .2;
+        transform: scale(.7);
+    }
+
+    .action ul li:hover img {
+        opacity: .8;
+        transform: scale(1.0);
+    }
+
+
+    .action1 {
+        position: fixed;
+        bottom: 50px;
+        left: 97%;
+        top: 60%;
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.1);
+    }
+
+        .action1 span {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-size: 2em;
+            transition: .3s ease-in-out;
+        }
+
+        .action1.active1 span {
+            transform: rotate(360deg);
+        }
+
+            .action1.active1 span i {
+                margin-right: 10px;
+            }
+
+    .fa-print:before {
+        margin-right: 10px;
+    }
+
+    .fa-save:before {
+        margin-right: 10px;
+    }
+
+    .fa-fingerprint:before {
+        margin-right: 10px;
+    }
+
+    .action1 ul {
+        position: absolute;
+        bottom: -10%;
+        background: #fff;
+        min-width: 400px;
+        padding: 20px;
+        border-radius: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: .3s;
+    }
+
+    .action1.active1 ul {
+        bottom: 65px;
+        opacity: 1;
+        right: 120%;
+        visibility: visible;
+        border: 1px gray;
+        background-color: #F0F0F0;
+        transition: .3s;
+    }
+
+    .action1 ul li {
+        list-style: none;
+        text-decoration: none;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 7px 0;
+    }
+
+        .action1 ul li:hover {
+            font-weight: 600;
+        }
+
+        .action1 ul li:not(:last-child) {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .action1 ul li img {
+            margin-right: 15px;
+            opacity: .2;
+            transform: scale(.7);
+        }
+
+        .action1 ul li:hover img {
+            opacity: .8;
+            transform: scale(1.0);
+        }
+
+
+
+
+
+
+
+    .action2 {
+        position: fixed;
+        bottom: 50px;
+        left: 97%;
+        top: 40%;
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.1);
+        opacity: 100%;
+    }
+
+        .action2 span {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-size: 2em;
+            transition: .3s ease-in-out;
+        }
+
+        .action2.active2 span {
+            transform: rotate(360deg);
+        }
+
+        .action2 ul {
+            position: absolute;
+            bottom: 10px;
+            right: 5%;
+            background: #fff;
+            min-width: 250px;
+            padding: 20px;
+            border-radius: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+        }
+
+        .action2.active2 ul {
+            bottom: -270px;
+            right: 60px;
+            width: 450px;
+            opacity: 1;
+            visibility: visible;
+            border: 1px gray;
+            transition: .3s;
+            background-color: #F0F0F0;
+        }
+
+        .action2 ul li {
+            list-style: none;
+            text-decoration: none;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 7px 0;
+        }
+
+            .action2 ul li:hover {
+                font-weight: 600;
+            }
+
+            .action2 ul li:not(:last-child) {
+                border-bottom: 1px solid rgba(0,0,0,0.1);
+            }
+
+            .action2 ul li img {
+                margin-right: 15px;
+                opacity: .2;
+                transform: scale(.7);
+            }
+
+            .action2 ul li:hover img {
+                opacity: .8;
+                transform: scale(1.0);
+            }
+
+    .moja ul li {
+        list-style: none;
+        text-decoration: none;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 7px 0;
+    }
+</style>
+<script type="text/javascript">
+    function myFunction() {
+        var x = document.getElementById("myDIV");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+
+
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+            //documnent.getElementById('glavnopolje'.style.display=)
+        }
+    }
+
+    function myFunction1() {
+        var x = document.getElementById("myDIV1");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+        }
+    }
+
+    function myFunction2() {
+        var x = document.getElementById("myDIV2");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+        }
+    }
+    function myFunction3() {
+        var x = document.getElementById("myDIV3");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV').style.display = "none";
+        }
+    }
+</script>
+<style>
+    .sidebarmoj {
+        height: 100%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        background-color: #565682;
+        overflow-x: hidden;
+        padding-top: 65px;
+        z-index: 1;
+    }
+
+        /* Style sidebar links */
+        .sidebarmoj a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+        }
+
+            /* Style links on mouse-over */
+            .sidebarmoj a:hover {
+                color: #f1f1f1;
+            }
+
+    /* Style the main content */
+    .main {
+        margin-left: 160px; /* Same as the width of the sidenav */
+        padding: 0px 10px;
+    }
+
+    #myDIV {
+        width: 20%;
+        height: 90vh;
+        float: right;
+        list-style: none;
+        padding: 10px;
+        border-radius: 5px;
+        top: 73px;
+        display: none;
+        position: fixed;
+        box-shadow: 0 1px 4px 0;
+        right: 30px;
+    }
+        #myDIV li {
+            list-style: none;
+            font-family: InfluBG;
+            text-transform: capitalize;
+            padding-right:20px;
+        }
+    #myDIV1 {
+        width: 20%;
+        height: 90vh;
+        float: right;
+        list-style: none;
+        padding: 10px;
+        padding-right:15px;
+        border-radius: 5px;
+        top: 73px;
+        display: none;
+        position: fixed;
+        box-shadow: 0 1px 4px 0;
+        right: 30px;
+    }
+        #myDIV1 li {
+            list-style: none;
+            font-family: InfluBG;
+            text-transform: initial;
+            padding-right: 20px;
+        }
+
+    #myDIV2 {
+        width: 30%;
+        height: 100vh;
+        float: right;
+        text-align: center;
+        background-color: #DDDDDD;
+        top: 0px;
+        display: none;
+    }
+
+    #myDIV3 {
+        width: 30%;
+        height: 100vh;
+        float: right;
+        text-align: center;
+        background-color: #DDDDDD;
+        top: 0px;
+        display: none;
+    }
+
+    .kola {
+        width: 97%;
+        background-color: grey;
+        height: 100vh;
+        font-size: 50px;
+    }
+
+    .tcontainer {
+        width: 100%;
+        overflow: hidden; /* Hide scroll bar */
+    }
+
+
+    .ticker-wrap {
+        width: 100%;
+        padding-left: 100%;
+        background-color: #eee;
+    }
+
+    @@keyframes ticker {
+        0% {
+            transform: translate3d(0, 0, 0);
+        }
+
+        100% {
+            transform: translate3d(-100%, 0, 0);
+        }
+    }
+
+    .ticker-move {
+        display: inline-block;
+        white-space: nowrap;
+        padding-right: 100%;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-name: ticker;
+        animation-duration: 20s;
+    }
+
+        .ticker-move:hover {
+            animation-play-state: paused; /* Pause scroll on mouse hover */
+        }
+
+    /* ITEMS */
+    .ticker-item {
+        display: inline-block; /* Lay items in a horizontal line */
+        padding: 0 2rem;
+    }
+</style>
+<section>
+    <div class="sidebarmoj">
+        <a onclick="myFunction()" href="#home"><i class="far fa-lightbulb" style="color: white;" aria-hidden="true"></i></a>
+        <a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>
+
+        <a onclick="myFunction2()" href="~/SudskaPraksa/Stampaj/@Model.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
+
+    </div>
+    <div class="glavnopolje" id="glavnopolje">
+
+
+        @*<div class="action1" onclick="actionToggle1();">
+            <span><i class="fas fa-ellipsis-h"></i></span>
+            <ul>
+                <li><a href="~/SudskaPraksa/Stampaj/@Model.Id"><i class="fas fa-print"></i> Штампај</a></li>
+
+
+            </ul>
+        </div>
+        <div class="action2" onclick="actionToggle2();">
+            <span><i class="far fa-lightbulb"></i></span>
+            <ul>
+                <li>Наслов: @Model.Naslov</li>
+                <li>Поднаслов: @Model.Podnaslov</li>
+                <li>Број:  @Model.Broj</li>
+                <li>Напомена: @Model.Napomena</li>
+
+            </ul>
+
+        </div>*@
+        <p><a href="~/SudskaPraksa/Index/@Model.IdRubrikaSp">Врати се на списак судских пракси у рубрици</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
+        @Html.Raw(@Model.Tekst)
+    </div>
+
+
+
+    <div id="myDIV">
+        <div>
+            <ul class="novalista">
+                <li style="display:block">Наслов:</li>
+
+                <li>@Model.Naslov</li>
+                <br />
+
+                <li style="display:block">Поднаслов:</li>
+
+                <li>@Model.Podnaslov</li>
+                <br />
+
+                <li style="display:block">Број:</li>
+
+                <li>  @Model.Broj</li>
+                <br />
+                <li style="display:block">Датум објављивања:</li>
+                <li>  @Model.Datum</li>
+                <br />
+                <li style="display:block">Напомена:</li>
+
+                <li> @Model.Napomena</li>
+            </ul>
+        </div>
+    </div>
+    <div id="myDIV1">
+
+        <h3 style="font-size:17px; color:#565682">
+            Прописи који су у вези са овим документом:
+        </h3>
+        <br />
+        <h4 style="font-size:15px; color:#565682"><i>Прописи:</i></h4>
+        <ul>
+
+
+
+            @foreach (Propis sm in propisi)
+            {
+
+                @foreach (PropisSudskaPraksa vsp in vezePropis)
+                {
+                    if (sm.Id == vsp.IdPropis)
+                    {
+                        <li><a style="font-size:14px; color:#565682;font-weight:600; text-transform: lowercase; " href="/./TekstPropisa/VezaPropisSP/@sm.Id/@Model.Id/#@vsp.IdStav">@sm.Naslov</a></li>
+                    }
+                }
+
+
+
+
+
+            }
+
+
+
+
+        </ul>
+        <br />
+        @*<h4 style="font-size:15px; color:#565682"><i>Просветни прописи::</i></h4>
+        <ul>
+            @foreach (ProsvetniPropisInAkta pina in vezeProsvetni)
+                    {
+            @foreach (ProsvetniPropis i in prosvetniPropisi)
+                        {
+            @if (i.Id == pina.IdProsvetniPropis)
+                            {
+            <li><a style="font-size:14px; color:#565682; text-transform: lowercase;" href="~/TekstPropisaPP/Index/@i.Id">@i.Naslov</a></li>
+            <style>
+                .moja ul li a:first-letter {
+                    text-transform: uppercase
+                }
+            </style>
+                            }
+                        }
+                    }
+        </ul>
+    </div>*@
+    @*<div class="glavnopolje2" style="width:25%; background-color:white; height:1000px; float:right;margin-right: 4%; margin-top: 1%;">
+            <div class="moja" style="padding: 20px; border: 1px gray">
+                <h3 style="font-size:17px; color:#565682">
+                    Прописи који су у вези са овим документом:
+                </h3>
+                <br />
+                <h4 style="font-size:15px; color:#565682"><i>Прописи:</i></h4>
+                <ul>
+
+
+
+                        @foreach (Propis sm in propisi)
+                        {
+
+
+
+                                <li><a style="font-size:14px; color:#565682;font-weight:600; text-transform: lowercase; " href="~/TekstPropisa/Index/@sm.Id">@sm.Naslov</a></li>
+                                <style>
+                                    .moja ul li a:first-letter {
+                                        text-transform: uppercase
+                                    }
+                                </style>
+
+
+                            }
+                        }
+
+
+
+                </ul>
+                <br />*@
+                @*<h4 style="font-size:15px; color:#565682"><i>Просветни прописи::</i></h4>
+                <ul>
+                    @foreach (ProsvetniPropisInAkta pina in vezeProsvetni)
+                    {
+                        @foreach (ProsvetniPropis i in prosvetniPropisi)
+                        {
+                            @if (i.Id == pina.IdProsvetniPropis)
+                            {
+                                <li><a style="font-size:14px; color:#565682; text-transform: lowercase;" href="~/TekstPropisaPP/Index/@i.Id">@i.Naslov</a></li>
+                                <style>
+                                    .moja ul li a:first-letter {
+                                        text-transform: uppercase
+                                    }
+                                </style>
+                            }
+                        }
+                    }
+                </ul>*@
+
+
+            </div>
+        </div>
+
+</section>

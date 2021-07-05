@@ -1,0 +1,192 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    IQueryable<Propis> propisi = ViewBag.Propis;
+    IQueryable<InAkta> inAkta = ViewBag.InAkta;
+    IQueryable<ProsvetniPropis> prosvetniPropisi = ViewBag.ProsvetniPropisi;
+    IQueryable<SudskaPraksa> sudskaPraksa = ViewBag.SudskaPraksa;
+    IQueryable<SluzbenoMisljenje> sluzbenaMisljenja = ViewBag.SluzbenoMisljenje;
+    IQueryable<CasopisNaslov> pravniSavetnk = ViewBag.PravniSavetnik;
+    IQueryable<CasopisNaslov> podsetnikZaDirektora = ViewBag.PodsetnikZaDirektore;
+    IQueryable<CasopisNaslov> budzetskoRacunovodstvo = ViewBag.BudzetskoRacunovodstvo;
+}
+    <section>
+        <style>
+            .background-img {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                position: relative
+            }
+        </style>
+        @*<div class="content-wrapper">
+        <img id="slika" src="~/slike/background img.png">*@
+
+        <div class="glavnopolje navbar-expand">
+            <div>
+
+                <h1>
+                    ПРОНАЂЕНИ ПОЈМОВИ <br>
+                </h1>
+
+                <table class="table float-lg-right" style="margin-top:4%; width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Наслов појма")
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (propisi != null)
+                        {
+                            @foreach (var item in propisi)
+                            {
+                                @if (item.DatumPrestankaVazenjaPropisa == null && item.DatumPrestankaVerzije == null)
+                                {
+
+                                    <tr style="margin-left:0px;">
+                                        <td style="margin-left:0px">
+                                            <a href="~/TekstPropisa/Index/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja)</i></a>
+                                        </td>
+
+
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr style="margin-left:0px;">
+                                        <td style="margin-left:0px">
+                                            <a href="~/TekstPropisa/Index/@item.Id" class="nav-link" style="color:darkred"><strike><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja) | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
+                                        </td>
+
+
+                                    </tr>
+                                }
+                            }
+                        }
+
+                        @if (prosvetniPropisi != null)
+                        {
+                            @foreach (var item in prosvetniPropisi)
+                            {
+                                @if (item.DatumPrestankaVazenjaPropisa == null && item.DatumPrestankaVerzije == null)
+                                {
+                                    <tr style="margin-left:0px;">
+                                        <td style="margin-left:0px">
+                                            <a href="~/TekstPropisaPP/Index/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIDatumObjavljivanja)</i></a>
+                                        </td>
+
+
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr style="margin-left:0px;">
+                                        <td style="margin-left:0px">
+                                            <a href="~/TekstPropisaPP/Index/@item.Id" class="nav-link" style="color:darkred"><strike><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIDatumObjavljivanja) | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
+                                        </td>
+
+
+                                    </tr>
+                                }
+                            }
+                        }
+
+                        @if (inAkta != null)
+                        {
+                            @foreach (var item in inAkta)
+                            {
+                                <tr style="margin-left:0px;">
+                                    <td style="margin-left:0px">
+                                        <a href="~/InAkta/Prikaz/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span></a>
+                                    </td>
+
+
+                                </tr>
+
+                            }
+                        }
+
+                        @if (sudskaPraksa != null)
+                        {
+                            @foreach (var item in sudskaPraksa)
+                            {
+                                <tr style="margin-left:0px;">
+                                    <td style="margin-left:0px">
+                                        <a href="~/SudskaPraksa/Prikaz/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.Podnaslov)</i></a>
+                                    </td>
+
+
+                                </tr>
+
+                            }
+                        }
+
+                        @if (sluzbenaMisljenja != null)
+                        {
+                            @foreach (var item in sluzbenaMisljenja)
+                            {
+                                <tr style="margin-left:0px;">
+                                    <td style="margin-left:0px">
+                                        <a href="~/SluzbenaMisljenja/Prikaz/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.Podnaslov)</i></a>
+                                    </td>
+
+
+                                </tr>
+                            }
+                        }
+
+                        @if (pravniSavetnk != null)
+                        {
+                            @foreach (var item in pravniSavetnk)
+                            {
+                                <tr style="margin-left:0px;">
+                                    <td style="margin-left:0px">
+                                        <a href="~/PravniSavetnik/Prikaz/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span></a>
+                                    </td>
+
+
+                                </tr>
+                            }
+                        }
+
+                        @if (podsetnikZaDirektora != null)
+                        {
+                            @foreach (var item in podsetnikZaDirektora)
+                            {
+                                <tr style="margin-left:0px;">
+                                    <td style="margin-left:0px">
+                                        <a href="~/PodsetnikZaDirektore/Prikaz/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span></a>
+                                    </td>
+
+
+                                </tr>
+                            }
+                        }
+
+                        @if (budzetskoRacunovodstvo != null)
+                        {
+                            @foreach (var item in budzetskoRacunovodstvo)
+                            {
+                                <tr style="margin-left:0px;">
+                                    <td style="margin-left:0px">
+                                        <a href="~/BudzetskoRacunovodstvo/Prikaz/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span></a>
+                                    </td>
+
+
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @*</div>*@
+    </section>

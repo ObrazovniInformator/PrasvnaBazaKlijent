@@ -1,0 +1,427 @@
+﻿
+@{
+    PrimeriKnjizenja pk = ViewBag.PK;
+   
+}
+<style>
+    .glavnopolje {
+        padding-left: 15px;
+        padding-right: 15px;
+        text-align: justify;
+        width: 90%;
+        box-shadow: 0 1px 4px 0;
+    }
+    #myDIV {
+        width: 20%;
+        height: 90vh;
+        float: right;
+        list-style: none;
+        padding: 10px;
+        border-radius: 5px;
+        top: 73px;
+        display: none;
+        position: fixed;
+        box-shadow: 0 1px 4px 0;
+        right: 30px;
+        overflow: scroll;
+    }
+
+        #myDIV li {
+            list-style: none;
+            font-family: InfluBG;
+            text-transform: capitalize;
+            padding-right: 20px;
+        }
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        margin-left: 10px;
+        margin-top: 5px;
+        outline: none;
+        scroll-behavior: smooth;
+        vertical-align: baseline;
+    }
+
+    .MsoNormal span {
+        display: inline;
+    }
+    .sidebarmoj {
+        height: 100%;
+        position: fixed;
+        z-index: 1;
+    
+        top: 0;
+        right: 0;
+        background-color: #565682;
+        overflow-x: hidden;
+        padding-top: 65px;
+        z-index: 1;
+
+    }
+        .sidebarmoj a {
+            padding: 6px 5px 6px 14px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+        }
+</style>
+<style type="text/css">
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    .action {
+        position: fixed;
+        bottom: 50px;
+        left: 97%;
+        top: 50%;
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.1);
+    }
+
+        .action span {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-size: 2em;
+            transition: .3s ease-in-out;
+        }
+
+        .action.active span {
+        }
+
+        .action ul {
+            position: absolute;
+            bottom: -10%;
+            right: 3%;
+            overflow: scroll;
+            background: #fff;
+            min-width: 400px;
+            padding: 20px;
+            border-radius: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+            list-style-type: none;
+        }
+
+        .action.active ul {
+            bottom: -310px;
+            right: 60px;
+            height: 700px;
+            width: 450px;
+            opacity: 1;
+            visibility: visible;
+            border: 1px gray;
+            overflow: scroll;
+            transition: .3s;
+            list-style-type: none;
+            background-color: #F0F0F0;
+        }
+
+        .action ul li span {
+            list-style: none;
+            text-decoration: none;
+            display: flex;
+            text-align: left;
+            font-weight: normal;
+            font-size: 15px;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 7px 0;
+            font-style: normal;
+        }
+
+    li p {
+        margin: 0cm 0cm 0cm;
+    }
+
+    .action ul li:hover {
+        font-weight: 600;
+    }
+
+    .action ul li:not(:last-child) {
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .action ul li img {
+        margin-right: 15px;
+        opacity: .2;
+        transform: scale(.7);
+    }
+
+    .action ul li:hover img {
+        opacity: .8;
+        transform: scale(1.0);
+    }
+
+
+    .action1 {
+        position: fixed;
+        bottom: 50px;
+        left: 97%;
+        top: 60%;
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.1);
+    }
+
+        .action1 span {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-size: 2em;
+            transition: .3s ease-in-out;
+        }
+
+        .action1.active1 span {
+            transform: rotate(360deg);
+        }
+
+            .action1.active1 span i {
+                margin-right: 10px;
+            }
+
+    .fa-print:before {
+        margin-right: 10px;
+    }
+
+    .fa-save:before {
+        margin-right: 10px;
+    }
+
+    .fa-fingerprint:before {
+        margin-right: 10px;
+    }
+
+    .action1 ul {
+        position: absolute;
+        bottom: -10%;
+        background: #fff;
+        min-width: 400px;
+        padding: 20px;
+        border-radius: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: .3s;
+    }
+
+    .action1.active1 ul {
+        bottom: 65px;
+        opacity: 1;
+        right: 120%;
+        visibility: visible;
+        border: 1px gray;
+        background-color: #F0F0F0;
+        transition: .3s;
+    }
+
+    .action1 ul li {
+        list-style: none;
+        text-decoration: none;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 7px 0;
+    }
+
+        .action1 ul li:hover {
+            font-weight: 600;
+        }
+
+        .action1 ul li:not(:last-child) {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .action1 ul li img {
+            margin-right: 15px;
+            opacity: .2;
+            transform: scale(.7);
+        }
+
+        .action1 ul li:hover img {
+            opacity: .8;
+            transform: scale(1.0);
+        }
+
+
+
+
+
+
+
+    .action2 {
+        position: fixed;
+        bottom: 50px;
+        left: 97%;
+        top: 40%;
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.1);
+        opacity: 100%;
+    }
+
+        .action2 span {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-size: 2em;
+            transition: .3s ease-in-out;
+        }
+
+        .action2.active2 span {
+            transform: rotate(360deg);
+        }
+
+        .action2 ul {
+            position: absolute;
+            bottom: 10px;
+            right: 5%;
+            background: #fff;
+            min-width: 250px;
+            padding: 20px;
+            border-radius: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+        }
+
+        .action2.active2 ul {
+            bottom: -270px;
+            right: 60px;
+            width: 450px;
+            opacity: 1;
+            visibility: visible;
+            border: 1px gray;
+            transition: .3s;
+            background-color: #F0F0F0;
+        }
+
+        .action2 ul li {
+            list-style: none;
+            text-decoration: none;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 7px 0;
+        }
+
+            .action2 ul li:hover {
+                font-weight: 600;
+            }
+
+            .action2 ul li:not(:last-child) {
+                border-bottom: 1px solid rgba(0,0,0,0.1);
+            }
+
+            .action2 ul li img {
+                margin-right: 15px;
+                opacity: .2;
+                transform: scale(.7);
+            }
+
+            .action2 ul li:hover img {
+                opacity: .8;
+                transform: scale(1.0);
+            }
+
+    .moja ul li {
+        list-style: none;
+        text-decoration: none;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 7px 0;
+    }
+</style>
+<script type="text/javascript">
+    function myFunction() {
+        var x = document.getElementById("myDIV");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+
+
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+            //documnent.getElementById('glavnopolje'.style.display=)
+        }
+    }
+</script>
+<section>
+    <div class="sidebarmoj">
+        <a onclick="myFunction()" href="#home"><i class="far fa-lightbulb" style="padding-left: 4px; color: white;" aria-hidden="true"></i></a>
+        <a onclick="myFunction3()" href="~/PrimeriKnjizenja/Stampaj/@pk.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
+        <a onclick="myFunction4()" href="~/PrimeriKnjizenja/OtvoriVord/@pk.Id"><i class="far fa-file-word" style="color: white;" aria-hidden="false"></i></a>
+    </div>
+    <div class="glavnopolje" id="glavnopolje">
+        @*<div class="action" onclick="actionToggle();">
+                <span><i class="fas fa-align-right"></i></span>
+                <ul>
+                    @foreach (Podnaslov p in podnaslovi)
+                    {
+                        <li><a href="#@p.Id">@Html.Raw(@p.PodnaslovTekst)</a></li>
+                    }
+                </ul>
+            </div>*@
+
+
+        
+        <p><a href="~/PrimeriKnjizenja/Index/@pk.IdRubrikaPK">Врати се на рубрику</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
+        @Html.Raw(@pk.Tekst)
+    </div>
+    <div id="myDIV">
+        <div>
+            <ul>
+                <li>Наслов:<br />@pk.Naslov</li>
+                <br />
+                <li>Поднаслов:<br />@pk.Podnaslov</li>
+                 
+                <br />
+                <li>Напомена:<br />  @pk.Napomena</li>
+                <br />
+            </ul>
+        </div>
+    </div>
+
+
+</section>

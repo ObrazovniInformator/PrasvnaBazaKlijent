@@ -1,0 +1,1946 @@
+﻿@{
+    obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+    List<GlavneOblasti> glavneOblasti = _context.GlavneOblasti.ToList();
+    List<Rubrika> rubrike = _context.Rubrika.ToList();
+    List<Podrubrika> podrubrike = _context.Podrubrika.ToList();
+    List<RubrikaSp> rubrikeSp = _context.RubrikaSp.ToList();
+
+    List<RubrikaSm> rubrikeSm = _context.RubrikaSm.ToList();
+    List<PodrubrikaSm> podrubrikeSm = _context.PodrubrikaSm.ToList();
+
+    List<CasopisGodina> casopisGodina = (from cg in _context.CasopisGodina
+                                         where cg.IdGlavneOblastiCasopis == 1
+                                         select cg).OrderByDescending(cg => cg.Naziv).ToList();
+
+    List<CasopisGodina> casopisGodinaPs = (from cg in _context.CasopisGodina
+                                           where cg.IdGlavneOblastiCasopis == 2
+                                           select cg).OrderByDescending(cg => cg.Naziv).ToList();
+
+    List<CasopisGodina> casopisGodinaPzD = (from cg in _context.CasopisGodina
+                                            where cg.IdGlavneOblastiCasopis == 3
+                                            select cg).OrderByDescending(cg => cg.Naziv).ToList();
+
+    List<CasopisBroj> casopisBrojs = _context.CasopisBroj.OrderByDescending(cb => cb.Id).ToList();
+    List<InAktaPodvrsta> podvrstaInAkta = _context.InAktaPodvrsta.ToList();
+    List<RubrikaInAkta> rubrikeInAkta = _context.RubrikaInAkta.ToList();
+    List<PodrubrikaInAkta> podrubrikeInAkta = _context.PodrubrikaInAkta.ToList();
+    List<PodpodrubrikaInAkta> podpodrubrikeInAkta = _context.PodpodrubrikaInAkta.ToList();
+    List<RubrikaPP> rubrikePP = _context.RubrikaPP.ToList();
+    List<PodrubrikaPP> podrubrikePP = _context.PodrubrikaPP.ToList();
+    List<RubrikaPK> rubrikePK = _context.RubrikaPK.ToList();
+    //string ime = @httpContextAccessor.HttpContext.Session.GetString("Ime");
+    //string prezime = @httpContextAccessor.HttpContext.Session.GetString("Prezime");
+
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pravna Baza INFOLEKS</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Z4H54H37E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-2Z4H54H37E');
+    </script>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="~/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/plugins/summernote/summernote-bs4.min.css">
+
+    <link href="~/css/site.css" rel="stylesheet" />
+    <style type="text/css">
+
+        html{
+            height:100vh!important  ;
+        }
+        .glavnopolje {
+            width: 90%;
+            height: auto;
+            float: left;
+            margin-left: 2%;
+            margin-top: 1%;
+            border-radius: 5px;
+            box-shadow: 0 1px 4px 0;
+            background-color: #ffffff;
+            font-family: InfluBG;
+        }
+
+        .glavnopolje2 {
+            box-shadow: 0 1px 4px 0;
+            height: auto;
+        }
+
+        .right fas fa-angle-left {
+            right: 1rem;
+            top: 1rem;
+        }
+
+        .glavnopolje h1 {
+            font-style: normal;
+            width: 100%;
+            margin-left: 0px !important;
+            text-align: center;
+            float: left;
+            font-size: 35px;
+        }
+
+        .os-content {
+            background-color: white !important;
+            color: black !important;
+        }
+
+        .active {
+            background-color: #565682;
+        }
+
+            .active p {
+                color: white;
+            }
+
+        .nav-link {
+            color: black;
+        }
+
+            .nav-link:hover {
+                color: #525A65;
+            }
+
+        .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+            background-color: rebeccapurple !important;
+            color: white !important;
+        }
+
+        .form-control form-control-navbar {
+            background-color: white;
+        }
+
+        [class*=sidebar-dark] .brand-link, [class*=sidebar-dark] .brand-link .pushmenu {
+            background-color: white !important;
+        }
+
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: white !important;
+            color: black !important;
+        }
+
+        .brand-link .brand-image {
+            margin-left: .3rem;
+        }
+
+        .brand-image {
+            width: 30px;
+            height: 30px;
+        }
+
+        .form-inline {
+            width: 50%;
+        }
+
+            .form-inline:focus {
+                background-color: white !important;
+            }
+
+        .input-group-sm > .custom-select, .input-group-sm > .form-control, .input-group-sm > .input-group-append > .btn, .input-group-sm > .input-group-append > .input-group-text, .input-group-sm > .input-group-prepend > .btn, .input-group-sm > .input-group-prepend > .input-group-text {
+            border-radius: 20rem 20rem 20rem 20rem;
+            background-color: white;
+        }
+
+        .form-inline .input-group {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+            background-color: #ffffff;
+            color: #565682;
+            margin-left: 30%;
+            height: 35px;
+        }
+
+
+        .imeKorisnika {
+            float: left;
+            width: 130px;
+        }
+
+            .imeKorisnika h3 {
+                font-family: InfluBG;
+                font-size: 15px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: right;
+                color: var(--black-50);
+                margin: 5px;
+            }
+
+            .imeKorisnika p {
+                font-family: InfluBG;
+                font-size: 11px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: right;
+                color: var(--black-50);
+                margin-top: 0;
+                margin-bottom: 0px !important;
+            }
+
+        .dugmevise {
+            border: none;
+            float: left;
+            background-color: white;
+            margin-left: 0.5%;
+        }
+
+        #nazivstrane {
+            font-family: InfluBG;
+            font-size: 24px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #565682;
+        }
+
+            #nazivstrane:hover {
+                font-family: InfluBG;
+                font-size: 24px;
+                font-weight: bold;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                color: #565682;
+            }
+
+        .content-wrapper {
+            background-color: white;
+        }
+
+        .badge-warning {
+            background-color: red !important;
+            color: white;
+        }
+
+        .container {
+            margin-left: 5%;
+        }
+
+        @@media(max-width: 375px) {
+            .layout-fixed .main-sidebar {
+                max-width: 0% !important;
+                width: 0%;
+            }
+
+            .content-wrapper {
+                margin-left: 1% !important;
+            }
+
+            .navbar {
+                margin-left: 1% !important;
+            }
+        }
+              @@media only screen
+            and (device-width : 375px)
+            and (device-height : 812px)
+            and (-webkit-device-pixel-ratio : 3) {
+
+
+        
+                    .content-wrapper {
+                        margin-left: 0% !important;
+                    }
+
+                        .navbar {
+                            margin-left: 0% !important;
+                        }
+                    }
+
+            @@media(max-width: 1500px) {
+                .kartica {
+                    width: 130px !important;
+                    float: left;
+                    height: 40px !important;
+                    border-radius: 0px 0px 20px 20px;
+                    background-color: #FF6961;
+                    margin-left: 7.5%!important;
+                    text-align: center;
+                    font-size: 8px;
+                    font-style: none;
+                    font-weight: 10px;
+                   
+                    padding-top: 11px !important;
+                }
+
+                    .kartica h1 {
+                        font-size: 12px !important;
+                        font-family: InfluBG;
+                    }
+                .kartica1 {
+                    width: 130px !important;
+                    float: left;
+                    height: 40px !important;
+                    border-radius: 0px 0px 20px 20px;
+                    background-color: #565682;
+                    margin-left: 8px;
+                    text-align: center;
+                    font-size: 8px;
+                    font-style: none;
+                    font-weight: 10px;
+                    padding-top: 11px !important;
+                }
+
+                    .kartica1 h1 {
+                        font-size: 12px!important;
+                        font-family: InfluBG;
+                    }
+                .kartica2 {
+                    width: 130px !important;
+                    float: left;
+                    height: 40px !important;
+                    border-radius: 0px 0px 20px 20px;
+                    background-color: #565682;
+                    margin-left: 8px;
+                    text-align: center;
+                    font-size: 8px;
+                    font-style: none;
+                    font-weight: 10px;
+                    padding-top: 11px !important;
+                }
+
+                    .kartica2 h1 {
+                        font-size: 12px !important;
+                        font-family: InfluBG;
+                    }
+                .kartica3 {
+                    width: 130px !important;
+                    float: left;
+                    height: 40px !important;
+                    border-radius: 0px 0px 20px 20px;
+                    background-color: #565682;
+                    margin-left: 7.5%;
+                    text-align: center;
+                    font-size: 8px;
+                    font-style: none;
+                    font-weight: 10px;
+                    padding-top: 11px !important;
+                }
+
+                    .kartica3 h1 {
+                        font-size: 12px !important;
+                        font-family: InfluBG;
+                    }
+                .kartica4 {
+                    width: 130px !important;
+                    float: left;
+                    height: 40px !important;
+                    border-radius: 0px 0px 20px 20px;
+                    background-color: #565682;
+                    margin-left: 7.5%;
+                    text-align: center;
+                    font-size: 8px;
+                    font-style: none;
+                    font-weight: 10px;
+                    padding-top: 11px !important;
+                }
+
+                    .kartica4 h1 {
+                        font-size: 12px !important;
+                        font-family: InfluBG;
+                    }
+                .kartica5 {
+                    width: 130px !important;
+                    float: left;
+                    height: 40px !important;
+                    border-radius: 0px 0px 20px 20px;
+                    background-color: #565682;
+                    margin-left: 7.5%;
+                    text-align: center;
+                    font-size: 8px;
+                    font-style: none;
+                    font-weight: 10px;
+                    padding-top: 11px !important;
+                }
+
+                    .kartica5 h1 {
+                        font-size: 12px !important;
+                        font-family: InfluBG;
+                    }
+
+                .kartica6 {
+                    width: 130px !important;
+                    float: left;
+                    height: 40px !important;
+                    border-radius: 0px 0px 20px 20px;
+                    background-color: #565682;
+                    margin-left: 7.5%;
+                    text-align: center;
+                    font-size: 8px;
+                    font-style: none;
+                    font-weight: 10px;
+                    padding-top: 11px !important;
+                }
+
+                    .kartica6 h1 {
+                        font-size: 12px !important;
+                        font-family: InfluBG;
+                    }
+            .layout-fixed .main-sidebar {
+                max-width: 21% !important;
+                width: 17%;
+            }
+            /*  .filter {
+                        width: 38% !important;
+                        margin-top: 1% !important;
+                        margin-left: 41% !important;
+                    }
+
+                    .feaderfiltera {
+                        width: 38% !important
+                    }
+        */
+            .nav-item ul li a p {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                width: 200px !important;
+                -webkit-box-orient: vertical;
+            }
+
+            .content-wrapper {
+                margin-left: 17% !important;
+            }
+
+            .navbar {
+                margin-left: 17% !important;
+            }
+        }
+
+        @@media (max-width: 1680px) {
+            .layout-fixed .main-sidebar {
+                max-width: 21% !important;
+                width: 17%;
+            }
+
+         
+            .nav-item ul li a p {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                width: 200px !important;
+                -webkit-box-orient: vertical;
+            }
+
+            .content-wrapper {
+                margin-left: 17% !important;
+            }
+
+            .navbar {
+                margin-left: 17% !important;
+            }
+        }
+
+        @@media (max-width: 1440px) {
+            .form-inline {
+                width: 40%;
+            }
+
+            .action.active ul {
+                height: 600pximportant;
+            }
+
+            .action2.active2 ul {
+                bottom: -200px !important;
+                overflow: scroll;
+            }
+
+            .layout-fixed .main-sidebar {
+                max-width: 21% !important;
+                width: 19%;
+            }
+
+            .filter {
+                width: 37% !important;
+                margin-top: 1% !important;
+                margin-left: 36% !important;
+            }
+
+            .feaderfiltera {
+                width: 37% !important;
+            }
+
+            .nav-item ul li a p {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                width: 200px !important;
+                -webkit-box-orient: vertical;
+            }
+
+            .content-wrapper {
+                margin-left: 19% !important;
+            }
+
+            .navbar {
+                margin-left: 19% !important;
+            }
+        }
+
+        @@media (max-width: 1500px) {
+        }
+     
+                .breadcrumb {
+            display: inline-block;
+            padding-top: 1px;
+            margin-left: 50%;
+            overflow: hidden;
+            border-radius: 5px;
+            margin: 0;
+            padding: 0;
+            text-align: center
+        }
+
+        @@media(max-width:1680px) {
+            .filter {
+                width: 34% !important;
+                margin-top: 1% !important;
+            }
+
+            .feaderfiltera {
+                width: 34% !important;
+            }
+        }
+
+        .breadcrumb a {
+            font-family: 'Montserrat', sans-serif;
+            text-decoration: none;
+            outline: none;
+            display: block;
+            float: left;
+            color: white;
+            font-size: 12px;
+            line-height: 30px;
+            width: 216px;
+            position: relative;
+            background: #565682;
+        }
+
+            .breadcrumb a:last-child {
+                width: 242px;
+            }
+
+            .breadcrumb a.active,
+            .breadcrumb a:hover {
+                background: #565682;
+                background: linear-gradient(#13162e, #0d0f20);
+                transition: all 1s;
+            }
+
+                .breadcrumb a.active:after,
+                .breadcrumb a:hover:after {
+                    background: #565682;
+                    background: linear-gradient(#13162e, #0d0f20);
+                    transition: all 1s;
+                }
+
+            .breadcrumb a:after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: -30px;
+                width: 60px;
+                height: 60px;
+                transform: scale(0.707) rotate(45deg);
+                z-index: 1;
+                background: #565682;
+                box-shadow: 3px -3px 0 2px rgba(255, 255, 255, 0.8);
+                border-radius: 0 5px 0 50px;
+            }
+
+            .breadcrumb a:last-child:after {
+                content: none;
+            }
+
+        .nav ul li.active {
+            background-color: green;
+        }
+
+        #PodsetnikDirektor:hover {
+            background-color: rgb(192,192,192);
+            color: #525A65;
+        }
+
+        #Propisi:hover {
+            background-color: rgb(193,192,252);
+            color: #525A65;
+        }
+
+        #ProsvetniPropis:hover {
+            color: #525A65;
+            background-color: rgb(193,192,252);
+        }
+
+        #PravniSavetnik:hover {
+            color: #525A65;
+            background-color: rgb(193,192,252);
+        }
+
+        #InAkta:hover {
+            color: #525A65;
+            background-color: rgb(195,231,254);
+        }
+
+        #SudskaPraksa:hover {
+            color: #525A65;
+            background-color: rgb(250,194,176);
+        }
+
+        #SluzbenaMisljenja:hover {
+            color: #525A65;
+            background-color: rgb(251,254,147);
+        }
+
+        #BudzetskoRacunovodstvo:hover {
+            color: #525A65;
+            background-color: rgb(194,244,166);
+        }
+
+        #PrimeriKnjizenja:hover {
+            color: #525A65;
+            background-color: rgb(194,244,166);
+        }
+
+
+        optgroup {
+        float:left;
+        }
+        <s
+    </style>
+    <script>
+        function myFunction() {
+            var element = document.getElementById("myDIV");
+            element.classList.toggle("show");
+        };
+
+        var e = document.querySelectorAll('option')
+        e.forEach(x => {
+            if (x.textContent.length > 20)
+                x.textContent = x.textContent.substring(0, 20) + '...';
+        })
+        select
+
+    </script>
+    @*<script>
+            function MenjajLink(idParam) {
+                document.getElementById(idParam).style.backgroundColor = "red";
+            }
+        </script>*@
+</head>
+<body class="hold-transition sidebar-mini layout-fixed" onload="ucitajgif()">
+    <div id="gif" style="/jpg/1111c.gif"></div>
+    <script>
+        function ucitajgif() {
+            document.getElementById('gif').style.display = "none";
+        }
+
+
+    </script>
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:15%;">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" style="color:gray!important; background-color:white;" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+
+
+                    <img src="~/jpg/logo2x.png" style="height:40px; ">
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+
+                </li>
+            </ul>
+            <div id="myModal1" class="modal">
+
+                <!-- Modal content -->
+
+
+                <div class="filter">
+                    <form asp-action="NaprednaPretraga" asp-controller="Home">
+                        <span class="close" style="margin-right: 15px; margin-top: 1px;">&times;</span>
+                        <div class="feaderfiltera">
+                            <input type="text" name="pojamZaPretragu" class="feaderfiltera" placeholder="Овде унесите појам за претрагу..." style="width:28%;position:absolute; text-align:center; margin: auto;" />
+                        </div>
+
+                        <div style="width: 50%;display:grid; float: left;">
+                            <label>
+                                <p style=" position: absolute;margin-left: 70px; margin-top: 12px;">Прописи</p>
+                                <input type="checkbox" checked name="Propisi" class="ios-switch green" />
+                                <div>
+                                    <div></div>
+                                </div>
+                            </label>
+                            <label>
+                                <p style="position: absolute; margin-left:70px;margin-top: 12px;">Просветни прописи</p>
+                                <input type="checkbox" checked name="ProsvetniPropisi" class="ios-switch green" />
+                                <div>
+                                    <div></div>
+                                </div>
+                            </label>
+                            <label>
+                                <p style="position: absolute; margin-left: 70px;margin-top: 12px;">ИН Акта</p>
+                                <input type="checkbox" checked name="InAkta" class="ios-switch green" />
+                                <div>
+                                    <div></div>
+                                </div>
+                            </label>
+                            <label>
+                                <p style="position: absolute; margin-left: 70px;margin-top: 12px;">Судска пракса</p>
+                                <input type="checkbox" checked name="SudskaPraksa" class="ios-switch green" />
+                                <div>
+                                    <div></div>
+                                </div>
+                            </label>
+                        </div>
+                        <div style="width: 50%;float: right; display:grid;">
+                            <label>
+                                <p style="position: absolute; margin-left: 70px;margin-top:12px;">Службено мишљење</p>
+                                <input type="checkbox" checked name="SluzbenoMisljenje" class="ios-switch green" />
+                                <div>
+                                    <div></div>
+                                </div>
+                            </label>
+                            <label>
+                                <p style="position: absolute; margin-left: 70px;margin-top: 12px;">Правни Саветник</p>
+                                <input type="checkbox" checked name="PravniSavetnik" class="ios-switch green" />
+                                <div>
+                                    <div></div>
+                                </div>
+                            </label>
+                            <label>
+                                <p style="position: absolute; margin-left: 70px;margin-top: 12px;">Подсетник за директора</p>
+                                <input type="checkbox" checked name="PodsetnikZaDirektore" class="ios-switch green" />
+                                <div>
+                                    <div></div>
+                                </div>
+                            </label>
+                            <label>
+                                <p style="position: absolute; margin-left: 70px;margin-top: 12px;">Буџетско рачуноводство</p>
+                                <input type="checkbox" checked name="BudzetskoRacunovodstvo" class="ios-switch green" />
+                                <div>
+                                    <div></div>
+                                </div>
+                            </label>
+                        </div>
+
+
+                        <div class="footerfiltera" style="float:left; width: 50%;margin-top: 20px;">
+                            <select class="select-css" name="NivoVazenja">
+                                <option value="nista">Ниво важења</option>
+                                <option value="РС">РС</option>
+                                <option value="АПВ">АПВ</option>
+                            </select>
+
+                            <select class="select-css" disabled>
+                                <option>Година</option>
+                                <option>Опција 1</option>
+                                <option>Опција 2</option>
+                            </select>
+                        </div>
+                        <div style="float:right; width: 50%; margin-top: 20px;">
+                            <select class="select-css" name="VrstaPropisa">
+                                <option value="nista">Врста прописа</option>
+                                <option value="Устав">Устав</option>
+                                <option value="Закон">Закон</option>
+                                <option value="Правилник">Правилник</option>
+                                <option value="Уредба">Уредба</option>
+                                <option value="Одредба">Одредба</option>
+                            </select>
+                            <select class="select-css" name="Vaznost">
+                                <option value="nista">Важност</option>
+                                <option value="vazeci">Важећи</option>
+                                <option value="nevazeci">Неважећи</option>
+                            </select>
+                        </div>
+
+                        <div class="poljedugme">
+                            <input type="submit" id="dugmeD" class="dugmedetalji " value="Претрага" />
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+
+            <!-- SEARCH FORM -->
+            <form class="form-inline ml-3" asp-action="Search" method="get" asp-controller="Home">
+                <div class="input-group input-group-sm" title="Pади прецизније и детаљније претраге користите корен речи у појму за претрагу, нпр: Зак основ систем образ">
+                    @*@(Html.Awe().AutocompleteFor(o => o.Propis)
+                        .Url(Url.Action("GetItems", "Home"))
+                        .Placeholder("try o")))*@
+                    <input class="form-control form-control-navbar" type="search" style="font-family: InfluBG; height: 35px;
+        background-color: white;" placeholder="Претрага" name="search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-navbar" style="background-color:white;" id="myBtn">
+                            <i class="fas fa-sliders-h">
+
+                            </i>
+                        </button>
+                        <!--PROBA-->
+                        <!-- Trigger/Open The Modal -->
+                        <!-- The Modal -->
+
+                        <style type="text/css">
+
+                            .poljedugme {
+                                float: left;
+                                margin-top: 40px;
+                                width: 100%;
+                                height: 100px;
+                            }
+
+                            .dugmedetalji {
+                                font-family: InfluBG;
+                                float: left;
+                                border-radius: 8px;
+                                background-color: #565682;
+                                border: 0;
+                                text-align: center;
+                                margin-left: 30%;
+                                margin-top: 0 !important;
+                                width: 40%;
+                                height: 30px;
+                                color: white;
+                                display: table-cell;
+                                text-align: center;
+                                vertical-align: bottom;
+                                border-style: none;
+                            }
+
+                            /* Disabled styles */
+                            .select-css:disabled, .select-css[aria-disabled=true] {
+                                color: graytext;
+                                background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22graytext%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'), linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+                            }
+
+                                .select-css:disabled:hover, .select-css[aria-disabled=true] {
+                                    border-color: #aaa;
+                                }
+
+                            .select-css {
+                                display: block;
+                                font-size: 11px;
+                                font-family: sans-serif;
+                                font-weight: 700;
+                                color: #444;
+                                line-height: 1.3;
+                                padding: .6em 1.4em .5em .8em;
+                                width: 70%;
+                                max-width: 100%;
+                                box-sizing: border-box;
+                                margin-left: 15px;
+                                margin-top: 10px;
+                                border: 1px solid #aaa;
+                                box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+                                border-radius: .5em;
+                                -moz-appearance: none;
+                                -webkit-appearance: none;
+                                appearance: none;
+                                background-color: #fff;
+                                background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'), linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+                                background-repeat: no-repeat, repeat;
+                                background-position: right .7em top 50%, 0 0;
+                                background-size: .65em auto, 100%;
+                            }
+
+                                .select-css::-ms-expand {
+                                    display: none;
+                                }
+
+                                .select-css:hover {
+                                    border-color: #888;
+                                }
+
+                                .select-css:focus {
+                                    border-color: #aaa;
+                                    box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+                                    box-shadow: 0 0 0 3px -moz-mac-focusring;
+                                    color: #222;
+                                    outline: none;
+                                }
+
+                                .select-css option {
+                                    font-weight: normal;
+                                }
+
+                            input[type="checkbox"] {
+                                position: absolute;
+                                opacity: 0;
+                            }
+
+                            #prvinas {
+                                float: left;
+                            }
+
+                            .filter {
+                                width: 28%;
+                                height: 400px;
+                                float: left;
+                                margin-top: 3.25%;
+                                margin-left: 40%;
+                                background-color: white;
+                                border-radius: 0px 0px 30px 30px;
+                            }
+
+                            .feaderfiltera {
+                                margin-top: 3%;
+                                width: 100%;
+                                height: 30px;
+                                background-color: #d7d9df;
+                            }
+
+                            label p {
+                                margin-block-start: 0em;
+                                margin-block-end: 0em;
+                            }
+
+                            .feaderfiltera p {
+                                width: 100%;
+                                text-align: center;
+                                font-size: 20px;
+                                margin-top: 30px;
+                                padding: 3px;
+                                color: #525a65;
+                            }
+
+                            input[type="checkbox"].ios-switch + div > div {
+                                float: left;
+                                width: 18px;
+                                height: 18px;
+                                border-radius: inherit;
+                                background: #ffffff;
+                                -webkit-transition-timing-function: cubic-bezier(.54,1.85,.5,1);
+                                -webkit-transition-duration: 0.4s;
+                                -webkit-transition-property: transform, background-color, box-shadow;
+                                -moz-transition-timing-function: cubic-bezier(.54,1.85,.5,1);
+                                -moz-transition-duration: 0.4s;
+                                -moz-transition-property: transform, background-color;
+                                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3), 0px 0px 0 1px rgba(0, 0, 0, 0.4);
+                                pointer-events: none;
+                                margin-top: 1px;
+                                margin-left: 1px;
+                            }
+
+                            /* Checked Knob (Blue Style) */
+                            input[type="checkbox"].ios-switch:checked + div > div {
+                                -webkit-transform: translate3d(20px, 0, 0);
+                                -moz-transform: translate3d(20px, 0, 0);
+                                background-color: #ffffff;
+                            }
+                            /* Normal Track */
+                            input[type="checkbox"].ios-switch + div {
+                                vertical-align: middle;
+                                width: 40px;
+                                height: 20px;
+                                border-radius: 999px;
+                                background-color: rgba(0, 0, 0, 0.1);
+                                -webkit-transition-duration: .4s;
+                                -webkit-transition-property: background-color, box-shadow;
+                                box-shadow: inset 0 0 0 0px rgba(0,0,0,0.4);
+                                margin-left: 15px;
+                                margin-top: 15px;
+                            }
+
+                            /* Checked Track (Blue) */
+                            input[type="checkbox"].ios-switch:checked + div {
+                                width: 40px;
+                                background-position: 0 0;
+                                background-color: #7868a7;
+                        </style>
+                        <style type="text/css">
+                            .modal1 {
+                                display: none; /* Hidden by default */
+                                position: fixed; /* Stay in place */
+                                z-index: 1; /* Sit on top */
+                                left: 0;
+                                top: 0;
+                                width: 100%; /* Full width */
+                                height: 100%; /* Full height */
+                                overflow: auto; /* Enable scroll if needed */
+                                background-color: rgb(0,0,0); /* Fallback color */
+                                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                            }
+
+                            /* Modal Content/Box */
+                            .modal-content1 {
+                                background-color: #fefefe;
+                                margin: 15% auto; /* 15% from the top and centered */
+                                padding: 20px;
+                                border: 1px solid #888;
+                                width: 80%; /* Could be more or less, depending on screen size */
+                            }
+
+                            .os-content {
+                                padding: 0px !important;
+                            }
+                            /* The Close Button */
+                            .close {
+                                color: #aaa;
+                                float: right;
+                                font-size: 28px;
+                                font-weight: bold;
+                            }
+
+                                .close:hover,
+                                .close:focus {
+                                    color: black;
+                                    text-decoration: none;
+                                    cursor: pointer;
+                                }
+                        </style>
+
+                        <script type="text/javascript">
+                            var modal = document.getElementById("myModal1");
+
+                            // Get the button that opens the modal
+                            var btn = document.getElementById("myBtn");
+
+                            // Get the <span> element that closes the modal
+                            var span = document.getElementsByClassName("close")[0];
+
+                            // When the user clicks on the button, open the modal
+                            btn.onclick = function () {
+                                modal.style.display = "block";
+                            }
+
+                            // When the user clicks on <span> (x), close the modal
+                            span.onclick = function () {
+                                modal.style.display = "none";
+                            }
+
+                            // When the user clicks anywhere outside of the modal, close it
+                            window.onclick = function (event) {
+                                if (event.target == modal) {
+                                    modal.style.display = "none";
+                                }
+                            }
+
+                        </script>
+                        <button class="btn btn-navbar" style="background-color:white;" type="submit">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" title="Калкулатор затезне камате." style="border-radius: 35px; margin-right: 10px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25); " href="http://www.le.os.sud.rs/kalkulator-zatezne-kamate/" target="_blank">
+                        <i class="fas fa-calculator"></i>
+
+                    </a>
+                </li>
+                <!-- Notifications Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" title="Корисничко упуство" style="border-radius: 35px; margin-right: 10px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25); " href="~/Manual/index.html" target="_blank">
+                        <i class="fas fa-question"></i>
+                        @*<span class="badge badge-warning navbar-badge">15</span>*@
+                    </a>
+
+                    @*<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="myDIV">
+                            <span class="dropdown-item dropdown-header">15 обавештења</span>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i> 4 нова прописа
+                                <span class="float-right text-muted text-sm">3 мин</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-users mr-2"></i> 8 службених мишљења
+                                <span class="float-right text-muted text-sm">12 сати</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-file mr-2"></i> 3 судске праксе
+                                <span class="float-right text-muted text-sm">2 дана</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer">Види сва обавештења</a>
+                        </div>*@
+                </li>
+
+                <li class="nav-item">
+                    <a  class="nav-link" title="Увеличај екран" data-widget="fullscreen" href="#" role="button" style="color: gray !important;
+                        background-color: white;
+                        border-radius: 35px;
+                        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+
+">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+            </ul>
+            <div class="imeKorisnika">
+                <h3>
+                    @*@ime @prezime*@
+                    <p>
+                        Образовни Информатор
+                    </p>
+                </h3>
+            </div>
+            @*<button type="submit" class="dugmevise"><i class="fas fa-angle-down"></i></button>*@
+            <ul class="navbar-nav ml-auto" style="margin-left:10px!important;">
+                <li class="nav-item">
+                    <a asp-controller="Login" asp-action="Index" class="nav-link" title="Одјави се" style="border-radius: 35px; margin-right: 10px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25); ">
+                        <i class="fas fa-sign-out-alt"></i>
+
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+
+
+
+        <!-- /.navbar -->
+        <style>
+            .main-sidebar {
+                width: 15%;
+            }
+            /*     .main-sidebar:hover{
+                width:30%;
+            }*/
+
+        </style>
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar elevation-4">
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" style="height:100%" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+                        <li class="nav-item" id="Naslovna">
+                            <a href="~/Home/Index" class="nav-link" id="Naslovna" title="Naslovna">
+                                <i class="nav-icon">
+                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.25 24">
+                                        <defs>
+                                            <style>
+                                                .cls-1 {
+                                                    fill: #9191af;
+                                                }
+                                            </style>
+                                        </defs>
+                                        <path id="Shape" class="cls-1" d="M25.53,25.68H20.47a3.09,3.09,0,0,1-3.09-3.09V17.52a3.09,3.09,0,0,1,3.09-3.09h5.06a3.09,3.09,0,0,1,3.09,3.09v5.07A3.09,3.09,0,0,1,25.53,25.68Zm-5.06-9.75a1.59,1.59,0,0,0-1.59,1.59v5.07a1.59,1.59,0,0,0,1.59,1.59h5.06a1.59,1.59,0,0,0,1.59-1.59V17.52a1.59,1.59,0,0,0-1.59-1.59Z" transform="translate(-17.38 -14.43)" />
+                                        <path id="Shape-2" data-name="Shape" class="cls-1" d="M38.28,25.68H33.22a3.1,3.1,0,0,1-3.1-3.09V17.52a3.1,3.1,0,0,1,3.1-3.09h5.06a3.1,3.1,0,0,1,3.1,3.09v5.07A3.1,3.1,0,0,1,38.28,25.68Zm-5.06-9.75a1.6,1.6,0,0,0-1.6,1.59v5.07a1.6,1.6,0,0,0,1.6,1.59h5.06a1.6,1.6,0,0,0,1.6-1.59V17.52a1.6,1.6,0,0,0-1.6-1.59Z" transform="translate(-17.38 -14.43)" />
+                                        <path id="Shape-3" data-name="Shape" class="cls-1" d="M25.53,38.43H20.47a3.09,3.09,0,0,1-3.09-3.09V30.27a3.09,3.09,0,0,1,3.09-3.09h5.06a3.09,3.09,0,0,1,3.09,3.09v5.07A3.09,3.09,0,0,1,25.53,38.43Zm-5.06-9.75a1.59,1.59,0,0,0-1.59,1.59v5.07a1.59,1.59,0,0,0,1.59,1.59h5.06a1.59,1.59,0,0,0,1.59-1.59V30.27a1.59,1.59,0,0,0-1.59-1.59Z" transform="translate(-17.38 -14.43)" />
+                                        <path id="Shape-Copy-2" class="cls-1" d="M38.53,38.43H33.47a3.09,3.09,0,0,1-3.09-3.09V30.27a3.09,3.09,0,0,1,3.09-3.09h5.06a3.09,3.09,0,0,1,3.09,3.09v5.07A3.09,3.09,0,0,1,38.53,38.43Zm-5.06-9.75a1.59,1.59,0,0,0-1.59,1.59v5.07a1.59,1.59,0,0,0,1.59,1.59h5.06a1.59,1.59,0,0,0,1.59-1.59V30.27a1.59,1.59,0,0,0-1.59-1.59Z" transform="translate(-17.38 -14.43)" />
+                                    </svg>
+
+                                </i>
+                                <p style="color:#525A65" id="NaslovnaP">
+                                    Насловна страна
+
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="Propisi">
+                                <i class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" id="_x31_" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="512px"><path d="m21.208 24c-.098 0-.196-.029-.281-.087l-3.427-2.332-3.427 2.332c-.171.117-.397.116-.568-.004-.17-.118-.249-.331-.198-.532l1.061-4.187-3.192-2.727c-.155-.132-.214-.346-.149-.539.065-.194.241-.328.445-.34l4.083-.232 1.477-4.024c.145-.395.794-.395.938 0l1.477 4.024 4.083.232c.204.012.38.146.445.34.065.193.006.407-.149.539l-3.192 2.727 1.061 4.187c.051.201-.028.414-.198.532-.088.061-.188.091-.289.091zm-3.708-3.523c.098 0 .196.029.281.087l2.619 1.781-.813-3.21c-.046-.185.016-.38.16-.503l2.481-2.119-3.167-.181c-.199-.011-.373-.14-.441-.327l-1.12-3.053-1.12 3.053c-.068.188-.242.316-.441.327l-3.167.181 2.481 2.119c.145.123.207.318.16.503l-.813 3.21 2.619-1.781c.085-.058.183-.087.281-.087z" fill="#9191AF" /><path d="m9.5 21h-7c-1.378 0-2.5-1.121-2.5-2.5v-13c0-1.379 1.122-2.5 2.5-2.5h2c.276 0 .5.224.5.5s-.224.5-.5.5h-2c-.827 0-1.5.673-1.5 1.5v13c0 .827.673 1.5 1.5 1.5h7c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m16.5 9c-.276 0-.5-.224-.5-.5v-3c0-.827-.673-1.5-1.5-1.5h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c1.378 0 2.5 1.121 2.5 2.5v3c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m11.5 6h-6c-.827 0-1.5-.673-1.5-1.5v-2c0-.276.224-.5.5-.5h1.55c.233-1.14 1.242-2 2.45-2s2.217.86 2.45 2h1.55c.276 0 .5.224.5.5v2c0 .827-.673 1.5-1.5 1.5zm-6.5-3v1.5c0 .275.224.5.5.5h6c.276 0 .5-.225.5-.5v-1.5h-1.5c-.276 0-.5-.224-.5-.5 0-.827-.673-1.5-1.5-1.5s-1.5.673-1.5 1.5c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 9h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 12h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m9.5 15h-6c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h6c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /></svg></i>
+                                <p id="PropisiP">
+                                    Прописи
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" id="GlaveniPropisi" style="box-shadow: rgba(0, 0, 0, 0.41) -1px 2px 14px inset; background-color:rgb(212,211,251);">
+                                @foreach (GlavneOblasti go in glavneOblasti)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" title="@go.Naziv" style="cursor:pointer; " id="OblastiVr @go.Id">
+                                            @*<i style="font-size:1.4rem ; width: 24px;">
+
+                                                    <svg width="2px" height="12px" viewBox="0 0 2 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <title>I</title>
+                                                        <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="InfluBG, Influ BG" font-size="16" font-weight="normal">
+                                                            <g id="81-mini-Essential-Icons" transform="translate(-97.000000, -665.000000)" fill="#525A65">
+                                                                <g id="icon--copy-9" transform="translate(75.000000, 649.000000)">
+                                                                    <text id="I">
+                                                                        <tspan x="21.316" y="28">I</tspan>
+                                                                    </text>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </svg>
+                                                </i>*@
+                                            <p style="margin-left:0px; color:#525A65" text-overflow: ellipsis;
+                                               display: -webkit-box;
+                                               -webkit-line-clamp: 3;
+                                               width: 230px;
+                                               -webkit-box-orient: vertical; id="PropisiP1 @go.Id">
+                                                @go.Naziv
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+
+                                        </a>
+                                        <hr style="margin:0px;" />
+                                        <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 0px 6px 14px inset; background-color:rgb(229,210,253);">
+
+                                            @foreach (Rubrika r in rubrike)
+                                            {
+                                                if (go.Id == r.IdOblast)
+                                                {
+
+                                                    <li class="nav-item ">
+                                                        <a href="#" class="nav-link" title="@r.NazivRubrike" id="RubrikaVr @r.Id">
+                                                            @*<i style="font-size: 1.4rem; width: 24px;">
+                                                                    <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                        <title>II</title>
+                                                                        <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="InfluBG, Influ BG" font-size="16" font-weight="normal">
+                                                                            <g id="81-mini-Essential-Icons" transform="translate(-153.000000, -665.000000)" fill="#525A65">
+                                                                                <text id="II">
+                                                                                    <tspan x="152.132" y="677">II</tspan>
+                                                                                </text>
+                                                                            </g>
+                                                                        </g>
+                                                                    </svg>
+                                                                </i>*@
+                                                            <p style="        margin-left: 1.5%;
+                                                        margin-bottom: 0;
+                                                        padding: 0;
+                                                        width: auto;
+                                                        color: #525A65;
+                                                        overflow: hidden;
+                                                        text-overflow: ellipsis;
+                                                        display: -webkit-box;
+                                                        -webkit-line-clamp: 1;
+                                                        width: 230px;
+                                                        -webkit-box-orient: vertical;
+                                                " id="PropisiP2 @r.Id">
+                                                                <i class="nav-icon" style="margin-right:0;" background-color:rgb(255,0,0)></i>@r.NazivRubrike
+                                                                <i class="right fas fa-angle-left" style="right:1rem;"></i>
+                                                            </p>
+                                                        </a>
+                                                        <hr style="margin:0px;" />
+                                                        <ul class="nav nav-treeview" style="box-shadow:rgba(0, 0, 0, 0.41) 1px 6px 14px inset; background-color:rgb(229,190,253)">
+
+                                                            @foreach (Podrubrika p in podrubrike)
+                                                            {
+                                                                if (p.IdRubrika == r.Id)
+                                                                {
+                                                                    <li class="nav-item" id="PodrubrikaPropis">
+                                                                        <a href="~/Propis/Index/@p.Id" title="@p.NazivPodrubrike" class="nav-link" id="PodrubrikaVr @p.Id">
+                                                                            @*<i style="font-size: 1.4rem; width: 24px;">
+                                                                                    <svg width="11px" height="12px" viewBox="0 0 11 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                                        <title>III</title>
+                                                                                        <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="InfluBG, Influ BG" font-size="16" font-weight="normal">
+                                                                                            <g id="81-mini-Essential-Icons" transform="translate(-209.000000, -665.000000)" fill="#525A65">
+                                                                                                <text id="III">
+                                                                                                    <tspan x="208.448" y="677">III</tspan>
+                                                                                                </text>
+                                                                                            </g>
+                                                                                        </g>
+                                                                                    </svg>
+                                                                                </i>*@
+
+                                                                                                                                                            <p style="        margin-left: 3%;
+                                                                                        color: #525A65;
+                                                                                        overflow: hidden;
+                                                                                        text-overflow: ellipsis;
+                                                                                        display: -webkit-box;
+                                                                                        -webkit-line-clamp: 1;
+                                                                                        width: 230px;
+                                                                                        -webkit-box-orient: vertical;
+                                                                                " id="PropisiP3 @p.Id">
+
+                                                                                @p.NazivPodrubrike
+                                                                                <i class="right fas fa-angle-left"></i>
+                                                                            </p>
+
+                                                                        </a>
+                                                                        <hr style="margin:0px;" />
+                                                                    </li>
+                                                                }
+                                                            }
+                                                        </ul>
+                                                    </li>
+
+
+
+                                                }
+                                            }
+
+                                        </ul>
+
+                                    </li>
+                                }
+
+
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="ProsvetniPropis">
+                                <i><svg xmlns="http://www.w3.org/2000/svg" id="_x31_" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="512px"><path d="m11.5 10c-.276 0-.5-.224-.5-.5v-.5h-5v.5c0 .276-.224.5-.5.5s-.5-.224-.5-.5v-1c0-.276.224-.5.5-.5h6c.276 0 .5.224.5.5v1c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m8.5 15c-.276 0-.5-.224-.5-.5v-6c0-.276.224-.5.5-.5s.5.224.5.5v6c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m9.5 15h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m18.5 9h-4c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h4c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m18.5 12h-4c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h4c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m18.5 15h-4c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h4c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m18.5 18h-13c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h13c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m18.5 21h-13c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h13c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m18.5 24h-13c-1.379 0-2.5-1.122-2.5-2.5v-16c0-1.378 1.121-2.5 2.5-2.5h2c.276 0 .5.224.5.5s-.224.5-.5.5h-2c-.827 0-1.5.673-1.5 1.5v16c0 .827.673 1.5 1.5 1.5h13c.827 0 1.5-.673 1.5-1.5v-16c0-.827-.673-1.5-1.5-1.5h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c1.379 0 2.5 1.122 2.5 2.5v16c0 1.378-1.121 2.5-2.5 2.5z" fill="#9191AF" /><path d="m15.5 6h-7c-.827 0-1.5-.673-1.5-1.5v-2c0-.276.224-.5.5-.5h2.05c.232-1.14 1.243-2 2.45-2s2.218.86 2.45 2h2.05c.276 0 .5.224.5.5v2c0 .827-.673 1.5-1.5 1.5zm-7.5-3v1.5c0 .276.225.5.5.5h7c.275 0 .5-.224.5-.5v-1.5h-2c-.276 0-.5-.224-.5-.5 0-.827-.673-1.5-1.5-1.5s-1.5.673-1.5 1.5c0 .276-.224.5-.5.5z" fill="#9191AF" /></svg></i>
+                                <p id="ProsvetniPropisiP">
+                                    Просветни прописи
+                                    <i class="fas fa-angle-left right"></i>
+
+                                </p>
+
+                            </a>
+                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) -1px 2px 14px inset; background-color:rgb(212,211,255);">
+                                @foreach (RubrikaPP rp in rubrikePP)
+                                {
+
+                                    <li class="nav-item">
+                                        <a href="pages/layout/top-nav.html" title="@rp.NazivRubrike" class="nav-link" id="RubrikePP @rp.ID">
+                                           
+                                            <p style="
+                                            color: #525A65;
+                                            margin-left: 0px;
+                                            overflow: hidden;
+                                            text-overflow: ellipsis;
+                                            display: -webkit-box;
+                                            -webkit-line-clamp: 1;
+                                            width: 230px;
+                                            -webkit-box-orient: vertical;
+                                    " id="RubrikePPP @rp.ID">
+                                                @rp.NazivRubrike
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <hr style="margin:0px;" />
+                                        <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 0px 6px 14px inset; background-color:rgb(229,210,253);">
+                                            @foreach (PodrubrikaPP pp in podrubrikePP)
+                                            {
+                                                if (pp.IdRubrika == rp.ID)
+                                                {
+                                                    <li class="nav-item">
+                                                        <a href="~/ProsvetniPropisi/Index/@pp.ID" title="@pp.NazivPodrubrike" class="nav-link" id="PodrubrikaPP @pp.ID">
+                                       
+
+                                                            <p style="        margin-left: 1.5%;
+                                                            color: #525A65;
+                                                            overflow: hidden;
+                                                            text-overflow: ellipsis;
+                                                            display: -webkit-box;
+                                                            -webkit-line-clamp: 1;
+                                                            width: 230px;
+                                                            -webkit-box-orient: vertical;
+                                                    " id="PodrubrikaPPP @pp.ID">
+
+                                                                @pp.NazivPodrubrike
+                                                                <i class="right fas fa-angle-left"></i>
+                                                            </p>
+
+                                                        </a>
+                                                        <hr style="margin:0px;" />
+                                                    </li>
+                                                }
+                                            }
+                                        </ul>
+                                    </li>
+
+                                }
+
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" title="" class="nav-link" id="InAkta">
+                                <i class="nav-icon "><svg xmlns="http://www.w3.org/2000/svg" id="_x31_" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="512px"><path d="m17.5 24c-3.584 0-6.5-2.916-6.5-6.5s2.916-6.5 6.5-6.5 6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5zm0-12c-3.033 0-5.5 2.468-5.5 5.5s2.467 5.5 5.5 5.5 5.5-2.468 5.5-5.5-2.467-5.5-5.5-5.5z" fill="#9191AF" /><path d="m17.5 21c-.276 0-.5-.224-.5-.5v-4c0-.276.224-.5.5-.5s.5.224.5.5v4c0 .276-.224.5-.5.5z" fill="#9191AF" /><circle cx="17.5" cy="14.5" r=".5" fill="#9191AF" /><path d="m9.5 21h-7c-1.378 0-2.5-1.121-2.5-2.5v-13c0-1.379 1.122-2.5 2.5-2.5h2c.276 0 .5.224.5.5s-.224.5-.5.5h-2c-.827 0-1.5.673-1.5 1.5v13c0 .827.673 1.5 1.5 1.5h7c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m11.5 6h-6c-.827 0-1.5-.673-1.5-1.5v-2c0-.276.224-.5.5-.5h1.55c.233-1.14 1.242-2 2.45-2s2.217.86 2.45 2h1.55c.276 0 .5.224.5.5v2c0 .827-.673 1.5-1.5 1.5zm-6.5-3v1.5c0 .275.224.5.5.5h6c.276 0 .5-.225.5-.5v-1.5h-1.5c-.276 0-.5-.224-.5-.5 0-.827-.673-1.5-1.5-1.5s-1.5.673-1.5 1.5c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 9h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m10.5 12h-7c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h7c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m8.5 15h-5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h5c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m16.5 9c-.276 0-.5-.224-.5-.5v-3c0-.827-.673-1.5-1.5-1.5h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c1.378 0 2.5 1.121 2.5 2.5v3c0 .276-.224.5-.5.5z" fill="#9191AF" /></svg></i>
+                                <p id="InAktaP">
+                                    ИН Акта
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 0px 6px 14px inset; background-color:rgb(214,237,252);">
+                                @foreach (InAktaPodvrsta podvr in podvrstaInAkta)
+                                {
+                                      <li class="nav-item">
+                                        <a href="#" class="nav-link" title="@podvr.Naziv" id="InAktaPodvr @podvr.Id">
+                                            <p style="        color: #525A65;
+                                                    margin-left: 1.5;
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis;
+                                                    display: -webkit-box;
+                                                    -webkit-line-clamp: 1;
+                                                    width: 230px;
+                                                    -webkit-box-orient: vertical;
+                                            " id="InAktaPodvrP @podvr.Id">
+                                                @podvr.Naziv
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                            </a>
+                                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 0px 6px 14px inset; background-color:rgb(214,237,252);">
+                                                @foreach (RubrikaInAkta ria in rubrikeInAkta)
+                                                {
+                                                    @if (podvr.Id == ria.IdPodvrsta)
+                                                    {
+
+                                                        <li class="nav-item">
+                                                            <a href="#" class="nav-link" title="@ria.Naziv" id="InAktaR @ria.Id">
+                                                                <p style="color: #525A65; margin-left: 1.5; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; width: 230px; -webkit-box-orient: vertical;" id="InAktaRP @ria.Id">
+                                                                    @ria.Naziv
+                                                                    <i class="right fas fa-angle-left"></i>
+                                                                </p>
+                                                            </a>
+                                                            <hr style="margin:0px;" />
+                                                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 0px 6px 14px inset; background-color:rgb(215,255,246);">
+
+                                                                @foreach (PodrubrikaInAkta pia in podrubrikeInAkta)
+                                                                {
+                                                                    if (pia.IdRubrika == ria.Id)
+                                                                    {
+                                                                <li class="nav-item">
+                                                                    <a href="~/InAkta/Index/@pia.Id" title="@pia.Naziv" class="nav-link" id="InAktaP @pia.Id">
+                                                                        <p style="margin-left:2%; color:#525A65; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; width: 230px; -webkit-box-orient: vertical;" id="InAktaPP @pia.Id">
+                                                                            @pia.Naziv
+                                                                            <i class="right fas fa-angle-left"></i>
+                                                                        </p>
+                                                                    </a>
+                                                                    <hr style="margin:0px;" />
+                                                                    <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 0px 6px 14px inset; background-color:rgb(215,255,246);">
+                                                                        @foreach (PodpodrubrikaInAkta ppia in podpodrubrikeInAkta)
+                                                                        {
+                                                                            if (ppia.IdPodrubrika == pia.Id)
+                                                                            {
+                                                                        <li class="nav-item">
+                                                                            <a href="~/InAkta/Index/@ppia.Id" title="@ppia.Naziv" class="nav-link" id="InAktaP @ppia.Id">
+                                                                                <p style="margin-left:2%; color:#525A65; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; width: 230px; -webkit-box-orient: vertical;" id="InAktaPPP @ppia.Id">
+                                                                                    @ppia.Naziv
+                                                                                    <i class="right fas fa-angle-left"></i>
+                                                                                </p>
+
+                                                                            </a>
+                                                                            <hr style="margin:0px;" />
+                                                                        </li>
+                                                                            }
+
+                                                                        }
+
+                                                                    </ul>
+                                                                </li>
+                                                                    }
+                                                                }
+
+                                                            </ul>
+                                                        </li>
+
+                                                    }
+                                                }
+
+                                            </ul>
+
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="SudskaPraksa">
+                                <i class="nav-icon "><svg xmlns="http://www.w3.org/2000/svg" id="_x31_" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="512px"><path d="m9.5 21h-7c-1.379 0-2.5-1.121-2.5-2.5v-13c0-1.379 1.121-2.5 2.5-2.5h2c.276 0 .5.224.5.5s-.224.5-.5.5h-2c-.827 0-1.5.673-1.5 1.5v13c0 .827.673 1.5 1.5 1.5h7c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m11.5 6h-6c-.827 0-1.5-.673-1.5-1.5v-2c0-.276.224-.5.5-.5h1.55c.232-1.14 1.243-2 2.45-2s2.218.86 2.45 2h1.55c.276 0 .5.224.5.5v2c0 .827-.673 1.5-1.5 1.5zm-6.5-3v1.5c0 .275.225.5.5.5h6c.275 0 .5-.225.5-.5v-1.5h-1.5c-.276 0-.5-.224-.5-.5 0-.827-.673-1.5-1.5-1.5s-1.5.673-1.5 1.5c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 9h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m13 12h-9.5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h9.5c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m12 15h-8.5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h8.5c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m19.5 20.5h-3c-.276 0-.5-.224-.5-.5v-1.956c0-.491-.28-.883-.516-1.125-.792-.816-1.13-1.932-.927-3.061.252-1.402 1.406-2.555 2.808-2.802 1.043-.184 2.088.095 2.883.761.796.667 1.252 1.645 1.252 2.683 0 .934-.368 1.812-1.037 2.472-.211.209-.463.549-.463.986v2.042c0 .276-.224.5-.5.5zm-2.5-1h2v-1.542c0-.611.27-1.214.76-1.697.478-.472.74-1.097.74-1.761 0-.741-.326-1.439-.895-1.917-.576-.482-1.308-.675-2.066-.542-.996.176-1.817.996-1.997 1.995-.146.808.095 1.604.659 2.186.523.538.799 1.168.799 1.822z" fill="#9191AF" /><path d="m23.5 24h-11c-.276 0-.5-.224-.5-.5v-2.117c0-.755.564-1.395 1.313-1.488l3.124-.391 3.063-.004 3.187.395c.749.093 1.313.733 1.313 1.488v2.117c0 .276-.224.5-.5.5zm-10.5-1h10v-1.617c0-.252-.188-.465-.438-.496l-3.124-.391-2.938.004-3.062.387c-.25.031-.438.244-.438.496z" fill="#9191AF" /><path d="m16.5 9c-.276 0-.5-.224-.5-.5v-3c0-.827-.673-1.5-1.5-1.5h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c1.379 0 2.5 1.121 2.5 2.5v3c0 .276-.224.5-.5.5z" fill="#9191AF" /></svg></i>
+                                <p id="SudskaPraksaP">
+                                    Судска пракса
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 1px 6px 14px inset; background-color:rgb(246,222,201);">
+                                @foreach (RubrikaSp rsp in rubrikeSp)
+                                {
+                                    <li class="nav-item ">
+                                        <a href="~/SudskaPraksa/Index/@rsp.Id" class="nav-link" title="@rsp.Naziv" id="SudskaPraksaR @rsp.Id">
+
+                                            <p style="margin-left:0%; color:#525A65; overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            width: 230px;
+                            -webkit-box-orient: vertical; margin-bottom:0;padding:0; " id="SudskaPraksaRP @rsp.Id">
+                                                @*<i class="nav-icon" style="margin-right:3%" background-color:rgb(255,0,0)>
+                                                    <svg width="2px" height="12px" viewBox="0 0 2 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <title>I</title>
+                                                        <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="InfluBG, Influ BG" font-size="16" font-weight="normal">
+                                                            <g id="81-mini-Essential-Icons" transform="translate(-97.000000, -665.000000)" fill="#525A65">
+                                                                <g id="icon--copy-9" transform="translate(75.000000, 649.000000)">
+                                                                    <text id="I">
+                                                                        <tspan x="21.316" y="28">I</tspan>
+                                                                    </text>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </svg></i>*@@rsp.Naziv
+                                                    <i class="right fas fa-angle-left"></i>
+                                                </p>
+                                            </a>
+                                            <hr style="margin:0px;" />
+
+                                        </li>
+                                    }
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="SluzbenaMisljenja">
+                                <i class="nav-icon "><svg xmlns="http://www.w3.org/2000/svg" id="_x31_" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="512px"><path d="m20.423 24h-1.846c-.537 0-1.115-.404-1.115-1.291v-1.304c0-.531-.272-1.049-.747-1.421-1.117-.876-1.741-2.188-1.714-3.6.046-2.382 2.033-4.35 4.432-4.385 1.25-.026 2.371.443 3.236 1.298.858.847 1.331 1.974 1.331 3.176 0 1.346-.602 2.607-1.651 3.461-.515.419-.811.993-.811 1.573v1.382c0 .613-.5 1.111-1.115 1.111zm-.925-11c-.017 0-.033 0-.051 0-1.833.027-3.412 1.586-3.446 3.404-.021 1.095.464 2.113 1.331 2.793.718.562 1.13 1.368 1.13 2.208v1.304c0 .03.003.291.115.291h1.846c.063 0 .115-.05.115-.111v-1.382c0-.883.43-1.739 1.18-2.349.814-.663 1.282-1.641 1.282-2.685 0-.932-.367-1.807-1.032-2.463-.662-.653-1.537-1.01-2.47-1.01z" fill="#9191AF" /><path d="m21.038 22.167h-3.076c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h3.076c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 21h-11c-1.379 0-2.5-1.121-2.5-2.5v-13c0-1.379 1.121-2.5 2.5-2.5h2c.276 0 .5.224.5.5s-.224.5-.5.5h-2c-.827 0-1.5.673-1.5 1.5v13c0 .827.673 1.5 1.5 1.5h11c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m11.5 6h-6c-.827 0-1.5-.673-1.5-1.5v-2c0-.276.224-.5.5-.5h1.55c.232-1.14 1.243-2 2.45-2s2.218.86 2.45 2h1.55c.276 0 .5.224.5.5v2c0 .827-.673 1.5-1.5 1.5zm-6.5-3v1.5c0 .275.225.5.5.5h6c.275 0 .5-.225.5-.5v-1.5h-1.5c-.276 0-.5-.224-.5-.5 0-.827-.673-1.5-1.5-1.5s-1.5.673-1.5 1.5c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 9h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 12h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m12.5 15h-9c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h9c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m16.5 11c-.276 0-.5-.224-.5-.5v-5c0-.827-.673-1.5-1.5-1.5h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c1.379 0 2.5 1.121 2.5 2.5v5c0 .276-.224.5-.5.5z" fill="#9191AF" /></svg></i>
+                                <p id="SluzbenaMisljenjaP">
+                                    Службена мишљења
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 1px 6px 14px inset; background-color:rgb(251,252,154);">
+                                @foreach (RubrikaSm rsm in rubrikeSm)
+                                {
+
+
+
+                                    <li class="nav-item">
+                                        <a href="~/SluzbenaMisljenja/Index/@rsm.Id" class="nav-link" title="@rsm.Naziv" id="SluzbenoMisljenjeR @rsm.Id">
+
+                                            <p style="margin-left:0%;  overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            width: 230px;
+                            -webkit-box-orient: vertical; color:#525A65; margin-bottom:0;padding:0;" id="SluzbenaMisljenjaRP @rsm.Id">
+                                                @rsm.Naziv
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <hr style="margin:0px;" />
+
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="SluzbenaMisljenja">
+                                <i class="nav-icon "><svg xmlns="http://www.w3.org/2000/svg" id="_x31_" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="512px"><path d="m20.423 24h-1.846c-.537 0-1.115-.404-1.115-1.291v-1.304c0-.531-.272-1.049-.747-1.421-1.117-.876-1.741-2.188-1.714-3.6.046-2.382 2.033-4.35 4.432-4.385 1.25-.026 2.371.443 3.236 1.298.858.847 1.331 1.974 1.331 3.176 0 1.346-.602 2.607-1.651 3.461-.515.419-.811.993-.811 1.573v1.382c0 .613-.5 1.111-1.115 1.111zm-.925-11c-.017 0-.033 0-.051 0-1.833.027-3.412 1.586-3.446 3.404-.021 1.095.464 2.113 1.331 2.793.718.562 1.13 1.368 1.13 2.208v1.304c0 .03.003.291.115.291h1.846c.063 0 .115-.05.115-.111v-1.382c0-.883.43-1.739 1.18-2.349.814-.663 1.282-1.641 1.282-2.685 0-.932-.367-1.807-1.032-2.463-.662-.653-1.537-1.01-2.47-1.01z" fill="#9191AF" /><path d="m21.038 22.167h-3.076c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h3.076c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 21h-11c-1.379 0-2.5-1.121-2.5-2.5v-13c0-1.379 1.121-2.5 2.5-2.5h2c.276 0 .5.224.5.5s-.224.5-.5.5h-2c-.827 0-1.5.673-1.5 1.5v13c0 .827.673 1.5 1.5 1.5h11c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m11.5 6h-6c-.827 0-1.5-.673-1.5-1.5v-2c0-.276.224-.5.5-.5h1.55c.232-1.14 1.243-2 2.45-2s2.218.86 2.45 2h1.55c.276 0 .5.224.5.5v2c0 .827-.673 1.5-1.5 1.5zm-6.5-3v1.5c0 .275.225.5.5.5h6c.275 0 .5-.225.5-.5v-1.5h-1.5c-.276 0-.5-.224-.5-.5 0-.827-.673-1.5-1.5-1.5s-1.5.673-1.5 1.5c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 9h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 12h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m12.5 15h-9c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h9c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m16.5 11c-.276 0-.5-.224-.5-.5v-5c0-.827-.673-1.5-1.5-1.5h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c1.379 0 2.5 1.121 2.5 2.5v5c0 .276-.224.5-.5.5z" fill="#9191AF" /></svg></i>
+                                <p id="SluzbenaMisljenjaP">
+                                    Стручни часописи
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 1px 6px 14px inset; background-color:rgb(251,252,154);">
+                                <li class="nav-item">
+                                    <a href="#" name="Andja" class="nav-link" id="PodsetnikDirektor">
+                                        <i class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" id="_x31_" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="512px"><path d="m20.63 23h-6.783c-1.57 0-2.847-1.301-2.847-2.9 0-1.469 1.078-2.686 2.471-2.874.446-1.866 2.111-3.226 4.029-3.226 1.51 0 2.904.845 3.627 2.175 1.633.241 2.873 1.676 2.873 3.391 0 1.894-1.512 3.434-3.37 3.434zm-3.13-8c-1.558 0-2.897 1.19-3.115 2.769-.034.247-.246.432-.495.432-1.061-.001-1.89.852-1.89 1.899 0 1.048.829 1.9 1.848 1.9h6.783c1.307 0 2.37-1.092 2.37-2.434 0-1.288-.978-2.353-2.226-2.424-.186-.011-.35-.123-.427-.291-.514-1.124-1.631-1.851-2.848-1.851z" fill="#9191AF" /><path d="m9.5 21h-7c-1.378 0-2.5-1.121-2.5-2.5v-13c0-1.379 1.122-2.5 2.5-2.5h2c.276 0 .5.224.5.5s-.224.5-.5.5h-2c-.827 0-1.5.673-1.5 1.5v13c0 .827.673 1.5 1.5 1.5h7c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m11.5 6h-6c-.827 0-1.5-.673-1.5-1.5v-2c0-.276.224-.5.5-.5h1.55c.233-1.14 1.242-2 2.45-2s2.217.86 2.45 2h1.55c.276 0 .5.224.5.5v2c0 .827-.673 1.5-1.5 1.5zm-6.5-3v1.5c0 .275.224.5.5.5h6c.276 0 .5-.225.5-.5v-1.5h-1.5c-.276 0-.5-.224-.5-.5 0-.827-.673-1.5-1.5-1.5s-1.5.673-1.5 1.5c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 9h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 12h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m12.5 15h-9c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h9c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m16.5 12c-.276 0-.5-.224-.5-.5v-6c0-.827-.673-1.5-1.5-1.5h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c1.378 0 2.5 1.121 2.5 2.5v6c0 .276-.224.5-.5.5z" fill="#9191AF" /></svg></i>
+                                        <p id="PodsetnikDirektorP">
+                                            Подсетник за директора
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 1px 6px 14px inset; background-color:rgb(232,232,232); ">
+                                        @foreach (CasopisGodina cg in casopisGodinaPzD)
+                                        {
+
+                                        <li class="nav-item ">
+                                            <a href="#" name="Luka" title="@cg.Naziv" class="nav-link" id="Godina @cg.Id">
+
+                                                <p style="margin-left:0%;color:#525A65;  overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            width: 230px;
+                            -webkit-box-orient: vertical; margin-bottom:0;padding:0;" id="GodinaP @cg.Id">
+                                                    @*<i class="nav-icon" style="margin-right:3%" background-color:rgb(255,0,0)>
+                            <svg width="2px" height="12px" viewBox="0 0 2 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>I</title>
+                                <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="InfluBG, Influ BG" font-size="16" font-weight="normal">
+                                    <g id="81-mini-Essential-Icons" transform="translate(-97.000000, -665.000000)" fill="#525A65">
+                                       <g id="icon--copy-9" transform="translate(75.000000, 649.000000)">
+                                            <text id="I">
+                                                <tspan x="21.316" y="28">I</tspan>
+                                            </text>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg></i>*@@cg.Naziv
+                            <i class="right fas fa-angle-left"></i>
+                            </p>
+                            </a>
+                            <hr style="margin:0px;" />
+                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) -1px 2px 14px inset;background-color:rgb(211,211,211);">
+                                @foreach (CasopisBroj csbr in casopisBrojs)
+                                                        {
+                                                            if (csbr.IdGodina == cg.Id)
+                                                            {
+                                <li class="nav-item">
+                                    <a href="~/PodsetnikZaDirektore/Index/@csbr.Id" title=" @csbr.Naziv" class="nav-link" id="Broj @csbr.Id">
+                                        @*<i class=" nav-icon">
+                    <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>II</title>
+                        <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="InfluBG, Influ BG" font-size="16" font-weight="normal">
+                            <g id="81-mini-Essential-Icons" transform="translate(-153.000000, -665.000000)" fill="#525A65">
+                                <text id="II">
+                                    <tspan x="152.132" y="677">II</tspan>
+                                </text>
+                            </g>
+                        </g>
+                    </svg>
+                </i>*@
+                                        <p style="   overflow: hidden;
+                                                        text-overflow: ellipsis;
+                                                        display: -webkit-box;
+                                                        -webkit-line-clamp: 1;
+                                                        width: 230px;
+                                                        -webkit-box-orient: vertical; margin-left: 1.5%;
+                                                                   color: #525A65;" id="BrojP @csbr.Id">
+                                            @csbr.Naziv
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+
+                                    </a>
+                                    <hr style="margin:0px;" />
+                                </li>
+                                                            }
+
+                                                        }
+
+                            </ul>
+                            </li>
+
+
+                                            }
+
+                                    </ul>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a href="pages/calendar.html" class="nav-link" id="PravniSavetnik">
+                                        <i class="nav-icon "><svg xmlns="http://www.w3.org/2000/svg" id="_x31_" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="512px"><path d="m19.5 20.5h-3c-.276 0-.5-.224-.5-.5v-1.956c0-.491-.281-.883-.516-1.125-.792-.815-1.129-1.931-.926-3.06.252-1.402 1.406-2.555 2.807-2.803 1.037-.182 2.088.094 2.883.761s1.252 1.645 1.252 2.683c0 .935-.369 1.812-1.038 2.473-.211.208-.462.548-.462.985v2.042c0 .276-.224.5-.5.5zm-2.5-1h2v-1.542c0-.611.27-1.213.76-1.697.477-.471.74-1.096.74-1.761 0-.741-.326-1.439-.895-1.917-.576-.483-1.309-.675-2.066-.543-.997.177-1.818.997-1.997 1.995-.145.808.095 1.605.66 2.187.522.538.798 1.168.798 1.822z" fill="#9191AF" /><path d="m23.5 24h-11c-.276 0-.5-.224-.5-.5v-2.117c0-.755.565-1.395 1.314-1.488l3.124-.391 3.062-.004 3.186.395c.749.093 1.314.733 1.314 1.488v2.117c0 .276-.224.5-.5.5zm-10.5-1h10v-1.617c0-.251-.188-.465-.438-.496l-3.124-.391-2.938.004-3.062.387c-.25.031-.438.244-.438.496z" fill="#9191AF" /><path d="m9.5 20h-7c-1.378 0-2.5-1.122-2.5-2.5v-15c0-1.378 1.122-2.5 2.5-2.5h12c1.378 0 2.5 1.122 2.5 2.5v6c0 .276-.224.5-.5.5s-.5-.224-.5-.5v-6c0-.827-.673-1.5-1.5-1.5h-12c-.827 0-1.5.673-1.5 1.5v15c0 .827.673 1.5 1.5 1.5h7c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m12.5 13h-8c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h8c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m11.5 17h-7c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h7c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m12.5 9h-8c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h8c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m12.5 5h-8c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h8c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /></svg></i>
+                                        <p id="PravniSavetnikP">
+                                            Правни саветник
+                                            <i class="fas fa-angle-left right"></i>
+                                            @*<span class="badge badge-info right">2</span>*@
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) -1px 2px 14px inset; background-color:rgb(212,211,251);">
+                                        @foreach (CasopisGodina cg in casopisGodinaPs)
+                                        {
+                                        <li class="nav-item ">
+                                            <a href="#" title="@cg.Naziv" class="nav-link" id="Godina @cg.Id">
+
+                                                <p style="margin-left:0%; overflow: hidden;
+                                            text-overflow: ellipsis;
+                                            display: -webkit-box;
+                                            -webkit-line-clamp: 1;
+                                            width: 230px;
+                                            -webkit-box-orient: vertical; color:#525A65; margin-bottom:0;padding:0; " id="GodinaP @cg.Id">
+                                                    @*<i class="nav-icon" style="margin-right:3%" background-color:rgb(255,0,0)>
+
+                                     width="2px" height="12px" viewBox="0 0 2 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <title>I</title>
+                                    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="InfluBG, Influ BG" font-size="16" font-weight="normal">
+                                        <g id="81-mini-Essential-Icons" transform="translate(-97.000000, -665.000000)" fill="#525A65">
+                                            <g id="icon--copy-9" transform="translate(75.000000, 649.000000)">
+                                                <text id="I">
+                                                    <tspan x="21.316" y="28">I</tspan>
+                                                </text>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </i>*@@cg.Naziv
+                            <i class="right fas fa-angle-left"></i>
+                            </p>
+                            </a>
+
+                            <hr style="margin:0px;" />
+                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 0px 6px 14px inset; background-color:rgb(229,210,253);">
+                                @foreach (CasopisBroj csbr in casopisBrojs)
+                                                        {
+                                                            if (csbr.IdGodina == cg.Id)
+                                                            {
+                                <li class="nav-item">
+                                    <a href="~/PravniSavetnik/Index/@csbr.Id" title="@csbr.Naziv" class="nav-link" id="Broj @csbr.Id">
+                                        @*<i class=" nav-icon">
+                    <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>II</title>
+                        <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="InfluBG, Influ BG" font-size="16" font-weight="normal">
+                            <g id="81-mini-Essential-Icons" transform="translate(-153.000000, -665.000000)" fill="#525A65">
+                                <text id="II">
+                                    <tspan x="152.132" y="677">II</tspan>
+                                </text>
+                            </g>
+                        </g>
+                    </svg>
+                </i>*@
+                                        <p style="margin-left:1.5%; overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        -webkit-line-clamp: 1;
+                                        width: 230px;
+                                        -webkit-box-orient: vertical; color:#525A65" id="BrojP @csbr.Id">
+                                            @csbr.Naziv
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+
+
+                                    </a>
+                                    <hr style="margin:0px;" />
+                                </li>
+                                                            }
+
+                                                        }
+
+                            </ul>
+                            </li>
+
+                                            }
+
+                                    </ul>
+
+                                </li>
+
+
+
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link" id="BudzetskoRacunovodstvo">
+                                        <i class="nav-icon "><svg xmlns="http://www.w3.org/2000/svg" id="_x31_" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="512px"><path d="m18.5 12h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m18.5 9h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m18.5 15h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m18.5 18h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m18.5 21h-13c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h13c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m10 18c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5zm0-9c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4z" fill="#9191AF" /><path d="m6.818 16.682c-.128 0-.256-.049-.354-.146-.195-.195-.195-.512 0-.707l3.036-3.036v-4.293c0-.276.224-.5.5-.5s.5.224.5.5v4.5c0 .133-.053.26-.146.354l-3.182 3.182c-.098.097-.226.146-.354.146z" fill="#9191AF" /><path d="m18.5 24h-13c-1.379 0-2.5-1.122-2.5-2.5v-16c0-1.378 1.121-2.5 2.5-2.5h2c.276 0 .5.224.5.5s-.224.5-.5.5h-2c-.827 0-1.5.673-1.5 1.5v16c0 .827.673 1.5 1.5 1.5h13c.827 0 1.5-.673 1.5-1.5v-16c0-.827-.673-1.5-1.5-1.5h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c1.379 0 2.5 1.122 2.5 2.5v16c0 1.378-1.121 2.5-2.5 2.5z" fill="#9191AF" /><path d="m15.5 6h-7c-.827 0-1.5-.673-1.5-1.5v-2c0-.276.224-.5.5-.5h2.05c.232-1.14 1.243-2 2.45-2s2.218.86 2.45 2h2.05c.276 0 .5.224.5.5v2c0 .827-.673 1.5-1.5 1.5zm-7.5-3v1.5c0 .276.225.5.5.5h7c.275 0 .5-.224.5-.5v-1.5h-2c-.276 0-.5-.224-.5-.5 0-.827-.673-1.5-1.5-1.5s-1.5.673-1.5 1.5c0 .276-.224.5-.5.5z" fill="#9191AF" /></svg></i>
+                                        <p id="BudzetskoRacunovodstvoP">
+                                            Буџетско рачуноводство
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 1px 6px 14px inset; background-color:rgb(208,248,183); color:#525A65;">
+                                        @foreach (CasopisGodina cg in casopisGodina)
+                                        {
+                                        <li class="nav-item ">
+                                            <a href="#" class="nav-link" id="Godina @cg.Id">
+
+                                                <p style="margin-left:0%; color:#525A65;  overflow: hidden;
+                                            text-overflow: ellipsis;
+                                            display: -webkit-box;
+                                            -webkit-line-clamp: 1;
+                                            width: 230px;
+                                            -webkit-box-orient: vertical; margin-bottom:0;padding:0; width:auto;" id="GodinaP @cg.Id">
+                                                    @*<i class="nav-icon" style="margin-right:3%" background-color:rgb(255,0,0)>
+                                <svg width="2px" height="12px" viewBox="0 0 2 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <title>I</title>
+                                    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="InfluBG, Influ BG" font-size="16" font-weight="normal">
+                                        <g id="81-mini-Essential-Icons" transform="translate(-97.000000, -665.000000)" fill="#525A65">
+                                            <g id="icon--copy-9" transform="translate(75.000000, 649.000000)">
+                                                <text id="I">
+                                                    <tspan x="21.316" y="28">I</tspan>
+                                                </text>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </i>*@@cg.Naziv
+                            <i class="right fas fa-angle-left"></i>
+                            </p>
+                            </a>
+                            <hr style="margin:0px;" />
+                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) -1px 2px 14px inset;background-color:rgb(187,252,190); color:#525A65;">
+                                @foreach (CasopisBroj csbr in casopisBrojs)
+                                                        {
+                                                            if (csbr.IdGodina == cg.Id)
+                                                            {
+                                <li class="nav-item">
+                                    <a href="~/BudzetskoRacunovodstvo/Index/@csbr.Id" class="nav-link" id="Broj @csbr.Id">
+                                        @*<i class=" nav-icon">
+                    <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>II</title>
+                        <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="InfluBG, Influ BG" font-size="16" font-weight="normal">
+                            <g id="81-mini-Essential-Icons" transform="translate(-153.000000, -665.000000)" fill="#525A65">
+                                <text id="II">
+                                    <tspan x="152.132" y="677">II</tspan>
+                                </text>
+                            </g>
+                        </g>
+                    </svg>
+                </i>*@
+                                        <p style="margin-left:1.5%; overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 1;
+                                                width: 230px;
+                                                -webkit-box-orient: vertical; color:#525A65;" id="BrojP @csbr.Id">
+                                            @csbr.Naziv
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+
+                                    </a>
+                                    <hr style="margin:0px;" />
+                                </li>
+                                                            }
+                                                        }
+
+                            </ul>
+                            </li>
+
+                                            }
+                                    </ul>
+
+
+                                </li>
+
+                            </ul>
+
+
+
+
+
+
+
+
+
+
+
+                        
+                        
+                            <li class="nav-item">
+                            <a href="#" class="nav-link" id="PrimeriKnjizenja">
+                                <i class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" id="_x31_" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="512px"><path d="m11.894 24c-.131 0-.259-.052-.354-.146-.118-.118-.17-.288-.137-.451l.707-3.535c.02-.098.066-.187.137-.256l7.778-7.778c.584-.584 1.537-.584 2.121 0l1.414 1.414c.585.585.585 1.536 0 2.121l-7.778 7.778c-.069.07-.158.117-.256.137l-3.535.707c-.032.006-.065.009-.097.009zm1.168-3.789-.53 2.651 2.651-.53 7.671-7.671c.195-.195.195-.512 0-.707l-1.414-1.414c-.195-.195-.512-.195-.707 0zm2.367 2.582h.01z" fill="#9191AF" /><path d="m9.5 21h-7c-1.379 0-2.5-1.121-2.5-2.5v-13c0-1.379 1.121-2.5 2.5-2.5h2c.276 0 .5.224.5.5s-.224.5-.5.5h-2c-.827 0-1.5.673-1.5 1.5v13c0 .827.673 1.5 1.5 1.5h7c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m16.5 12c-.276 0-.5-.224-.5-.5v-6c0-.827-.673-1.5-1.5-1.5h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c1.379 0 2.5 1.121 2.5 2.5v6c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m11.5 6h-6c-.827 0-1.5-.673-1.5-1.5v-2c0-.276.224-.5.5-.5h1.55c.232-1.14 1.243-2 2.45-2s2.218.86 2.45 2h1.55c.276 0 .5.224.5.5v2c0 .827-.673 1.5-1.5 1.5zm-6.5-3v1.5c0 .275.225.5.5.5h6c.275 0 .5-.225.5-.5v-1.5h-1.5c-.276 0-.5-.224-.5-.5 0-.827-.673-1.5-1.5-1.5s-1.5.673-1.5 1.5c0 .276-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 9h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 12h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /><path d="m13.5 15h-10c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h10c.276 0 .5.224.5.5s-.224.5-.5.5z" fill="#9191AF" /></svg></i>
+                                <p id="PrimeriKnjizenjaP">
+                                    Примери књижења
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="box-shadow: rgba(0, 0, 0, 0.41) 1px 6px 14px inset; background-color:rgb(246,222,201);">
+                                @foreach (RubrikaPK rubrikaPK in rubrikePK)
+                                {
+                                    <li class="nav-item ">
+                                        <a href="~/PrimeriKnjizenja/Index/@rubrikaPK.Id" title="@rubrikaPK.Naziv" class="nav-link" id="PrimeriKnjizenja @rubrikaPK.Id">
+
+                                            <p style="margin-left:0% ; color:#525A65;margin-bottom:0;padding:0; width:auto;  overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            width: 230px;
+                            -webkit-box-orient: vertical;" id="PrmeriKnjizenjaP @rubrikaPK.Id">
+                                               @rubrikaPK.Naziv
+                                                    <i class="right fas fa-angle-left"></i>
+                                                </p>
+                                            </a>
+                                            <hr style="margin:0px;" />
+                                        </li>
+
+                                    }
+                            </ul>
+
+                        </li>
+
+                </nav>
+
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+    </div>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper"
+         style="margin-left: 15%;">
+        @*<img id="slikawraper" src="~/slike/background img.png" />*@
+        <!-- Content Header (Page header) -->
+        @*<div class="content-header"*@
+        @*<div class="container">
+                <div class="breadcrumb">
+                    <a href="#" class="active">Почетна</a>
+                    <a href="#">Прописи</a>
+                    <a href="#">Области</a>
+                    <a href="#">Закон о раду</a>
+
+                </div>
+            </div>*@
+        <div class="container-fluid">
+
+            @RenderBody()
+        </div>
+
+
+        @*</div>*@
+    </div>
+
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- jQuery -->
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/plugins/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/plugins/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="~/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="~/plugins/jqvmap/maps/jquery.vmap.usa.js"><
+    <script src="~/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="~/plugins/moment/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+
+    <script src="~/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/dist/js/adminlte.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/dist/js/demo.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/dist/js/pages/dashboard.js"></script>
+    <!-- ./wrapper -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <script src="//code.tidio.co/ycdtlcrraajf3ru0ja59rvwulo0jgg2e.js" async></script>
+</body> 
+</html>

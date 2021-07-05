@@ -1,0 +1,84 @@
+﻿@model PrasvnaBazaKlijent.Models.ProsvetniPropis
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+    obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+    List<PodnaslovPP> podnaslovi = (from p in _context.PodnaslovPP
+                                   where p.IdPropis == Model.Id
+                                   select p).ToList();
+    List<ClanPP> clanovi = (from c in _context.ClanPP
+                         where c.IdPropis == Model.Id
+                         select c).ToList();
+
+    List<int> idClan = (from c in _context.ClanPP
+                        where c.IdPropis == Model.Id
+                        select c.Id).ToList();
+
+    List<StavPP> stavovi = (from st in _context.StavPP
+                         where idClan.Contains((int)st.IdClan)
+                         select st).ToList();
+
+    List<int> idStav = (from st in _context.StavPP
+                        where idClan.Contains((int)st.IdClan)
+                        select st.Id).ToList();
+
+    List<TackaPP> tacke = (from tac in _context.TackaPP
+                           where idStav.Contains((int)tac.IdStav)
+                           select tac).ToList();
+
+
+    List<AlinejaPP> alineje = (from a in _context.AlinejaPP
+                               where idStav.Contains((int)a.IdStav)
+                               select a).ToList();
+}
+
+<section>
+    <div style="background-image: url('../jpg/stampa propisa c.png')">
+        <h1 style="width:100%;
+             margin: 0 auto;
+
+             text-align: center;">
+            @Model.Naslov
+        </h1><br />
+        <h4 style=" justify-content:center;
+        text-align: center;">
+            @Model.GlasiloIDatumObjavljivanja
+        </h4>
+        @if (clanovi != null)
+        {
+            @foreach (PodnaslovPP podnaslov in podnaslovi)
+            {
+                <span id="@podnaslov.Id"></span>
+                @Html.Raw(podnaslov.PodnaslovTekst)
+                @foreach (ClanPP clan in clanovi)
+                {
+                    if (clan.IdPodnaslov == podnaslov.Id)
+                    {
+                        <p style="text-align: center; text-indent: 24pt; line-height: normal; background: white; font-size: 13pt; font-family: Calibri, sans-serif;">
+                            <span style="font-size: 9.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                @Html.Raw(clan.Naziv)
+                            </span><br />
+                        </p>
+                        @foreach (StavPP stav in stavovi)
+                        {
+                            if (stav.IdClan == clan.Id)
+                            {
+                                @Html.Raw(@stav.Tekst)
+                                @foreach (TackaPP tacka in tacke)
+                                {
+                                    if (tacka.IdStav == stav.Id)
+                                    {
+                                        @Html.Raw(tacka.Tekst);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        @Html.Raw(@Model.TekstPropisa)
+    </div>
+</section>

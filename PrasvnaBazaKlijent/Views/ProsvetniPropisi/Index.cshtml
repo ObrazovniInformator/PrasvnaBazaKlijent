@@ -1,0 +1,76 @@
+﻿@model IEnumerable<PrasvnaBazaKlijent.Models.ProsvetniPropis>
+
+@{
+    ViewData["Title"] = "Index";
+    obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+    int pr = ViewBag.PodrubrikaPP;
+    int rp = (from rub in _context.PodrubrikaPP
+              where rub.ID == pr
+              select rub.IdRubrika).Single();
+ 
+}
+<style>
+</style>
+<style>
+
+</style>
+<script>
+    //BACKGROUND
+    document.getElementById("ProsvetniPropis").style.backgroundColor = "#565682";
+    document.getElementById("RubrikePP @rp").style.backgroundColor = "#60608a";
+    document.getElementById("PodrubrikaPP @pr").style.backgroundColor = "#73739c";
+
+
+    //SLOVA
+    document.getElementById("ProsvetniPropisiP").style.color = "#fff";
+    document.getElementById("RubrikePPP @rp").style.color = "#fff";
+    document.getElementById("PodrubrikaPPP @pr").style.color = "#fff";
+</script>
+<section>
+    <div class="glavnopolje navbar-expand">
+        <h1>
+            ПРОСВЕТНИ ПРОПИСИ <br>
+        </h1>
+
+        <table class="table float-lg-right" style="margin-top:4%; width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Наслов прописа")
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if (item.DatumPrestankaVazenjaPropisa == null && item.DatumPrestankaVerzije == null)
+                    {
+                        <tr style="margin-left:0px;">
+                            <td style="margin-left:0px">
+                                <a href="~/TekstPropisaPP/Index/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIDatumObjavljivanja)</i></a>
+                            </td>
+
+
+                        </tr>   
+                    }
+                    else
+                    {
+                        <tr style="margin-left:0px;">
+                            <td style="margin-left:0px">
+                                <a href="~/TekstPropisaPP/Index/@item.Id" class="nav-link" style="color:darkred"><strike><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIDatumObjavljivanja) | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
+                            </td>
+
+
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+   
+</section>

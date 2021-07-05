@@ -1,0 +1,56 @@
+﻿@model IEnumerable<PrasvnaBazaKlijent.Models.RubrikaCasopis>
+@{
+    obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+    List<CasopisNaslov> casopisi = (List<CasopisNaslov>)ViewBag.Casopisi;
+    int idBroj = ViewBag.IdBroj;
+    string brojCasopisa = (from b in _context.CasopisBroj
+                           where b.Id == idBroj
+                           select b.Naziv).Single();
+    int idGod = (int)(from g in _context.CasopisBroj
+                      where g.Id == idBroj
+                      select g.IdGodina).Single();
+    string godina = (from god in _context.CasopisGodina
+                     where god.Id == idGod
+                     select god.Naziv).Single();
+}
+<style>
+
+    .glavnopolje {
+        margin-left: 5%;
+    }
+</style>
+<script>
+    document.getElementById("PodsetnikDirektor").style.backgroundColor = "#565682";
+      document.getElementById("Godina @idGod").style.backgroundColor = "#60608a";
+    document.getElementById("Broj @idBroj").style.backgroundColor = "#73739c";
+    //slova
+    document.getElementById("PodsetnikDirektorP").style.color = "#fff";
+    document.getElementById("GodinaP @idGod").style.color = "#fff";
+    document.getElementById("BrojP @idBroj").style.color = "#fff";
+</script>
+<section>
+    <div class="glavnopolje navbar-expand">
+        <h1>
+            ПОДСЕТНИК ЗА ДИРЕКТОРA @brojCasopisa / @godina<br>
+        </h1>
+
+
+        <ul style="display:block">
+            @foreach (RubrikaCasopis rc in Model)
+            {
+                <li style="margin-top:4%">@rc.NazivRubrike  |</li>
+                <ul>
+                    @foreach (CasopisNaslov cn in casopisi)
+                    {
+                        @if (cn.IdRubrika == rc.ID)
+                        {
+                            <li><a href="~/PodsetnikZaDirektore/Prikaz/@cn.Id"> @cn.Naslov</a></li>
+                        }
+                    }
+                </ul>
+            }
+        </ul>
+
+
+    </div>
+</section>

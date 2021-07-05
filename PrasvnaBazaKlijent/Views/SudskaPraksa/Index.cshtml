@@ -1,0 +1,61 @@
+﻿@model IEnumerable<PrasvnaBazaKlijent.Models.SudskaPraksa>
+
+@{
+    obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+    int idP = ViewBag.Podrubrika;
+    //int idR = (int)(from rub in _context.PodrubrikaSp
+    //           where rub.Id == idP
+    //           select rub.IdRubrika).Single();
+}
+<style>
+
+    .glavnopolje {
+        margin-left: 5%;
+
+        box-shadow: 0 1px 4px 0;
+        font-family: InfluBG;
+    }
+</style>
+<script>
+    document.getElementById("SudskaPraksa").style.backgroundColor = "#565682";
+    document.getElementById("SudskaPraksaR @idP").style.backgroundColor = "#60608a";
+    @*document.getElementById("SudskaPraksaP @idP").style.backgroundColor = "#73739c";*@
+
+
+
+    //Slova
+    document.getElementById("SudskaPraksaP").style.color = "#fff";
+    document.getElementById("SudskaPraksaRP @idP").style.color = "#fff";
+    @*document.getElementById("SudskaPraksaPP @idP").style.color = "#fff";*@
+</script>
+<section>
+    <div class="glavnopolje navbar-expand">
+        <h1>
+            СУДСКА ПРАКСА <br>
+        </h1>
+
+        <table class="table float-lg-right" style="margin-top:4%; width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Наслов судске праксе")
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr style="margin-left:0px;">
+                        <td style="margin-left:0px">
+                            <a href="~/SudskaPraksa/Prikaz/@item.Id" class="nav-link">@Html.DisplayFor(modelItem => item.Naslov) | <i>@Html.DisplayFor(modelItem => item.Podnaslov)</i>|<i>@Html.DisplayFor(modelItem => item.Datum)</i></a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+</section>

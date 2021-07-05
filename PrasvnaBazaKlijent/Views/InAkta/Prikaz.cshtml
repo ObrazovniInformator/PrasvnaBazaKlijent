@@ -1,0 +1,266 @@
+﻿@model PrasvnaBazaKlijent.Models.InAkta
+@{
+    List<PropisInAkta> vezePropisInAkta = ViewBag.VezePropis;
+    List<Propis> propisi = ViewBag.Propisi;
+
+    List<ProsvetniPropisInAkta> vezeProsvetni = ViewBag.VezeProsvetni;
+    List<ProsvetniPropis> prosvetniPropisi = ViewBag.ProsvetniPropisi;
+    int? idPod = Model.IdPodrubrika;
+}
+<style>
+    
+    .moja ul li a:first-letter {
+        text-transform: initial;
+    }
+    .glavnopolje {
+        padding-left: 15px;
+        padding-right: 15px;
+        text-align: justify;
+        width: 90%;
+        box-shadow: 0 1px 4px 0;
+    }
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        8 margin-left: 10px;
+        margin-top: 5px;
+        outline: none;
+        scroll-behavior: smooth;
+        vertical-align: baseline;
+    }
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+
+
+    li p {
+        margin: 0cm 0cm 0cm;
+    }
+
+    .moja ul li {
+        list-style: none;
+        text-decoration: none;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 7px 0;
+    }
+    .sidebarmoj {
+        height: 100%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        background-color: #565682;
+        overflow-x: hidden;
+        padding-top: 65px;
+        z-index: 1;
+    }
+
+        /* Style sidebar links */
+        .sidebarmoj a {
+            padding: 6px 16px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+        }
+
+            /* Style links on mouse-over */
+            .sidebarmoj a:hover {
+                color: #f1f1f1;
+            }
+
+    /* Style the main content */
+    .main {
+        margin-left: 160px; /* Same as the width of the sidenav */
+        padding: 0px 10px;
+    }
+
+    #myDIV {
+        width: 20%;
+        height: 90vh;
+        float: right;
+        list-style: none;
+        padding: 10px;
+        border-radius: 5px;
+        top: 73px;
+        display: none;
+        position: fixed;
+        box-shadow: 0 1px 4px 0;
+        right: 30px;
+        overflow: scroll;
+    }
+        #myDIV li {
+            list-style: none;
+            font-family: InfluBG;
+            text-transform: capitalize;
+            padding-right: 20px;
+        }
+    #myDIV1 {
+        width: 20%;
+        height: 90vh;
+        float: right;
+        list-style: none;
+        padding: 10px;
+        border-radius: 5px;
+        top: 73px;
+        display: none;
+        position: fixed;
+        box-shadow: 0 1px 4px 0;
+        right: 30px;
+        overflow: scroll;
+    }
+
+        #myDIV1 li {
+            list-style: none;
+            font-family: InfluBG;
+            text-transform: capitalize;
+            padding-right: 20px;
+        }
+</style>
+<script type="text/javascript">
+    function myFunction() {
+        var x = document.getElementById("myDIV");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+        }
+    }
+
+    function myFunction1() {
+        var x = document.getElementById("myDIV1");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+        }
+    }
+
+    function myFunction2() {
+        var x = document.getElementById("myDIV2");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+        }
+    }
+    function myFunction3() {
+        var x = document.getElementById("myDIV3");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV').style.display = "none";
+        }
+    }
+    function myFunction4() {
+        var x = document.getElementById("myDIV4");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV').style.display = "none";
+        }
+    }
+</script>
+
+<section>
+    <div class="sidebarmoj">
+        <a onclick="myFunction()" href="#home"><i class="far fa-lightbulb" style="padding-left: 4px; color: white;" aria-hidden="true"></i></a>
+        <a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>
+        <a onclick="myFunction2()" href="#home"><i class="fas fa-align-right" style="color: white;" aria-hidden="true"></i></a>
+        <a onclick="myFunction3()" href="~/InAkta/Stampaj/@Model.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
+        <a onclick="myFunction4()" href="~/InAkta/OtvoriVord/@Model.Id"><i class="far fa-file-word" style="color: white;" aria-hidden="false"></i></a>
+    </div>
+
+    <div class="glavnopolje" id="glavnopolje">
+        <p><a href="~/InAkta/Index/@idPod">Врати се на претходну страну</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
+        <div style=" font-family: InfluBG!important;">
+
+            @Html.Raw(@Model.Tekst)
+
+        </div>
+    </div>
+    
+    <div id="myDIV">
+        <div>
+            <ul>
+                <li>Наслов:<br /> @Model.Naslov</li><br />
+                <li>Аутор:<br /> @Model.Autor</li><br />
+                <li>Датум објављивања:<br /> @Model.DatumObjavljivanja</li><br />
+                <li>Напомена:<br />  @Model.Napomena</li><br />
+            </ul>
+        </div>
+     </div>
+
+    <div id="myDIV1">
+        <h3 style="font-size:17px; color:#565682">
+            Прописи који су у вези са овим документом:
+        </h3>
+        <br />
+        <h4 style="font-size:15px; color:#565682"><i>Прописи:</i></h4>
+        <ul>
+            @foreach (PropisInAkta psm in vezePropisInAkta)
+            {
+                @foreach (Propis sm in propisi)
+                {
+                    if (sm.Id == psm.IdPropis)
+                    {
+                        <li><a style="font-size:14px; color:#565682;font-weight:600; text-transform: initial; " href="/./TekstPropisa/VezaPropisInAkta/@sm.Id/@psm.IdInAkta/#@psm.IdStav">@sm.Naslov</a></li>
+                        <style>
+                           
+                        </style>
+                    }
+                }
+            }
+        </ul>
+        <br />
+        <h4 style="font-size:15px; color:#565682"><i>Просветни прописи:</i></h4>
+        <ul>
+            @foreach (ProsvetniPropisInAkta pina in vezeProsvetni)
+            {
+                @foreach (ProsvetniPropis i in prosvetniPropisi)
+                {
+                    @if (i.Id == pina.IdProsvetniPropis)
+                    {
+                        <li><a style="font-size:14px; color:#565682; text-transform: initial;" href="~/TekstPropisaPP/Index/@i.Id">@i.Naslov</a></li>
+                    }
+                }
+            }
+        </ul>
+
+    </div>
+</section>
