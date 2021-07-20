@@ -589,14 +589,14 @@ and (max-device-width : 1024px)
                         {
                             <table>
                                 <tr>
-                                    <td>
+                                    @*<td>*@
                                         @Html.Raw(stav.Tekst)
-                                    </td>
+                                    @*</td>*@
 
                                     @if (idStavovaInAKta.Contains(stav.Id) || idStavSmDis.Contains(stav.Id))
                                     {
                                         <td>
-                                            <select onchange="location = this.value;" id="selectid" style=" width:25px; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
+                                            <select onchange="location = this.value;" id="selectid" style=" width:auto; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
 
                                                 <option>
                                                 </option>
@@ -651,16 +651,16 @@ and (max-device-width : 1024px)
                                 {
                                     <table>
                                         <tr>
-                                            <td>
+                                            @*<td>*@
 
                                                 @Html.Raw(tacka.Tekst)
-                                            </td>
+                                            @*</td>*@
                                             @foreach (int idTackePP in idTackeDIs)
                                             {
                                                 @if (idTackePP == tacka.Id)
                                                 {
                                                     <td>
-                                                        <select onchange="location = this.value;" id="selectid" style=" width:25px; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
+                                                        <select onchange="location = this.value;" id="selectid" style=" width:auto; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
                                                             <option></option>
                                                             <optgroup label="ИнАкта">
                                                                 @foreach (ProsvetniPropisInAkta psm in vezeInAKta)
