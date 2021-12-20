@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 namespace PrasvnaBazaKlijent.Controllers
 {
 
-   
+
     public class LoginController : Controller
     {
         obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
@@ -28,7 +28,6 @@ namespace PrasvnaBazaKlijent.Controllers
             }
             ViewBag.Url = ReturnUrl;
             return View();
-            
         }
 
         [HttpPost]
@@ -48,7 +47,7 @@ namespace PrasvnaBazaKlijent.Controllers
                         new Claim(ClaimTypes.Name, ""),
                         new Claim(ClaimTypes.Email, pretplatnik.Email),
                     };
-                   
+
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                     var authProperties = new AuthenticationProperties
@@ -84,9 +83,9 @@ namespace PrasvnaBazaKlijent.Controllers
                     //HttpContext.Session.SetString("Ime", pretplatnik.Ime);
                     //HttpContext.Session.SetString("Prezime", pretplatnik.Prezime);
 
-                        return RedirectPermanent(ReturnUrl);
-                    
-                  
+                    return RedirectPermanent(ReturnUrl);
+
+
                 }
             }
             catch (Exception e)
