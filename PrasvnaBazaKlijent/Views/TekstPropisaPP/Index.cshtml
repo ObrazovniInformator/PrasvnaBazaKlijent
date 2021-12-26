@@ -69,6 +69,16 @@
         min-height: 100vh;
     }
 
+    div.scroll {
+        width: 70%;
+        float: left;
+        padding-right: 15px;
+        height: 1080px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 20px;
+    }
+
     .action {
         position: fixed;
         bottom: 50px;
@@ -586,16 +596,40 @@
         }
     }*@
 
+    function funPrikaziLinkoveSluzbenihMisljenja(id) {
+
+        funObrisiLinkoveSluzbenihMisljenja();
+
+        var divId = "smLink_" + id;
+        document.getElementById(divId).style.visibility = "visible";
+        document.getElementById(divId).style.display = "inline";
+    }
+
+    function funObrisiLinkoveSluzbenihMisljenja() {
+
+        $("#zaglavljesluzbenihmisljenja").find("p").css({ "visibility": "hidden", "display": "none!important" });
+    }
+
+
+
     var currentOpenSluzbenoMisljenjeId = "";
 
     function funShowSluzbenoMisljenje(id) {
 
         funCloseOpenedSluzbenoMisljenje();
 
+        //otvara detalje gore
         var divId = "sluzbenomisljenje_" + id;
-
         document.getElementById(divId).style.visibility = "visible";
         document.getElementById(divId).style.display = "inline";
+
+
+
+        //document.getElementById(divId).style.visibility = "visible";
+        //document.getElementById(divId).style.display = "block";
+        //$('#' + divId).slideDown('slow', function () {
+        //    // the animation is completed... run code
+        //});
 
         currentOpenSluzbenoMisljenjeId = divId;
     }
@@ -617,9 +651,8 @@
 
         <a onclick="myFunction2()" href="#home"><i class="fas fa-align-right" style="color: white;" aria-hidden="true"></i></a>
         <a onclick="myFunction3()" href="~/TekstPropisaPP/StampajPropis/@propis.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
-
-
     </div>
+
     <div class="glavnopolje" id="glavnopolje" style="height:100%">
 
         <div class="glavnopolje" id="sluzbenamisljenjafooterconteiner" style="height:100%;">
@@ -633,7 +666,8 @@
             }
         </div>
 
-        <div id="tekstPropisa" style="width:70%; float:left;">
+        <div id="tekstPropisa" class="scroll">
+            @*<div id="tekstPropisa" class="scroll" style="width:70%; float:left; padding-right:15px;">*@
             @*<div id="tekstPropisa" style="background-color:lightgreen; width:70%; float:left;">*@
 
             <p><a href="~/ProsvetniPropisi/Index/@propis.IdPodrubrike">Врати се на претходну страну</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
@@ -735,8 +769,8 @@
                                                                 @if (sm.Id == psm.IdSluzbenoMisljenje)
                                                                 {
                                                                     <div>
-                                                                        <button onclick="funShowSluzbenoMisljenje(@sm.Id)" class="fa fa-print" style="float:left"></button>
-                                                                        <p><a href="~/TekstPropisaPP/VezeProsvetniPropisSluzbenoMisljenje/@propis.Id/@sm.Id/#@psm.IdClanPP"><i style="float:right"> @sm.Naslov</i></a></p>
+                                                                        <button onclick="funPrikaziLinkoveSluzbenihMisljenja(@sm.Id)" class="fa fa-print" style="float:left"><i> @sm.Naslov</i></button>
+                                                                        @*<p><a href="~/TekstPropisaPP/VezeProsvetniPropisSluzbenoMisljenje/@propis.Id/@sm.Id/#@psm.IdClanPP"><i style="float:right"> @sm.Naslov</i></a></p>*@
                                                                     </div>
                                                                 }
                                                             }
@@ -746,6 +780,7 @@
 
                                                 @if (vezeInAKta.Count > 0)
                                                 {
+                                                    <br />
                                                     <p>ИнАкта</p>
                                                     @foreach (ProsvetniPropisInAkta psm in vezeInAKta)
                                                     {
@@ -831,23 +866,24 @@
 
         </div>
 
-        <div id="poljesluzbenamisljenja" style="float:right; width:30%; background-color:gainsboro; height:auto;">
+        <div id="poljesluzbenamisljenja" style="float:right; width:30%; background-color:gainsboro; height:auto; padding-right: 15px;">
             @*<div id="poljesluzbenamisljenja" style="float:right; width:30%; background-color:lightblue; height:auto;">*@
             <div id="zaglavljesluzbenihmisljenja">
                 @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
                 {
-                    <p style="text-align: center; text-indent: 24pt; line-height: normal; font-size: 9pt; font-family: Calibri, sans-serif;">
-                        <span style="font-size: 9.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                    @*<div id="smLink_@sm.Id" style="visibility:hidden; display: none;">*@
+                    <p id="smLink_@sm.Id" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
+                        <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
                             <a onclick="funShowSluzbenoMisljenje(@sm.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sm.Naslov</i></a>
                         </span>
                         <br />
                     </p>
+                    @*</div>*@
                 }
             </div>
         </div>
 
     </div>
-
 
     <div id="myDIV">
         <ul>
@@ -932,9 +968,6 @@
         <br />
         <h4 style="font-size:17px; color:#565682"><i>ИнАкта:</i></h4>
         <ul>
-
-
-
             @foreach (InAkta sm in inAKta)
             {
 
@@ -944,18 +977,8 @@
                         text-transform: uppercase;
                     }
                 </style>
-
-
-
             }
-
-
-
-
-
         </ul>
-
-
     </div>
     <div id="myDIV2">
         <ul>
@@ -966,4 +989,3 @@
         </ul>
     </div>
 </section>
-
