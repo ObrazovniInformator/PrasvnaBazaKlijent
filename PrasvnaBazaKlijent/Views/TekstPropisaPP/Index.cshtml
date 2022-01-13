@@ -18,9 +18,10 @@
     List<ProsvetniPropisSluzbenoMisljenje> vezeSluzbenaMisljenja = ViewBag.VezeSluzbenaMisljenja;
     List<int?> idStavSmDis = ViewBag.IdStavovaSmDis;
 
-    //sluzbenaMisljenja.Clear();
-
+    Dictionary<int, SluzbenoMisljenje> dictSluzbenaMisljenja = new Dictionary<int, SluzbenoMisljenje>();
+    bool isAdded = false;
 }
+
 
 <style>
     html {
@@ -596,18 +597,24 @@
         }
     }*@
 
-    function funPrikaziLinkoveSluzbenihMisljenja(id) {
+
+
+    function funPrikaziLinkoveSluzbenihMisljenja(clanid, stavid, tackaid ) {
 
         funObrisiLinkoveSluzbenihMisljenja();
 
-        var divId = "smLink_" + id;
-        document.getElementById(divId).style.visibility = "visible";
-        document.getElementById(divId).style.display = "inline";
+        var cllasstring = ".clan_" + clanid + "stav_" + stavid;
+
+        $(cllasstring).each(function () {
+            this.style.visibility = "visible";
+            this.style.display = "inline";
+        });
     }
 
     function funObrisiLinkoveSluzbenihMisljenja() {
 
-        $("#zaglavljesluzbenihmisljenja").find("p").css({ "visibility": "hidden", "display": "none!important" });
+        //$("#zaglavljesluzbenihmisljenja").find("p").css({ "visibility": "collapse", "display": "none!important" });
+        $("#zaglavljesluzbenihmisljenja").find("p").css({ "visibility": "collapse", "display": "none" });
     }
 
 
@@ -759,7 +766,8 @@
 
                                                 @if (sluzbenaMisljenja.Count > 0)
                                                 {
-                                                    <p>Службена мишљења</p>
+                                                    isAdded = false;
+                                                    @*<p>Службена мишљења</p>*@
                                                     @foreach (ProsvetniPropisSluzbenoMisljenje psm in vezeSluzbenaMisljenja)
                                                     {
                                                         @if (psm.IdStavPP == stav.Id)
@@ -769,8 +777,14 @@
                                                                 @if (sm.Id == psm.IdSluzbenoMisljenje)
                                                                 {
                                                                     <div>
-                                                                        <button onclick="funPrikaziLinkoveSluzbenihMisljenja(@sm.Id)" class="fa fa-print" style="float:left"><i> @sm.Naslov</i></button>
-                                                                        @*<p><a href="~/TekstPropisaPP/VezeProsvetniPropisSluzbenoMisljenje/@propis.Id/@sm.Id/#@psm.IdClanPP"><i style="float:right"> @sm.Naslov</i></a></p>*@
+                                                                        @if (isAdded == false)
+                                                                        {
+                                                                            <button onclick="funPrikaziLinkoveSluzbenihMisljenja(@psm.IdClanPP, @psm.IdStavPP, @psm.IdTackaPP)" class="fa fa-print" style="float:left"><i> Службена мишљења</i></button>
+                                                                            isAdded = true;
+                                                                        }
+
+                                                                        @*<button onclick="funPrikaziLinkoveSluzbenihMisljenja(@sm.Id)" class="fa fa-print" style="float:left"><i> @sm.Naslov</i></button>
+                                                                            <p><a href="~/TekstPropisaPP/VezeProsvetniPropisSluzbenoMisljenje/@propis.Id/@sm.Id/#@psm.IdClanPP"><i style="float:right"> @sm.Naslov</i></a></p>*@
                                                                     </div>
                                                                 }
                                                             }
@@ -867,23 +881,45 @@
         </div>
 
         <div id="poljesluzbenamisljenja" style="float:right; width:30%; background-color:gainsboro; height:auto; padding-right: 15px;">
-            @*<div id="poljesluzbenamisljenja" style="float:right; width:30%; background-color:lightblue; height:auto;">*@
             <div id="zaglavljesluzbenihmisljenja">
-                @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+
+                @foreach (ProsvetniPropisSluzbenoMisljenje psm in vezeSluzbenaMisljenja)
                 {
-                    @*<div id="smLink_@sm.Id" style="visibility:hidden; display: none;">*@
-                    <p id="smLink_@sm.Id" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
-                        <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
-                            <a onclick="funShowSluzbenoMisljenje(@sm.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sm.Naslov</i></a>
-                        </span>
-                        <br />
-                    </p>
-                    @*</div>*@
+                    @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+                    {
+                        @if (sm.Id == psm.IdSluzbenoMisljenje)
+                        {
+                            //string classString = String.Format("clan_{0}stav_{1}tacka_{2}", psm.IdClanPP, psm.IdStavPP, psm.IdTackaPP);
+                            string classString = String.Format("clan_{0}stav_{1}", psm.IdClanPP, psm.IdStavPP);
+                            <p id="smLink_@sm.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
+                                <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                    <a onclick="funShowSluzbenoMisljenje(@sm.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sm.Naslov</i></a>
+                                </span>
+                                <br />
+                            </p>
+
+                            @*@if (!dictSluzbenaMisljenja.ContainsKey(@psm.IdClanPP.Value))
+                                dictSluzbenaMisljenja.Add(@psm.IdClanPP.Value, sm);*@
+
+                        }
+                    }
                 }
+
+                @*@foreach (KeyValuePair<int, SluzbenoMisljenje> kvp in dictSluzbenaMisljenja)
+                    {
+                        <p id="smLink_@kvp.Value.Id" class="clan_@kvp.Key" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
+                            <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                <a onclick="funShowSluzbenoMisljenje(@kvp.Value.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@kvp.Value.Naslov</i></a>
+                            </span>
+                            <br />
+                        </p>
+                    }*@
+
             </div>
         </div>
 
     </div>
+
 
     <div id="myDIV">
         <ul>
@@ -962,7 +998,6 @@
                         text-transform: uppercase;
                     }
                 </style>
-
             }
         </ul>
         <br />
@@ -970,7 +1005,6 @@
         <ul>
             @foreach (InAkta sm in inAKta)
             {
-
                 <li><a style="font-size:14px; color:#565682; text-transform: capitalize;" href="~/InAkta/Prikaz/@sm.Id">@sm.Naslov </a></li>
                 <style>
                     .moja ul li a:first-letter {
@@ -989,3 +1023,4 @@
         </ul>
     </div>
 </section>
+
