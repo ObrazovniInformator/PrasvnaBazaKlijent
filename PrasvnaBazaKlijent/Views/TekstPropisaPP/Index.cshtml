@@ -19,9 +19,9 @@
     List<int?> idStavSmDis = ViewBag.IdStavovaSmDis;
 
     Dictionary<int, SluzbenoMisljenje> dictSluzbenaMisljenja = new Dictionary<int, SluzbenoMisljenje>();
-    Dictionary<int, InAkta> dictInAkta = new Dictionary<int, InAkta>();
     bool isAdded = false;
 }
+
 
 <style>
     html {
@@ -38,6 +38,7 @@
         text-align: justify;
         width: 90%;
     }
+
 
     select {
         -webkit-appearance: none;
@@ -57,6 +58,8 @@
 </style>
 
 <style type="text/css">
+
+
     * {
         margin: 0;
         padding: 0;
@@ -187,6 +190,7 @@
         transform: scale(1.0);
     }
 
+
     .action1 {
         position: fixed;
         bottom: 50px;
@@ -282,6 +286,12 @@
             transform: scale(1.0);
         }
 
+
+
+
+
+
+
     .action2 {
         position: fixed;
         bottom: 50px;
@@ -368,7 +378,6 @@
         width: 80% !important;
     }
 </style>
-
 <style>
     .sidebarmoj {
         height: 100%;
@@ -381,6 +390,7 @@
         padding-top: 65px;
         z-index: 1;
     }
+
         /* Style sidebar links */
         .sidebarmoj a {
             padding: 6px 4px 6px 16px;
@@ -389,10 +399,12 @@
             color: #818181;
             display: block;
         }
+
             /* Style links on mouse-over */
             .sidebarmoj a:hover {
                 color: #f1f1f1;
             }
+
     /* Style the main content */
     .main {
         margin-left: 160px; /* Same as the width of the sidenav */
@@ -488,26 +500,46 @@
 
 <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+
+     //function funShowTextSluzbenoMisljenje(clanid, stavid) {
+
+    //    funCloseOpenedText();
+
+    //    var cllasstring = ".smtextclan_" + clanid + "stav_" + stavid;
+
+    //    $(cllasstring).each(function () {
+    //        this.style.visibility = "visible";
+    //        this.style.display = "inline";
+    //    });
+    //}
+
+     //function funCloseOpenedText(clanid, stavid) {
+
+    //    var cllasstring = ".smtextclan_" + clanid + "stav_" + stavid;
+
+    //    $(cllasstring).each(function () {
+    //        this.style.visibility = "hidden";
+    //        this.style.display = "none";
+    //    });
+    //}
+
     $(document).ready(function () {
+
         //alert("test-IN");
+
         if (@sluzbenaMisljenja.Count == 0)
         {
             document.getElementById("poljesluzbenamisljenja").style.display = "none";
             document.getElementById("tekstPropisa").style.width = "100%";
         }
-        if (@inAKta.Count == 0)
-        {
-            document.getElementById("poljeinakta").style.display = "none";
-            document.getElementById("tekstPropisa").style.width = "100%";
-        }
     });
+
 
     function funPrikaziLinkoveSluzbenihMisljenja(clanid, stavid, tackaid ) {
 
         funObrisiLinkoveSluzbenihMisljenja();
-        funObrisiLinkoveInAkta();
 
-        var cllasstring = ".clan_" + clanid + "stav_" + stavid;
+        var cllasstring = ".smlinkclan_" + clanid + "stav_" + stavid;
 
         $(cllasstring).each(function () {
             this.style.visibility = "visible";
@@ -515,74 +547,53 @@
         });
     }
 
-    function funObrisiLinkoveSluzbenihMisljenja() {
 
-        //$("#zaglavljesluzbenihmisljenja").find("p").css({ "visibility": "collapse", "display": "none!important" });
+    function funPrikaziLinkoveInAkta(clanid, stavid, tackaid) {
+
+        funObrisiLinkoveSluzbenihMisljenja();
+
+        var cllasstring = ".ialinkclan_" + clanid + "stav_" + stavid;
+
+        $(cllasstring).each(function () {
+            this.style.visibility = "visible";
+            this.style.display = "inline";
+        });
+    }
+
+
+    function funObrisiLinkoveSluzbenihMisljenja() {
         $("#zaglavljesluzbenihmisljenja").find("p").css({ "visibility": "collapse", "display": "none" });
     }
 
-    var currentOpenSluzbenoMisljenjeId = "";
 
-    function funShowSluzbenoMisljenje(id) {
+    function funShowTextSluzbenoMisljenje(id) {
 
-        funCloseOpenedSluzbenoMisljenje();
+        funCloseOpenedText();
 
         //otvara detalje gore
         var divId = "sluzbenomisljenje_" + id;
         document.getElementById(divId).style.visibility = "visible";
         document.getElementById(divId).style.display = "inline";
-
-        currentOpenSluzbenoMisljenjeId = divId;
     }
 
-    function funCloseOpenedSluzbenoMisljenje() {
-        if (currentOpenSluzbenoMisljenjeId == "")
-            return;
 
-        document.getElementById(currentOpenSluzbenoMisljenjeId).style.visibility = "hidden";
-        document.getElementById(currentOpenSluzbenoMisljenjeId).style.display = "none";
-    }
+    function funShowTextInAkta(id) {
 
-	function funPrikaziLinkoveInAkta(clanid, stavid, tackaid ) {
-
-        funObrisiLinkoveInAkta();
-        funObrisiLinkoveSluzbenihMisljenja();
-
-        var cllasstring = ".clan_" + clanid + "stav_" + stavid;
-
-        $(cllasstring).each(function () {
-            this.style.visibility = "visible";
-            this.style.display = "inline";
-        });
-    }
-
-    function funObrisiLinkoveInAkta() {
-
-        //$("#zaglavljeinakta").find("p").css({ "visibility": "collapse", "display": "none!important" });
-        $("#zaglavljeinakta").find("p").css({ "visibility": "collapse", "display": "none" });
-    }
-
-	var currentOpenInAktaId = "";
-
-    function funShowInAkta(id) {
-
-        funCloseOpenedInAkta();
+        funCloseOpenedText();
 
         //otvara detalje gore
         var divId = "inakta_" + id;
         document.getElementById(divId).style.visibility = "visible";
         document.getElementById(divId).style.display = "inline";
-
-        currentOpenInAktaId = divId;
     }
 
-    function funCloseOpenedInAkta() {
-        if (currentOpenInAktaId == "")
-            return;
 
-        document.getElementById(currentOpenInAktaId).style.visibility = "hidden";
-        document.getElementById(currentOpenInAktaId).style.display = "none";
+    function funCloseOpenedText() {
+
+        $("#selecteddocumenttextcontainer").find("div").css({ "visibility": "collapse", "display": "none" });
     }
+
+
 </script>
 
 <section>
@@ -596,22 +607,20 @@
 
     <div class="glavnopolje" id="glavnopolje" style="height:100%">
 
-        <div class="glavnopolje" id="sluzbenamisljenjafooterconteiner" style="height:100%;">
+        <div class="glavnopolje" id="selecteddocumenttextcontainer" style="height:100%;">
             @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
             {
-                <div class="glavnopolje" id="sluzbenomisljenje_@sm.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
-                    <span id="close" onclick="funCloseOpenedSluzbenoMisljenje()" style="float: right; cursor: pointer;">X</span>
+                <div id="sluzbenomisljenje_@sm.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
+                    <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span>
                     <br />
                     @Html.Raw(@sm.Tekst)
                 </div>
             }
-        </div>
 
-        <div class="glavnopolje" id="inaktafooterconteiner" style="height:100%;">
             @foreach (InAkta ia in inAKta)
             {
-                <div class="glavnopolje" id="inakta_@ia.Id" style="height:100%;  background-color:gray; visibility: hidden; display: none;">
-                    <span id="close" onclick="funCloseOpenedInAkta()" style="float: right; cursor: pointer;">X</span>
+                <div id="inakta_@ia.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
+                    <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span>
                     <br />
                     @Html.Raw(@ia.Tekst)
                 </div>
@@ -652,6 +661,53 @@
                         {
                             if (stav.IdClan == clan.Id)
                             {
+                                @*<table>
+                                        <tr>
+                                            @Html.Raw(stav.Tekst)
+
+                                            @if (idStavovaInAKta.Contains(stav.Id) || idStavSmDis.Contains(stav.Id))
+                                            {
+                                            <td>
+                                                <select onchange="location = this.value;" id="selectid" style=" width:auto; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
+                                                    <option>
+                                                    </option>
+                                                    <optgroup label="Службена мишљења">
+                                                        @foreach (ProsvetniPropisSluzbenoMisljenje psm in vezeSluzbenaMisljenja)
+                                                        {
+                                                            @if (psm.IdStavPP == stav.Id)
+                                                            {
+                                                                @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+                                                                {
+                                                                    @if (sm.Id == psm.IdSluzbenoMisljenje)
+                                                                    {
+                                                                        <option value="/./TekstPropisaPP/VezeProsvetniPropisSluzbenoMisljenje/@propis.Id/@sm.Id/#@psm.IdClanPP"> @sm.Naslov</option>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="ИнАкта">
+                                                        @foreach (ProsvetniPropisInAkta psm in vezeInAKta)
+                                                        {
+                                                            @if (psm.IdStavPP == stav.Id)
+                                                            {
+
+                                                                @foreach (InAkta sm in inAKta)
+                                                                {
+                                                                    if (sm.Id == psm.IdInAkta && psm.IdTackaPP == 0)
+                                                                    {
+                                                                        <option value="/./TekstPropisaPP/VezaProsvetniPropisInAkta/@propis.Id/@sm.Id/#@psm.IdClanPP"> @sm.Naslov</option>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                </select>
+                                            </td>
+                                            }
+                                        </tr>
+                                    </table>*@
+
                                 <table>
                                     <tr>
                                         @Html.Raw(stav.Tekst)
@@ -659,6 +715,9 @@
                                         @if (idStavovaInAKta.Contains(stav.Id) || idStavSmDis.Contains(stav.Id))
                                         {
                                             <td>
+                                                @*<select onchange="location = this.value;" id="selectid" style=" width:auto; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">*@
+                                                @*<select onchange="funShowSluzbenoMisljenje(this.value);" id="selectid" style=" width:auto; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">*@
+
                                                 @if (sluzbenaMisljenja.Count > 0)
                                                 {
                                                     isAdded = false;
@@ -683,23 +742,25 @@
                                                         }
                                                     }
                                                 }
-                                                <br />
-                                                @if (inAKta.Count > 0)
+
+                                                @if (vezeInAKta.Count > 0)
                                                 {
+                                                    <br />
                                                     isAdded = false;
                                                     @*<p>ИнАкта</p>*@
-                                                    @foreach (ProsvetniPropisInAkta pia in vezeInAKta)
+                                                    @foreach (ProsvetniPropisInAkta psm in vezeInAKta)
                                                     {
-                                                        @if (pia.IdStavPP == stav.Id)
+                                                        @if (psm.IdStavPP == stav.Id)
                                                         {
-                                                            @foreach (InAkta ia in inAKta)
+
+                                                            @foreach (InAkta sm in inAKta)
                                                             {
-                                                                if (ia.Id == pia.IdInAkta)
+                                                                if (sm.Id == psm.IdInAkta && psm.IdTackaPP == 0)
                                                                 {
                                                                     <div>
                                                                         @if (isAdded == false)
                                                                         {
-                                                                            <button onclick="funPrikaziLinkoveInAkta(@pia.IdClanPP, @pia.IdStavPP, @pia.IdTackaPP)" class="fa fa-print" style="float:left"><i> ИнАкта</i></button>
+                                                                            <button onclick="funPrikaziLinkoveInAkta(@psm.IdClanPP, @psm.IdStavPP, @psm.IdTackaPP)" class="fa fa-print" style="float:left"><i> ИнАкта </i></button>
                                                                             isAdded = true;
                                                                         }
                                                                     </div>
@@ -775,52 +836,54 @@
         </div>
 
         <div id="poljesluzbenamisljenja" style="float:right; width:30%; background-color:gainsboro; height:auto; padding-right: 15px;">
-
             <div id="zaglavljesluzbenihmisljenja">
 
                 @foreach (ProsvetniPropisSluzbenoMisljenje psm in vezeSluzbenaMisljenja)
                 {
-                    @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
-                    {
-                        @if (sm.Id == psm.IdSluzbenoMisljenje)
+                    @*@foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
                         {
-                            //string classString = String.Format("clan_{0}stav_{1}tacka_{2}", psm.IdClanPP, psm.IdStavPP, psm.IdTackaPP);
-                            string classString = String.Format("clan_{0}stav_{1}", psm.IdClanPP, psm.IdStavPP);
-                            <p id="smLink_@sm.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
-                                <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
-                                    <a onclick="funShowSluzbenoMisljenje(@sm.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sm.Naslov</i></a>
-                                </span>
-                                <br />
-                            </p>
+                            @if (sm.Id == psm.IdSluzbenoMisljenje)
+                            {
+                                string classString = String.Format("linkclan_{0}stav_{1}", psm.IdClanPP, psm.IdStavPP);
+                                <p id="smLink_@sm.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
+                                    <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                        <a onclick="funShowTextSluzbenoMisljenje(@sm.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sm.Naslov</i></a>
+                                    </span>
+                                    <br />
+                                </p>
+                            }
+                        }*@
 
-                        }
+                    SluzbenoMisljenje sm = sluzbenaMisljenja.FirstOrDefault(x => x.Id == psm.IdSluzbenoMisljenje);
+
+                    @if (sm != null)
+                    {
+                        string classString = String.Format("smlinkclan_{0}stav_{1}", psm.IdClanPP, psm.IdStavPP);
+                        <p id="smLink_@sm.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
+                            <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                <a onclick="funShowTextSluzbenoMisljenje(@sm.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sm.Naslov</i></a>
+                            </span>
+                            <br />
+                        </p>
                     }
                 }
-            </div>
-        </div>
 
-        <div id="poljeinakta" style="float:right; width:30%; background-color:gray; height:auto; padding-right: 15px;">
-
-            <div id="zaglavljeinakta">
-
-                @foreach (ProsvetniPropisInAkta pia in vezeInAKta)
+                @foreach (ProsvetniPropisInAkta via in vezeInAKta)
                 {
-                    @foreach (InAkta ia in inAKta)
-                    {
-                        @if (ia.Id == pia.IdInAkta)
-                        {
-                            //string classString = String.Format("clan_{0}stav_{1}tacka_{2}", pia.IdClanPP, pia.IdStavPP, pia.IdTackaPP);
-                            string classString = String.Format("clan_{0}stav_{1}", pia.IdClanPP, pia.IdStavPP);
-                            <p id="iaLink_@ia.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
-                                <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
-                                    <a onclick="funShowInAkta(@ia.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@ia.Naslov</i></a>
-                                </span>
-                                <br />
-                            </p>
-                        }
-                    }
-                }
+                    InAkta ia = inAKta.FirstOrDefault(x => x.Id == via.IdInAkta);
 
+                    @if (ia.Id == via.IdInAkta)
+                    {
+                        string classString = String.Format("ialinkclan_{0}stav_{1}", via.IdClanPP, via.IdStavPP);
+                        <p id="iaLink_@ia.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
+                            <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                <a onclick="funShowTextInAkta(@ia.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@ia.Naslov</i></a>
+                            </span>
+                            <br />
+                        </p>
+                    }
+
+                }
             </div>
         </div>
 
@@ -910,6 +973,9 @@
         <br />
         <h4 style="font-size:17px; color:#565682"><i>ИнАкта:</i></h4>
         <ul>
+
+
+
             @foreach (InAkta sm in inAKta)
             {
 
@@ -919,8 +985,18 @@
                         text-transform: uppercase;
                     }
                 </style>
+
+
+
             }
+
+
+
+
+
         </ul>
+
+
     </div>
     <div id="myDIV2">
         <ul>
@@ -931,4 +1007,3 @@
         </ul>
     </div>
 </section>
-
