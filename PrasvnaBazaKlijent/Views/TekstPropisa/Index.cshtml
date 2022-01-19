@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
     Propis propis = (Propis)ViewBag.Propis;
     List<Podnaslov> podnaslovi = (List<Podnaslov>)ViewBag.Podnaslovi;
-   
+
     List<Clan> clanovi = (List<Clan>)ViewBag.Clanovi;
     List<Stav> stavovi = (List<Stav>)ViewBag.Stavovi;
     List<Tacka> tacke = (List<Tacka>)ViewBag.Tacke;
@@ -21,6 +21,7 @@
     List<PropisSudskaPraksa> vezeSudskaPraksa = ViewBag.VezeSudskaPraksa;
     List<SudskaPraksa> sudskaPraksa = ViewBag.SudskaPraksa;
     List<int> sudskaPraksaStavoviDis = ViewBag.SPStavoviDis;
+    bool isAdded = false;
 
 }
 
@@ -37,6 +38,7 @@
         padding-left: 15px;
         padding-right: 15px;
         text-align: justify;
+        width: 90%;
     }
 
 
@@ -70,7 +72,15 @@
         min-height: 100vh;
     }
 
-
+    div.scroll {
+        width: 70%;
+        float: left;
+        padding-right: 15px;
+        height: 1080px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 20px;
+    }
 
 
     li p {
@@ -101,37 +111,183 @@
         align-items: center;
         padding: 7px 0;
     }
-    
+
     select {
-        outline:none;
-        width:100px;
+        outline: none;
+        width: 100px;
     }
 </style>
 
 
+
+
+@*<section>*@
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .gotopbtn {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        opacity: 30;
+        background: white;
+        bottom: 40px;
+        left: 300px;
+        border-radius: 35px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+        text-decoration: none;
+        text-align: center;
+        line-height: 50px;
+        color: black;
+        font-size: 22px;
+    }
+
+    .sidebarmoj {
+        height: 100%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        background-color: #565682;
+        overflow-x: hidden;
+        padding-top: 65px;
+        z-index: 1;
+    }
+        /* Style sidebar links */
+        .sidebarmoj a {
+            padding: 6px 4px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+        }
+            /* Style links on mouse-over */
+            .sidebarmoj a:hover {
+                color: #f1f1f1;
+            }
+    /* Style the main content */
+    .main {
+        margin-left: 160px; /* Same as the width of the sidenav */
+        padding: 0px 10px;
+    }
+
+    #myDIV {
+        width: 20%;
+        height: 90vh;
+        float: right;
+        list-style: none;
+        padding: 10px;
+        border-radius: 5px;
+        top: 73px;
+        display: none;
+        position: fixed;
+        box-shadow: 0 1px 4px 0;
+        right: 30px;
+        overflow: scroll;
+    }
+
+        #myDIV li {
+            list-style: none;
+            font-family: InfluBG;
+            text-transform: capitalize;
+            padding-right: 20px;
+        }
+
+    #myDIV1 {
+        width: 20%;
+        height: 90vh;
+        float: right;
+        list-style: none;
+        padding: 10px;
+        border-radius: 5px;
+        top: 73px;
+        display: none;
+        position: fixed;
+        box-shadow: 0 1px 4px 0;
+        right: 30px;
+        overflow: scroll;
+    }
+
+        #myDIV1 li {
+            list-style: none;
+            font-family: InfluBG;
+            text-transform: capitalize;
+            padding-right: 20px;
+        }
+
+    #myDIV2 {
+        width: 20%;
+        height: 90vh;
+        float: right;
+        list-style: none;
+        padding: 10px;
+        border-radius: 5px;
+        top: 73px;
+        display: none;
+        position: fixed;
+        box-shadow: 0 1px 4px 0;
+        right: 30px;
+        overflow: scroll;
+    }
+
+        #myDIV2 li {
+            list-style: none;
+            font-family: InfluBG;
+            text-transform: capitalize;
+            padding-right: 20px;
+        }
+
+            #myDIV2 li p {
+                list-style: none;
+                font-family: InfluBG !important;
+                text-transform: initial !important;
+                font-weight: 100;
+                text-align: left !important;
+                padding-right: 20px;
+                font-style: normal !important;
+            }
+
+            #myDIV2 li span {
+                list-style: none;
+                font-family: InfluBG !important;
+                text-transform: initial !important;
+                font-weight: 100;
+                text-align: left !important;
+                padding-right: 20px;
+                font-style: normal !important;
+            }
+
+    option {
+        width: 250px;
+    }
+</style>
+
+<script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     function myFunction() {
-        var x = document.getElementById("myDIV");
-        var z = document.getElementById("glavnopolje");
-        if (x.style.display === "block") {
-            x.style.display = "none";
-            z.setAttribute('style', 'width:90%');
+        //var x = document.getElementById("myDIV");
+        //var z = document.getElementById("glavnopolje");
+        //if (x.style.display === "block") {
+        //    x.style.display = "none";
+        //    z.setAttribute('style', 'width:90%');
 
 
-        } else {
-            x.style.display = "block";
-            z.setAttribute('style', 'width:70%');
-            document.getElementById('myDIV1').style.display = "none";
-            document.getElementById('myDIV2').style.display = "none";
-            document.getElementById('myDIV3').style.display = "none";
-            //documnent.getElementById('glavnopolje'.style.display=)
-        }
+        //} else {
+        //    x.style.display = "block";
+        //    z.setAttribute('style', 'width:70%');
+        //    document.getElementById('myDIV1').style.display = "none";
+        //    document.getElementById('myDIV2').style.display = "none";
+        //    document.getElementById('myDIV3').style.display = "none";
+        //    //documnent.getElementById('glavnopolje'.style.display=)
+       // }
     }
 
     @*window.load = function mojafunkcija() {
         var d = new Date("@propis.DatumStupanjaNaSnaguOsnovnogTekstaPropisa");
         document.getElementById("demo").innerHTML = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
-      
+
 
     }*@
     @*window.onload = function mojafunkcija1() {
@@ -165,20 +321,20 @@
         document.getElementById("demo7").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
     }*@
 
-    function myFunction1() {
-        var x = document.getElementById("myDIV1");
-        var z = document.getElementById("glavnopolje");
-        if (x.style.display === "block") {
-            x.style.display = "none";
-            z.setAttribute('style', 'width:90%');
-        } else {
-            x.style.display = "block";
-            z.setAttribute('style', 'width:70%');
-            document.getElementById('myDIV').style.display = "none";
-            document.getElementById('myDIV2').style.display = "none";
-            document.getElementById('myDIV3').style.display = "none";
-        }
-    }
+    //function myFunction1() {
+    //    var x = document.getElementById("myDIV1");
+    //    var z = document.getElementById("glavnopolje");
+    //    if (x.style.display === "block") {
+    //        x.style.display = "none";
+    //        z.setAttribute('style', 'width:90%');
+    //    } else {
+    //        x.style.display = "block";
+    //        z.setAttribute('style', 'width:70%');
+    //        document.getElementById('myDIV').style.display = "none";
+    //        document.getElementById('myDIV2').style.display = "none";
+    //        document.getElementById('myDIV3').style.display = "none";
+    //    }
+    //}
     function myFunction2() {
         var x = document.getElementById("myDIV2");
         var z = document.getElementById("glavnopolje");
@@ -210,312 +366,449 @@
         if (x.textContent.length > 20)
             x.textContent = x.textContent.substring(0, 20) + '...';
     })
-</script>
-<script>
-    $(document).click(function (e) {
-        if (!$(e.target).hasClass("action")
-            && $(e.target).parents(".kopriva").length === 0) {
-            $(".kopriva").hide();
-        }
+
+
+    $(document).ready(function () {
+
+    //alert("test-IN");
+
+    if (@sluzbenaMisljenja.Count == 0)
+    {
+        //document.getElementById("poljesluzbenamisljenja").style.display = "none";
+        //document.getElementById("tekstPropisa").style.width = "100%";
+    }
+    });
+
+
+    function funPrikaziLinkoveSluzbenihMisljenja(clanid, stavid, tackaid ) {
+
+        funObrisiLinkoveSluzbenihMisljenja();
+
+        var cllasstring = ".smlinkclan_" + clanid + "stav_" + stavid;
+
+        $(cllasstring).each(function () {
+            this.style.visibility = "visible";
+            this.style.display = "inline";
+        });
+    }
+
+
+    function funPrikaziLinkoveInAkta(clanid, stavid, tackaid) {
+
+        funObrisiLinkoveSluzbenihMisljenja();
+
+        var cllasstring = ".ialinkclan_" + clanid + "stav_" + stavid;
+
+        $(cllasstring).each(function () {
+            this.style.visibility = "visible";
+            this.style.display = "inline";
+        });
+    }
+
+    function funPrikaziLinkoveSudskaPraksa(clanid, stavid, tackaid) {
+
+        funObrisiLinkoveSluzbenihMisljenja();
+
+        var cllasstring = ".splinkclan_" + clanid + "stav_" + stavid;
+
+        $(cllasstring).each(function () {
+            this.style.visibility = "visible";
+            this.style.display = "inline";
+        });
+    }
+
+
+    function funObrisiLinkoveSluzbenihMisljenja() {
+        $("#zaglavljesluzbenihmisljenja").find("p").css({ "visibility": "collapse", "display": "none" });
+    }
+
+
+    function funShowTextSluzbenoMisljenje(id) {
+
+        funCloseOpenedText();
+
+        //otvara detalje gore
+        var divId = "sluzbenomisljenje_" + id;
+        document.getElementById(divId).style.visibility = "visible";
+        document.getElementById(divId).style.display = "inline";
+    }
+
+
+    function funShowTextInAkta(id) {
+
+        funCloseOpenedText();
+
+        //otvara detalje gore
+        var divId = "inakta_" + id;
+        document.getElementById(divId).style.visibility = "visible";
+        document.getElementById(divId).style.display = "inline";
+    }
+
+
+    function funShowTextSudskaPraksa(id) {
+
+        funCloseOpenedText();
+
+        //otvara detalje gore
+        var divId = "sudskapraksa_" + id;
+        document.getElementById(divId).style.visibility = "visible";
+        document.getElementById(divId).style.display = "inline";
+    }
+
+
+    function funCloseOpenedText() {
+
+        $("#selecteddocumenttextcontainer").find("div").css({ "visibility": "collapse", "display": "none" });
     }
 </script>
+
+@*<script>
+        $(document).click(function (e) {
+            if (!$(e.target).hasClass("action")
+                && $(e.target).parents(".kopriva").length === 0) {
+                $(".kopriva").hide();
+            }
+        }
+    </script>*@
 <section>
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
-        .gotopbtn {
-            position: fixed;
-            width: 50px;
-            height: 50px;
-            opacity: 30;
-            background: white;
-            bottom: 40px;
-            left: 300px;
-            border-radius: 35px;
-            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
-            text-decoration: none;
-            text-align: center;
-            line-height: 50px;
-            color: black;
-            font-size: 22px;
-        }
-        .sidebarmoj {
-            height: 100%;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            right: 0;
-            background-color: #565682;
-            overflow-x: hidden;
-            padding-top: 65px;
-            z-index: 1;
-        }
-            /* Style sidebar links */
-            .sidebarmoj a {
-                padding: 6px 4px 6px 16px;
-                text-decoration: none;
-                font-size: 20px;
-                color: #818181;
-                display: block;
-            }
-                /* Style links on mouse-over */
-                .sidebarmoj a:hover {
-                    color: #f1f1f1;
-                }
-        /* Style the main content */
-        .main {
-            margin-left: 160px; /* Same as the width of the sidenav */
-            padding: 0px 10px;
-        }
-        #myDIV {
-            width: 20%;
-            height: 90vh;
-            float: right;
-            list-style: none;
-            padding: 10px;
-            border-radius: 5px;
-            top: 73px;
-            display: none;
-            position: fixed;
-            box-shadow: 0 1px 4px 0;
-            right: 30px;
-            overflow: scroll;
-        }
-            #myDIV li {
-                list-style: none;
-                font-family: InfluBG;
-                text-transform: capitalize;
-                padding-right: 20px;
-            }
-        #myDIV1 {
-            width: 20%;
-            height: 90vh;
-            float: right;
-            list-style: none;
-            padding: 10px;
-            border-radius: 5px;
-            top: 73px;
-            display: none;
-            position: fixed;
-            box-shadow: 0 1px 4px 0;
-            right: 30px;
-            overflow: scroll;
-        }
-            #myDIV1 li {
-                list-style: none;
-                font-family: InfluBG;
-                text-transform: capitalize;
-                padding-right: 20px;
-            }
-        #myDIV2 {
-            width: 20%;
-            height: 90vh;
-            float: right;
-            list-style: none;
-            padding: 10px;
-            border-radius: 5px;
-            top: 73px;
-            display: none;
-            position: fixed;
-            box-shadow: 0 1px 4px 0;
-            right: 30px;
-            overflow: scroll;
-        }
-
-            #myDIV2 li {
-                list-style: none;
-                font-family: InfluBG;
-                text-transform: capitalize;
-                padding-right: 20px;
-            }
-
-                #myDIV2 li p {
-                    list-style: none;
-                    font-family: InfluBG !important;
-                    text-transform: initial !important;
-                    font-weight: 100;
-                    text-align: left !important;
-                    padding-right: 20px;
-                    font-style: normal !important;
-                }
-                #myDIV2 li span {
-                    list-style: none;
-                    font-family: InfluBG !important;
-                    text-transform: initial !important;
-                    font-weight: 100;
-                    text-align: left !important;
-                    padding-right: 20px;
-                    font-style: normal !important;
-                }
-        option {
-            width: 250px;
-        }
-    </style>
-
     <div class="sidebarmoj">
         <a onclick="myFunction()" href="#home"><i class="far fa-lightbulb" style="padding-left: 4px; color: white;" aria-hidden="true"></i></a>
-        <a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>
+        @*<a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>*@
         <a onclick="myFunction2()" href="#home"><i class="fas fa-align-right" style="color: white;" aria-hidden="true"></i></a>
         <a onclick="myFunction3()" href="~/TekstPropisa/StampajPropis/@propis.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
 
 
     </div>
 
-    <div class="glavnopolje" id="glavnopolje" style="width:90%; margin-left:2%!important; box-shadow: 0 1px 4px 0; padding-left: 10px;
-
-    padding-right: 10px;">
-        <a class="gotopbtn" href="#"> <i class="fas fa-arrow-up"></i> </a>
-
-
-        <p><a href="~/Propis/Index/@propis.IdPodrubrike">Врати се подрубрику којој пропис припада</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
-
-
-        @*<p>@Html.Raw(@propis.Preambula)</p>*@
-        <h1 style="width:100%;
-             margin: 0 auto;
-
-             text-align: center;">
-            @propis.Naslov
-
-        </h1><br />
-        <br />
-        <h4 style=" justify-content:center;
-        text-align: center;">
-            @propis.GlasiloIdatumObjavljivanja
-        </h4>
-
-        @foreach (Podnaslov podnaslov in podnaslovi)
-        {
-            <span id="@podnaslov.Id"></span>
-            @Html.Raw(podnaslov.PodnaslovTekst)
-            @foreach (Clan clan in clanovi)
+    <div class="glavnopolje" id="glavnopolje">
+        <div class="glavnopolje" id="selecteddocumenttextcontainer" style="height:100%;">
+            @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
             {
-                if (clan.IdPodnaslov == podnaslov.Id)
+                <div id="sluzbenomisljenje_@sm.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
+                    <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span>
+                    <br />
+                    @Html.Raw(@sm.Tekst)
+                </div>
+            }
+
+            @foreach (InAkta ia in inAkta)
+            {
+                <div id="inakta_@ia.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
+                    <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span>
+                    <br />
+                    @Html.Raw(@ia.Tekst)
+                </div>
+            }
+
+            @foreach (SudskaPraksa sp in sudskaPraksa)
+            {
+                <div id="sudskapraksa_@sp.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
+                    <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span>
+                    <br />
+                    @Html.Raw(@sp.Tekst)
+                </div>
+            }
+        </div>
+
+        <div id="tekstPropisa" class="scroll">
+
+            <a class="gotopbtn" href="#"> <i class="fas fa-arrow-up"></i> </a>
+            <p>
+                <a style="float:left" href="~/Propis/Index/@propis.IdPodrubrike">Врати се подрубрику којој пропис припада</a>
+                <a style="float:right">За претрагу текста користити: CTRL+F</a>
+            </p>
+
+            @*<p>@Html.Raw(@propis.Preambula)</p>*@
+            <h1 style="width:100%; margin: 0 auto; text-align: center;"> @propis.Naslov</h1>
+            <br />
+            <br />
+            <h4 style=" justify-content:center; text-align: center;"> @propis.GlasiloIdatumObjavljivanja</h4>
+
+            @foreach (Podnaslov podnaslov in podnaslovi)
+            {
+                <span id="@podnaslov.Id"></span>
+                @Html.Raw(podnaslov.PodnaslovTekst)
+                @foreach (Clan clan in clanovi)
                 {
-                    <p style="text-align: center; text-indent: 24pt; line-height: normal; background: white; font-size: 13pt; font-family: Calibri, sans-serif;">
-                        <span style="font-size: 9.0pt; font-family: Verdana, sans-serif; color: #333333;">
-                            @Html.Raw(clan.Naziv)
-                        </span><br />
-                    </p>
-
-                    @foreach (Stav stav in stavovi)
+                    if (clan.IdPodnaslov == podnaslov.Id)
                     {
-                        if (stav.IdClan == clan.Id)
+                        <p style="text-align: center; text-indent: 24pt; line-height: normal; background: white; font-size: 13pt; font-family: Calibri, sans-serif;">
+                            <span style="font-size: 9.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                @Html.Raw(clan.Naziv)
+                            </span><br />
+                        </p>
+
+                        @foreach (Stav stav in stavovi)
                         {
-                            <table>
-                                <tr>
-                                    <td>
-                                        <span id="@stav.Id"> @Html.Raw(stav.Tekst)</span>
-                                    </td>
-                                    @*@for (int i = 0; i < duzinaIdStavosaPsm; i++)
-                                        {*@
-                                    @if (idStavovaPSM.Contains(stav.Id) || inAktaStavoviDis.Contains(stav.Id) || sudskaPraksaStavoviDis.Contains(stav.Id))
-                                    {
+                            if (stav.IdClan == clan.Id)
+                            {
+                                #region oldCode
+                                /*
+                                <table>
+                                    <tr>
                                         <td>
-                                            <select name="select" onchange="location = this.value;" id="selectid" style=" width:25px; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
+                                            <span id="@stav.Id"> @Html.Raw(stav.Tekst)</span>
+                                        </td>
+                                        @*@for (int i = 0; i < duzinaIdStavosaPsm; i++)
+                                            {*@
+                                        @if (idStavovaPSM.Contains(stav.Id) || inAktaStavoviDis.Contains(stav.Id) || sudskaPraksaStavoviDis.Contains(stav.Id))
+                                        {
+                                            <td>
+                                                <select name="select" onchange="location = this.value;" id="selectid" style=" width:25px; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
 
-                                                <option>
-                                                </option>
-                                                @if (idStavovaPSM != null)
-                                                {
-                                                    <optgroup label="Службена Мишљења">
-                                                        @foreach (PropisSluzbenoMisljenje psm in vezeSluzbenoMisljenje)
-                                                        {
-                                                            @if (psm.IdStav == stav.Id)
+                                                    <option>
+                                                    </option>
+                                                    @if (idStavovaPSM != null)
+                                                    {
+                                                        <optgroup label="Службена Мишљења Мишљења">
+                                                            @foreach (PropisSluzbenoMisljenje psm in vezeSluzbenoMisljenje)
                                                             {
-
-                                                                @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+                                                                @if (psm.IdStav == stav.Id)
                                                                 {
-                                                                    if (sm.Id == psm.IdSluzbenoMisljenje)
+
+                                                                    @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
                                                                     {
+                                                                        if (sm.Id == psm.IdSluzbenoMisljenje)
+                                                                        {
 
 
-                                                                        <option class="short" data-limit="37" value="/./TekstPropisa/VezaPropisSm/@propis.Id/@sm.Id/#@psm.IdStav"> @sm.Naslov</option>
+                                                                            <option class="short" data-limit="37" value="/./TekstPropisa/VezaPropisSm/@propis.Id/@sm.Id/#@psm.IdStav"> @sm.Naslov</option>
 
 
 
+                                                                        }
                                                                     }
-                                                                }
 
-                                                            }
-                                                        }
-                                                    </optgroup>
-                                                }
-
-                                                @if (inAktaStavoviDis != null)
-                                                {
-                                                    <optgroup label="ИнАкта">
-                                                        @foreach (PropisInAkta propisInAkta in vezePropisInAkta)
-                                                        {
-                                                            @if (propisInAkta.IdStav == stav.Id)
-                                                            {
-                                                                @foreach (InAkta ina in inAkta)
-                                                                {
-                                                                    @if (ina.Id == propisInAkta.IdInAkta)
-                                                                    {
-                                                                        <option value="/./TekstPropisa/VezaPropisInAkta/@propis.Id/@ina.Id/#@propisInAkta.IdStav"> @ina.Naslov</option>
-                                                                    }
                                                                 }
                                                             }
-                                                        }
-                                                    </optgroup>
-                                                }
-                                                @if (sudskaPraksaStavoviDis != null)
-                                                {
-                                                    <optgroup label="Судска пракса">
-                                                        @foreach (PropisSudskaPraksa psp in vezeSudskaPraksa)
-                                                        {
-                                                            @if (psp.IdStav == stav.Id)
+                                                        </optgroup>
+                                                    }
+
+                                                    @if (inAktaStavoviDis != null)
+                                                    {
+                                                        <optgroup label="ИнАкта">
+                                                            @foreach (PropisInAkta propisInAkta in vezePropisInAkta)
                                                             {
-                                                                @foreach (SudskaPraksa sp in sudskaPraksa)
+                                                                @if (propisInAkta.IdStav == stav.Id)
                                                                 {
-                                                                    @if (sp.Id == psp.IdSudskaPraksa)
+                                                                    @foreach (InAkta ina in inAkta)
                                                                     {
-                                                                        <option value="/./TekstPropisa/VezaPropisSP/@propis.Id/@sp.Id/#@psp.IdStav"> @sp.Naslov</option>
+                                                                        @if (ina.Id == propisInAkta.IdInAkta)
+                                                                        {
+                                                                            <option value="/./TekstPropisa/VezaPropisInAkta/@propis.Id/@ina.Id/#@propisInAkta.IdStav"> @ina.Naslov</option>
+                                                                        }
                                                                     }
                                                                 }
                                                             }
-                                                        }
-                                                    </optgroup>
-                                                }
+                                                        </optgroup>
+                                                    }
+                                                    @if (sudskaPraksaStavoviDis != null)
+                                                    {
+                                                        <optgroup label="Судска пракса">
+                                                            @foreach (PropisSudskaPraksa psp in vezeSudskaPraksa)
+                                                            {
+                                                                @if (psp.IdStav == stav.Id)
+                                                                {
+                                                                    @foreach (SudskaPraksa sp in sudskaPraksa)
+                                                                    {
+                                                                        @if (sp.Id == psp.IdSudskaPraksa)
+                                                                        {
+                                                                            <option value="/./TekstPropisa/VezaPropisSP/@propis.Id/@sp.Id/#@psp.IdStav"> @sp.Naslov</option>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        </optgroup>
+                                                    }
 
-                                            </select>
+                                                </select>
+                                            </td>
+                                        }
+                                    </tr>
+                                </table>
+                                */
+                                #endregion
+
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <span id="@stav.Id"> @Html.Raw(stav.Tekst)</span>
                                         </td>
 
 
+                                        @if (idStavovaPSM.Contains(stav.Id) || inAktaStavoviDis.Contains(stav.Id) || sudskaPraksaStavoviDis.Contains(stav.Id))
+                                        {
+                                            <td>
+                                                @if (idStavovaPSM != null)
+                                                {
+                                                    isAdded = false;
+
+                                                    @foreach (PropisSluzbenoMisljenje vez in vezeSluzbenoMisljenje)
+                                                    {
+                                                        @if (vez.IdStav == stav.Id)
+                                                        {
+
+                                                            @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+                                                            {
+                                                                if (sm.Id == vez.IdSluzbenoMisljenje)
+                                                                {
+                                                                    <div>
+                                                                        @if (isAdded == false)
+                                                                        {
+                                                                            <button onclick="funPrikaziLinkoveSluzbenihMisljenja(@vez.IdClan, @vez.IdStav, @vez.IdTacka)" class="fa fa-print" style="float:left"><i> Службена мишљења</i></button>
+                                                                            isAdded = true;
+                                                                        }
+                                                                    </div>
+                                                                }
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                }
 
 
+                                                @if (inAktaStavoviDis != null)
+                                                {
+                                                    isAdded = false;
+
+                                                    @foreach (PropisInAkta vez in vezePropisInAkta)
+                                                    {
+                                                        @if (vez.IdStav == stav.Id)
+                                                        {
+                                                            @foreach (InAkta ina in inAkta)
+                                                            {
+                                                                @if (ina.Id == vez.IdInAkta)
+                                                                {
+                                                                    <div>
+                                                                        @if (isAdded == false)
+                                                                        {
+                                                                            <button onclick="funPrikaziLinkoveInAkta(@vez.IdClan, @vez.IdStav, @vez.IdTacka)" class="fa fa-print" style="float:left"><i> ИнАкта </i></button>
+                                                                            isAdded = true;
+                                                                        }
+                                                                    </div>
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+
+                                                @if (sudskaPraksaStavoviDis != null)
+                                                {
+                                                    isAdded = false;
+
+                                                    @foreach (PropisSudskaPraksa vez in vezeSudskaPraksa)
+                                                    {
+                                                        @if (vez.IdStav == stav.Id)
+                                                        {
+                                                            @foreach (SudskaPraksa sp in sudskaPraksa)
+                                                            {
+                                                                @if (sp.Id == vez.IdSudskaPraksa)
+                                                                {
+                                                                    <div>
+                                                                        @if (isAdded == false)
+                                                                        {
+                                                                            <button onclick="funPrikaziLinkoveSudskaPraksa(@vez.IdClan, @vez.IdStav, @vez.IdTacka)" class="fa fa-print" style="float:left"><i> Судска пракса </i></button>
+                                                                            isAdded = true;
+                                                                        }
+                                                                    </div>
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            </td>
+                                        }
+                                    </tr>
+                                </table>
+
+                                @foreach (Tacka tacka in tacke)
+                                {
+                                    if (tacka.IdStav == stav.Id)
+                                    {
+                                        @Html.Raw(tacka.Tekst);
                                     }
-                                </tr>
-                            </table>
-
-
-                            @foreach (Tacka tacka in tacke)
-                            {
-                                if (tacka.IdStav == stav.Id)
-                                {
-                                    @Html.Raw(tacka.Tekst);
                                 }
-                            }
 
-                            @foreach (Alineja alineja in alineje)
-                            {
-                                if (alineja.IdStav == stav.Id)
+                                @foreach (Alineja alineja in alineje)
                                 {
-                                    @Html.Raw(alineja.Tekst);
+                                    if (alineja.IdStav == stav.Id)
+                                    {
+                                        @Html.Raw(alineja.Tekst);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
 
-        @Html.Raw(@propis.TekstPropisa)
+            @Html.Raw(@propis.TekstPropisa)
+        </div>
 
+        <div id="poljesluzbenamisljenja" style="float:right; width:30%; background-color:gainsboro; height:auto; padding-right: 15px;">
+            <div id="zaglavljesluzbenihmisljenja">
 
+                @foreach (PropisSluzbenoMisljenje psm in vezeSluzbenoMisljenje)
+                {
+                    SluzbenoMisljenje sm = sluzbenaMisljenja.FirstOrDefault(x => x.Id == psm.IdSluzbenoMisljenje);
+
+                    @if (sm != null)
+                    {
+                        string classString = String.Format("smlinkclan_{0}stav_{1}", psm.IdClan, psm.IdStav);
+                        <p id="smLink_@sm.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
+                            <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                <a onclick="funShowTextSluzbenoMisljenje(@sm.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sm.Naslov</i></a>
+                            </span>
+                            <br />
+                        </p>
+                    }
+                }
+
+                @foreach (PropisInAkta via in vezePropisInAkta)
+                {
+                    InAkta ia = inAkta.FirstOrDefault(x => x.Id == via.IdInAkta);
+
+                    @if (ia.Id == via.IdInAkta)
+                    {
+                        string classString = String.Format("ialinkclan_{0}stav_{1}", via.IdClan, via.IdStav);
+                        <p id="iaLink_@ia.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
+                            <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                <a onclick="funShowTextInAkta(@ia.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@ia.Naslov</i></a>
+                            </span>
+                            <br />
+                        </p>
+                    }
+                }
+
+                @foreach (PropisSudskaPraksa vez in vezeSudskaPraksa)
+                {
+                    SudskaPraksa sp = sudskaPraksa.FirstOrDefault(x => x.Id == vez.IdSudskaPraksa);
+
+                    @if (sp.Id == vez.IdSudskaPraksa)
+                    {
+                        string classString = String.Format("splinkclan_{0}stav_{1}", vez.IdClan, vez.IdStav);
+                        <p id="spLink_@sp.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
+                            <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                <a onclick="funShowTextSudskaPraksa(@sp.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sp.Naslov</i></a>
+                            </span>
+                            <br />
+                        </p>
+                    }
+                }
+            </div>
+        </div>
     </div>
+
+
+
+
+
+
+
+
+
     <div id="myDIV2">
         <ul>
             @foreach (Podnaslov p in podnaslovi)
@@ -524,6 +817,7 @@
             }
         </ul>
     </div>
+
     <div id="myDIV">
         <div>
             <ul>
@@ -607,8 +901,8 @@
                 }
             </ul>
         </div>
-
     </div>
+
     <div id="myDIV1">
         <div>
             <h3 style="font-size:17px; color:#565682">
@@ -738,4 +1032,3 @@
             </div>
         </div>*@
 </section>
-
