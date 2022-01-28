@@ -593,13 +593,56 @@
         $("#selecteddocumenttextcontainer").find("div").css({ "visibility": "collapse", "display": "none" });
     }
 
+    function myFunction() {
+        var x = document.getElementById("myDIV");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+
+
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+            //documnent.getElementById('glavnopolje'.style.display=)
+        }
+    }
+
+    function myFunction2() {
+        var x = document.getElementById("myDIV2");
+        var z = document.getElementById("glavnopolje");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            z.setAttribute('style', 'width:90%');
+        } else {
+            x.style.display = "block";
+            z.setAttribute('style', 'width:70%');
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV').style.display = "none";
+            document.getElementById('myDIV3').style.display = "none";
+        }
+    }
+    function myFunction3() {
+        var x = document.getElementById("myDIV3");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+            document.getElementById('myDIV1').style.display = "none";
+            document.getElementById('myDIV2').style.display = "none";
+            document.getElementById('myDIV').style.display = "none";
+        }
+    }
 
 </script>
 
 <section>
     <div class="sidebarmoj">
         <a onclick="myFunction()" href="#home"><i class="far fa-lightbulb" style="padding-left: 4px; color: white;" aria-hidden="true"></i></a>
-        <a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>
+        @*<a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>*@
 
         <a onclick="myFunction2()" href="#home"><i class="fas fa-align-right" style="color: white;" aria-hidden="true"></i></a>
         <a onclick="myFunction3()" href="~/TekstPropisaPP/StampajPropis/@propis.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
