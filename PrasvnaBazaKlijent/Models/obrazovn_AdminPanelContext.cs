@@ -91,9 +91,9 @@ namespace PrasvnaBazaKlijent.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-            //  #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-              //optionsBuilder.UseSqlServer("Server=DESKTOP-F7QTG0F;Database=obrazovn_AdminPanel;Integrated Security=True;");  
-              optionsBuilder.UseSqlServer("Server=tcp:obrazovni-adminpanel.database.windows.net,1433;Initial Catalog=adminPanel;Persist Security Info=False;User ID=Andjelija;Password=Andja#Luka;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                //  #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                //optionsBuilder.UseSqlServer("Server=DESKTOP-J6TSTOI\\SQLEXPRESS;Database=adminPanel;Integrated Security=True;");  
+                optionsBuilder.UseSqlServer("Server=tcp:obrazovni-adminpanel.database.windows.net,1433;Initial Catalog=adminPanel;Persist Security Info=False;User ID=Andjelija;Password=Andja#Luka;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
