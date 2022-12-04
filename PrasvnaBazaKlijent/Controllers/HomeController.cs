@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NickBuhro.Translit;
 using PrasvnaBazaKlijent.Models;
-using Cyrillic.Convert;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Transactions;
-using Microsoft.EntityFrameworkCore;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
@@ -19,7 +17,8 @@ namespace PrasvnaBazaKlijent.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        //obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+        obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -27,8 +26,6 @@ namespace PrasvnaBazaKlijent.Controllers
 
         public IActionResult Index()
         {
-          
-
             using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
             {
                 IsolationLevel = IsolationLevel.ReadUncommitted
@@ -107,9 +104,7 @@ namespace PrasvnaBazaKlijent.Controllers
         [HttpGet]
         public IActionResult Search(string search)
         {
-            obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
             string trazeniPropis = search;/*collection["Search"];*/
-
 
             if (trazeniPropis != null)
             {
@@ -119,7 +114,9 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 trazeniPropis = "Zakon";
             }
+
             string trazeniPojam = trazeniPropis;
+
             if (trazeniPropis.Contains('š') || trazeniPropis.Contains('ž') || trazeniPropis.Contains('ć') || trazeniPropis.Contains('č'))
             {
 
@@ -133,11 +130,9 @@ namespace PrasvnaBazaKlijent.Controllers
                 cirilica = cirilica.Replace("дз", "џ");
                 cirilica = cirilica.Replace("дж", "џ");
                 cirilica = cirilica.Replace('й', 'ј');
-
-
             }
 
-            if(cirilica.Contains("лј") || cirilica.Contains("нј"))
+            if (cirilica.Contains("лј") || cirilica.Contains("нј"))
             {
                 cirilica = cirilica.Replace("лј", "љ");
                 cirilica = cirilica.Replace("нј", "њ");
@@ -146,7 +141,7 @@ namespace PrasvnaBazaKlijent.Controllers
 
             if (cirilica.Contains("аци") || cirilica.Contains("близим"))
             {
-                cirilica = cirilica.Replace("аци", "ачи");
+                cirilica = cirilica.Replace("аци", "аци");
                 cirilica = cirilica.Replace("близим", "ближим");
             }
 
@@ -167,20 +162,30 @@ namespace PrasvnaBazaKlijent.Controllers
                                    select m;
             var ostaliProsvetniPropisi = (from m in _context.ProsvetnIPropis
                                           select new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa });
+            var casopisi = from m in _context.CasopisNaslov
+                           select m;
+            var inAkta = from m in _context.InAkta
+                               select m;
+            var sluzbenaMisljenja = from m in _context.SluzbenoMisljenje
+                                    select m;
+            var sudskePrakse = from m in _context.SudskaPraksa
+                                    select m;
+            var primeriKnjizenja = from m in _context.PrimeriKnjizenja
+                                   select m;
+
             if (!String.IsNullOrEmpty(trazeniPropis))
             {
                 foreach (string r in reciZaTrazenje)
                 {
-
                     propisi = propisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa.Equals("Закон"));
                     ostaliPropisi = ostaliPropisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa != "Закон");
-
                     prosvetniPropisi = prosvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa.Equals("Закон"));
                     ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa != ("Закон"));
-                    //  Dictionary<int, string> ostaliProsvetniPropisi = _context.ProsvetnIPropis
-                    // .Where(x => x.VrstaPropisa != "Закон")
-                    //.Select(x => new KeyValuePair<int, string>(x.Id, x.Naslov))
-                    //.ToDictionary(x => x.Key, x => x.Value);
+                    casopisi = casopisi.Where(s => s.Naslov.Contains(r));
+                    inAkta = inAkta.Where(s => s.Naslov.Contains(r));
+                    sluzbenaMisljenja = sluzbenaMisljenja.Where(s => s.Naslov.Contains(r));
+                    sudskePrakse = sudskePrakse.Where(s => s.Naslov.Contains(r));
+                    primeriKnjizenja = primeriKnjizenja.Where(s => s.Naslov.Contains(r));
                 }
             }
 
@@ -188,12 +193,14 @@ namespace PrasvnaBazaKlijent.Controllers
             ViewBag.Reci = reciZaTrazenje;
             ViewBag.ProsvetniPropisi = prosvetniPropisi;
             ViewBag.OstaliProsvetniPropisi = ostaliProsvetniPropisi;
-            return View(propisi);
+            ViewBag.Casopisi = casopisi;
+            ViewBag.InAkta = inAkta;
+            ViewBag.SluzbenaMisljenja = sluzbenaMisljenja;
+            ViewBag.SudskePrakse = sudskePrakse;
+            ViewBag.PrimeriKnjizenja = primeriKnjizenja;
 
+            return View(Tuple.Create(propisi, prosvetniPropisi, casopisi, inAkta, sluzbenaMisljenja, sudskePrakse, primeriKnjizenja));
         }
-
-
-
 
         public IActionResult NaprednaPretraga(IFormCollection formCollection)
         {
@@ -259,8 +266,6 @@ namespace PrasvnaBazaKlijent.Controllers
                 HttpContext.Session.SetString("vaznost", vaznost);
             }
 
-
-
             //PREVOD NA CIRILICU JER UNOSE IMENA PROPISA I LATINICOM
             var cirilica = Transliteration.LatinToCyrillic(pojamZaPretragu, Language.Russian);
             string cirilicaKon = cirilica;
@@ -268,7 +273,6 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 cirilicaKon = cirilica.Replace("дз", "џ");
             }
-
 
             //PRETRAGA PO ODABRANIM POJMOVMA
             if (propisiCB == "on")
@@ -391,7 +395,6 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 cirilicaKon = cirilica.Replace("дз", "џ");
             }
-
 
             //PRETRAGA PO ODABRANIM POJMOVMA
             if (propisiCB == "on")
@@ -521,7 +524,6 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Vest = vest;
                 return View();
             }
-
-         }
+        }
     }
 }
