@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PrasvnaBazaKlijent.Models;
 using Rotativa.AspNetCore;
-using System.Collections.Generic;
-using System.Linq;
 using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
+using System.Collections.Generic;
 using System.IO;
-using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 using System.Transactions;
-using Microsoft.EntityFrameworkCore;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
@@ -27,7 +27,7 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 List<PrimeriKnjizenja> primeriKnjizenja = (from pk in _context.PrimeriKnjizenja
                                                            where pk.IdRubrikaPK == id
-                                                           select new PrimeriKnjizenja() { Id = pk.Id, Naslov = pk.Naslov, Podnaslov = pk.Podnaslov}).AsNoTracking().ToList();
+                                                           select new PrimeriKnjizenja() { Id = pk.Id, Naslov = pk.Naslov, Podnaslov = pk.Podnaslov }).AsNoTracking().ToList();
                 ViewBag.IdRubrika = id;
                 ViewBag.PrimeriKnjizenja = primeriKnjizenja;
                 return View();
@@ -62,7 +62,7 @@ namespace PrasvnaBazaKlijent.Controllers
             }
         }
 
-       
+
         public IActionResult OtvoriVord(int id)
         {
             using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions

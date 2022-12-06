@@ -1,5 +1,3 @@
-using System;
-
 namespace PrasvnaBazaKlijent.Models
 {
     public class ErrorViewModel

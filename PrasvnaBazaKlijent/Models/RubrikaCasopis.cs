@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace PrasvnaBazaKlijent.Models
 {
@@ -9,7 +6,7 @@ namespace PrasvnaBazaKlijent.Models
     {
         public RubrikaCasopis()
         {
-            PodrubrikaCasopis = new HashSet<PodrubrikaCasopis>();   
+            PodrubrikaCasopis = new HashSet<PodrubrikaCasopis>();
             CasopisNaslov = new HashSet<CasopisNaslov>();
         }
         public int ID { get; set; }

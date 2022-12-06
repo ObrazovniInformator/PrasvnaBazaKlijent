@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace PrasvnaBazaKlijent.Models
+﻿namespace PrasvnaBazaKlijent.Models
 {
     public partial class AspNetUserClaims
     {

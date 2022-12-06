@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PrasvnaBazaKlijent.Models;
 using Rotativa.AspNetCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Transactions;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
@@ -27,7 +25,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 Propis propis = (from pr in _context.Propis
                                  where pr.Id == id
                                  select pr).AsNoTracking().Single();
-                List <Podnaslov> podnaslov = (from p in _context.Podnaslov
+                List<Podnaslov> podnaslov = (from p in _context.Podnaslov
                                              where p.IdPropis == propis.Id
                                              select p).AsNoTracking().ToList();
                 var clan = (from c in _context.Clan
@@ -289,7 +287,7 @@ namespace PrasvnaBazaKlijent.Controllers
 
         }
 
-       
-    
+
+
     }
 }

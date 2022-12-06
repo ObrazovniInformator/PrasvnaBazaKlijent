@@ -24,7 +24,7 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 List<SudskaPraksa> sudskePrakse = (from sp in _context.SudskaPraksa
                                                    where sp.IdRubrikaSp == id
-                                                   select new SudskaPraksa() { Id = sp.Id, Naslov = sp.Naslov, Podnaslov = sp.Podnaslov, Datum = sp.Datum}).ToList();
+                                                   select new SudskaPraksa() { Id = sp.Id, Naslov = sp.Naslov, Podnaslov = sp.Podnaslov, Datum = sp.Datum }).ToList();
                 ViewBag.Podrubrika = id;
                 return View(sudskePrakse);
             }

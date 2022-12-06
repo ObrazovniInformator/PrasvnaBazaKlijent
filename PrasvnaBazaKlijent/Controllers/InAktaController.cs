@@ -26,7 +26,7 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 List<InAkta> inAktas = (from i in _context.InAkta
                                         where i.IdPodpodrubrika == id
-                                        select new InAkta() { Id = i.Id, Naslov = i.Naslov, DatumObjavljivanja = i.DatumObjavljivanja}).AsNoTracking().ToList();
+                                        select new InAkta() { Id = i.Id, Naslov = i.Naslov, DatumObjavljivanja = i.DatumObjavljivanja }).AsNoTracking().ToList();
                 ViewBag.IdPodpodrubrike = id;
                 return View(inAktas);
             }
@@ -91,7 +91,7 @@ namespace PrasvnaBazaKlijent.Controllers
             }))
             using (var _context = new obrazovn_AdminPanelContext())
             {
-                InAkta  inAkta = _context.InAkta.Find(id);
+                InAkta inAkta = _context.InAkta.Find(id);
                 using (WordDocument document = new WordDocument())
                 {
                     //Adds a section and a paragraph to the document
@@ -103,7 +103,7 @@ namespace PrasvnaBazaKlijent.Controllers
                     document.Save(stream, FormatType.Docx);
                     stream.Position = 0;
                     //Download Word document in the browser
-                    return File(stream, "application/msword", inAkta.Naslov+".docx");
+                    return File(stream, "application/msword", inAkta.Naslov + ".docx");
                 }
             }
         }

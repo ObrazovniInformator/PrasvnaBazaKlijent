@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PrasvnaBazaKlijent.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Transactions;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
@@ -26,7 +24,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 List<ProsvetniPropis> propis = (from p in _context.ProsvetnIPropis
                                                 where p.IdPodrubrike == id
                                                 orderby p.RedniBroj
-                                                select new ProsvetniPropis() { Id = p.Id, Naslov = p.Naslov, GlasiloIDatumObjavljivanja = p.GlasiloIDatumObjavljivanja, DatumPrestankaVerzije = p.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa  = p.DatumPrestankaVazenjaPropisa}).AsNoTracking().ToList();
+                                                select new ProsvetniPropis() { Id = p.Id, Naslov = p.Naslov, GlasiloIDatumObjavljivanja = p.GlasiloIDatumObjavljivanja, DatumPrestankaVerzije = p.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = p.DatumPrestankaVazenjaPropisa }).AsNoTracking().ToList();
                 ViewBag.PodrubrikaPP = id;
                 return View(propis);
             }

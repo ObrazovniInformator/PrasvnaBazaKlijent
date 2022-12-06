@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace PrasvnaBazaKlijent.Models
 {
@@ -116,7 +114,7 @@ namespace PrasvnaBazaKlijent.Models
 
             modelBuilder.Entity<AspNetRoles>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedName) 
+                entity.HasIndex(e => e.NormalizedName)
                     .HasName("RoleNameIndex")
                     .IsUnique()
                     .HasFilter("([NormalizedName] IS NOT NULL)");
@@ -408,7 +406,7 @@ namespace PrasvnaBazaKlijent.Models
             });
 
             modelBuilder.Entity<SluzbenoMisljenje>(entity =>
-            {               
+            {
 
                 entity.Property(e => e.IdDonosilacSm).HasColumnName("IdDonosilacSM");
 
@@ -811,7 +809,7 @@ namespace PrasvnaBazaKlijent.Models
                     .HasForeignKey(d => d.IdRubrikaPK)
                     .HasConstraintName("FK_PrimeriKnjizenja_Rubrka");
 
-               
+
             });
             modelBuilder.Entity<PropisVest>(entity =>
             {

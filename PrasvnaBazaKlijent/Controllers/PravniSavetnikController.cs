@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PrasvnaBazaKlijent.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Transactions;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
@@ -47,7 +45,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Podrubrike = podrubrike;
                 return View(rubrikeCasopisBR);
             }
-           
+
         }
 
         public IActionResult Prikaz(int id)

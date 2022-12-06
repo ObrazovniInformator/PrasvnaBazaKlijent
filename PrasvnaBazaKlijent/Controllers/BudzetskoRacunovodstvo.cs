@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PrasvnaBazaKlijent.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Transactions;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
@@ -28,7 +26,7 @@ namespace PrasvnaBazaKlijent.Controllers
                                                          select rbr).AsNoTracking().ToList();
 
                 List<CasopisNaslov> casopis = new List<CasopisNaslov>();
-                List<PodrubrikaCasopis> podrubrike = new List<PodrubrikaCasopis> ();
+                List<PodrubrikaCasopis> podrubrike = new List<PodrubrikaCasopis>();
                 foreach (RubrikaCasopis rc in rubrikeCasopisBR)
                 {
                     List<PodrubrikaCasopis> pod = (from p in _context.PodrubrikaCasopis
@@ -36,7 +34,7 @@ namespace PrasvnaBazaKlijent.Controllers
                                                    select p).ToList();
                     List<CasopisNaslov> cn = (from cc in _context.CasopisNaslov
                                               where cc.IdRubrika == rc.ID
-                                              select new CasopisNaslov() {Id = cc.Id,Naslov = cc.Naslov, IdRubrika = cc.IdRubrika, IdPodrubrika = cc.IdPodrubrika }).AsNoTracking().ToList();
+                                              select new CasopisNaslov() { Id = cc.Id, Naslov = cc.Naslov, IdRubrika = cc.IdRubrika, IdPodrubrika = cc.IdPodrubrika }).AsNoTracking().ToList();
                     casopis.AddRange(cn);
                     podrubrike.AddRange(pod);
                 }
@@ -86,6 +84,6 @@ namespace PrasvnaBazaKlijent.Controllers
             return File(System.IO.File.ReadAllBytes(putanja), "application/pdf");
         }
 
-        
+
     }
 }

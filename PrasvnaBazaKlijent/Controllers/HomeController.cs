@@ -56,49 +56,162 @@ namespace PrasvnaBazaKlijent.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //public IActionResult GetItems(string v)// v is the entered text
-        //{
-        //    v = (v ?? "").ToLower().Trim();
-
-        //    var items = _context.Propis.Where(o => o.Naslov.ToLower().Contains(v));
-
-        //    return Json(items.Take(10).Select(o => o.Naslov));
-        //}
-        public string LatinCirToCir(string trazenaRec)
+        private static string ToCir(string text)
         {
-            string tr = "";
-            if (trazenaRec.Contains("ž"))
-            {
-                tr = trazenaRec.Replace("ž", "ж");
-                // tr = trazenaRec.Replace("Ž", "Ж");
-            }
 
-            if (trazenaRec.Contains("ć"))
-            {
-                tr = trazenaRec.Replace("ć", "ћ");
-                //   tr = trazenaRec.Replace("Ć", "Ћ");
-            }
+            var latin = text;
 
-            if (trazenaRec.Contains("č"))
-            {
-                tr = trazenaRec.Replace("č", "ч");
-                //  tr = trazenaRec.Replace("Č", "Ч");
+            latin = latin.Replace("s", "ш");
+            latin = latin.Replace("c", "ч");
+            latin = latin.Replace("c", "ћ");
+            latin = latin.Replace("dj", "ђ");
 
-            }
+            latin = latin.Replace("nj", "њ");
+            latin = latin.Replace("dž", "џ");
+            latin = latin.Replace("lj", "љ");
 
-            if (trazenaRec.Contains("đ"))
-            {
-                tr = trazenaRec.Replace("đ", "ђ");
-                //   tr = trazenaRec.Replace("Đ", "Ђ");
-            }
+            latin = latin.Replace("Dj", "Ђ");
+            latin = latin.Replace("DŽ", "Џ");
+            latin = latin.Replace("LJ", "Љ");
+            latin = latin.Replace("NJ", "Њ");
+            latin = latin.Replace("Dž", "Џ");
+            latin = latin.Replace("Lj", "Љ");
+            latin = latin.Replace("Nj", "Њ");
 
-            if (trazenaRec.Contains("š"))
-            {
-                tr = trazenaRec.Replace("š", "ш");
-                // tr = trazenaRec.Replace("Š", "Ш");
-            }
+            latin = latin.Replace('a', 'а');
+            latin = latin.Replace('b', 'б');
+            latin = latin.Replace('v', 'в');
+            latin = latin.Replace('g', 'г');
+            latin = latin.Replace('d', 'д');
+            latin = latin.Replace('đ', 'ђ');
+            latin = latin.Replace('e', 'е');
+            latin = latin.Replace('ž', 'ж');
+            latin = latin.Replace('z', 'з');
+            latin = latin.Replace('i', 'и');
+            latin = latin.Replace('j', 'ј');
+            latin = latin.Replace('k', 'к');
+            latin = latin.Replace('l', 'л');
+            latin = latin.Replace('m', 'м');
+            latin = latin.Replace('n', 'н');
+            latin = latin.Replace('o', 'о');
+            latin = latin.Replace('p', 'п');
+            latin = latin.Replace('r', 'р');
+            latin = latin.Replace('s', 'с');
+            latin = latin.Replace('t', 'т');
+            latin = latin.Replace('ć', 'ћ');
+            latin = latin.Replace('u', 'у');
+            latin = latin.Replace('f', 'ф');
+            latin = latin.Replace('h', 'х');
+            latin = latin.Replace('c', 'ц');
+            latin = latin.Replace('č', 'ч');
+            latin = latin.Replace('š', 'ш');
 
-            return tr;
+            latin = latin.Replace('A', 'А');
+            latin = latin.Replace('B', 'Б');
+            latin = latin.Replace('V', 'В');
+            latin = latin.Replace('G', 'Г');
+            latin = latin.Replace('D', 'Д');
+            latin = latin.Replace('Đ', 'Ђ');
+            latin = latin.Replace('E', 'Е');
+            latin = latin.Replace('Ž', 'Ж');
+            latin = latin.Replace('Z', 'З');
+            latin = latin.Replace('I', 'И');
+            latin = latin.Replace('J', 'Ј');
+            latin = latin.Replace('K', 'К');
+            latin = latin.Replace('L', 'Л');
+            latin = latin.Replace('M', 'М');
+            latin = latin.Replace('N', 'Н');
+            latin = latin.Replace('O', 'О');
+            latin = latin.Replace('P', 'П');
+            latin = latin.Replace('R', 'Р');
+            latin = latin.Replace('S', 'С');
+            latin = latin.Replace('T', 'Т');
+            latin = latin.Replace('Ć', 'Ћ');
+            latin = latin.Replace('U', 'У');
+            latin = latin.Replace('F', 'Ф');
+            latin = latin.Replace('H', 'Х');
+            latin = latin.Replace('C', 'Ц');
+            latin = latin.Replace('Č', 'Ч');
+            latin = latin.Replace('Š', 'Ш');
+            latin = latin.Replace("S", "Ш");
+
+            return latin;
+
+        }
+
+        private static string ToLatin(string text)
+        {
+
+            var cyrilic = text;
+            cyrilic = cyrilic.Replace("њ", "nj");
+            cyrilic = cyrilic.Replace("џ", "dž");
+            cyrilic = cyrilic.Replace("љ", "lj");
+
+            cyrilic = cyrilic.Replace("Џ", "DŽ");
+            cyrilic = cyrilic.Replace("Љ", "LJ");
+            cyrilic = cyrilic.Replace("Њ", "NJ");
+            cyrilic = cyrilic.Replace("Џ", "Dž");
+            cyrilic = cyrilic.Replace("Љ", "Lj");
+            cyrilic = cyrilic.Replace("Њ", "Nj");
+
+            cyrilic = cyrilic.Replace('а', 'a');
+            cyrilic = cyrilic.Replace('б', 'b');
+            cyrilic = cyrilic.Replace('в', 'v');
+            cyrilic = cyrilic.Replace('г', 'g');
+            cyrilic = cyrilic.Replace('д', 'd');
+            cyrilic = cyrilic.Replace('ђ', 'đ');
+            cyrilic = cyrilic.Replace('е', 'e');
+            cyrilic = cyrilic.Replace('ж', 'ž');
+            cyrilic = cyrilic.Replace('з', 'z');
+            cyrilic = cyrilic.Replace('и', 'i');
+            cyrilic = cyrilic.Replace('ј', 'j');
+            cyrilic = cyrilic.Replace('к', 'k');
+            cyrilic = cyrilic.Replace('л', 'l');
+            cyrilic = cyrilic.Replace('м', 'm');
+            cyrilic = cyrilic.Replace('н', 'n');
+            cyrilic = cyrilic.Replace('о', 'o');
+            cyrilic = cyrilic.Replace('п', 'p');
+            cyrilic = cyrilic.Replace('р', 'r');
+            cyrilic = cyrilic.Replace('с', 's');
+            cyrilic = cyrilic.Replace('т', 't');
+            cyrilic = cyrilic.Replace('ћ', 'ć');
+            cyrilic = cyrilic.Replace('у', 'u');
+            cyrilic = cyrilic.Replace('ф', 'f');
+            cyrilic = cyrilic.Replace('х', 'h');
+            cyrilic = cyrilic.Replace('ц', 'c');
+            cyrilic = cyrilic.Replace('ч', 'č');
+            cyrilic = cyrilic.Replace('ш', 'š');
+
+            cyrilic = cyrilic.Replace('А', 'A');
+            cyrilic = cyrilic.Replace('Б', 'B');
+            cyrilic = cyrilic.Replace('В', 'V');
+            cyrilic = cyrilic.Replace('Г', 'G');
+            cyrilic = cyrilic.Replace('Д', 'D');
+            cyrilic = cyrilic.Replace('Ђ', 'Đ');
+            cyrilic = cyrilic.Replace('Е', 'E');
+            cyrilic = cyrilic.Replace('Ж', 'Ž');
+            cyrilic = cyrilic.Replace('З', 'Z');
+            cyrilic = cyrilic.Replace('И', 'I');
+            cyrilic = cyrilic.Replace('Ј', 'J');
+            cyrilic = cyrilic.Replace('К', 'K');
+            cyrilic = cyrilic.Replace('Л', 'L');
+            cyrilic = cyrilic.Replace('М', 'M');
+            cyrilic = cyrilic.Replace('Н', 'N');
+            cyrilic = cyrilic.Replace('О', 'O');
+            cyrilic = cyrilic.Replace('П', 'P');
+            cyrilic = cyrilic.Replace('Р', 'R');
+            cyrilic = cyrilic.Replace('С', 'S');
+            cyrilic = cyrilic.Replace('Т', 'T');
+            cyrilic = cyrilic.Replace('Ћ', 'Ć');
+            cyrilic = cyrilic.Replace('У', 'U');
+            cyrilic = cyrilic.Replace('Ф', 'F');
+            cyrilic = cyrilic.Replace('Х', 'H');
+            cyrilic = cyrilic.Replace('Ц', 'C');
+            cyrilic = cyrilic.Replace('Ч', 'Č');
+            cyrilic = cyrilic.Replace('Ш', 'Š');
+
+            return cyrilic;
+
         }
 
         [HttpGet]
@@ -117,42 +230,46 @@ namespace PrasvnaBazaKlijent.Controllers
 
             string trazeniPojam = trazeniPropis;
 
-            if (trazeniPropis.Contains('š') || trazeniPropis.Contains('ž') || trazeniPropis.Contains('ć') || trazeniPropis.Contains('č'))
-            {
+            //if (trazeniPropis.Contains('š') || trazeniPropis.Contains('ž') || trazeniPropis.Contains('ć') || trazeniPropis.Contains('č'))
+            //{
 
-                trazeniPojam = LatinCirToCir(trazeniPropis);
-            }
+            trazeniPojam = ToCir(trazeniPropis);
 
-            var cirilica = Transliteration.LatinToCyrillic(trazeniPojam, Language.Russian);
+            //BuildQuery(trazeniPojam, true);
+            //}
 
-            if (cirilica.Contains("дз") || cirilica.Contains('й') || cirilica.Contains("дж"))
-            {
-                cirilica = cirilica.Replace("дз", "џ");
-                cirilica = cirilica.Replace("дж", "џ");
-                cirilica = cirilica.Replace('й', 'ј');
-            }
+            //var cirilica = Transliteration.LatinToCyrillic(trazeniPojam, Language.Russian);
 
-            if (cirilica.Contains("лј") || cirilica.Contains("нј"))
-            {
-                cirilica = cirilica.Replace("лј", "љ");
-                cirilica = cirilica.Replace("нј", "њ");
+            //if (cirilica.Contains("дз") || cirilica.Contains('й') || cirilica.Contains("дж"))
+            //{
+            //    cirilica = cirilica.Replace("дз", "џ");
+            //    cirilica = cirilica.Replace("дж", "џ");
+            //    cirilica = cirilica.Replace('й', 'ј');
+            //}
 
-            }
+            //if (cirilica.Contains("лј") || cirilica.Contains("нј"))
+            //{
+            //    cirilica = cirilica.Replace("лј", "љ");
+            //    cirilica = cirilica.Replace("нј", "њ");
 
-            if (cirilica.Contains("аци") || cirilica.Contains("близим"))
-            {
-                cirilica = cirilica.Replace("аци", "аци");
-                cirilica = cirilica.Replace("близим", "ближим");
-            }
+            //}
 
-            if (cirilica.Contains("скол") || cirilica.Contains("пс"))
-            {
-                cirilica = cirilica.Replace("скол", "школ");
-                cirilica = cirilica.Replace("пс", "пш");
+            //if (cirilica.Contains("аци") || cirilica.Contains("близим"))
+            //{
+            //    cirilica = cirilica.Replace("аци", "аци");
+            //    cirilica = cirilica.Replace("близим", "ближим");
+            //}
 
-            }
+            //if (cirilica.Contains("скол") || cirilica.Contains("пс"))
+            //{
+            //    cirilica = cirilica.Replace("скол", "школ");
+            //    cirilica = cirilica.Replace("пс", "пш");
 
-            string[] reciZaTrazenje = cirilica.Split(' ');
+            //}
+
+
+
+            string[] reciZaTrazenje = trazeniPojam.Split(' ');
 
             var propisi = from m in _context.Propis
                           select m;
@@ -165,11 +282,11 @@ namespace PrasvnaBazaKlijent.Controllers
             var casopisi = from m in _context.CasopisNaslov
                            select m;
             var inAkta = from m in _context.InAkta
-                               select m;
+                         select m;
             var sluzbenaMisljenja = from m in _context.SluzbenoMisljenje
                                     select m;
             var sudskePrakse = from m in _context.SudskaPraksa
-                                    select m;
+                               select m;
             var primeriKnjizenja = from m in _context.PrimeriKnjizenja
                                    select m;
 

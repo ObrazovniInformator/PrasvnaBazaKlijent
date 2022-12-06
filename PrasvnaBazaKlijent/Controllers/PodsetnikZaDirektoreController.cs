@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PrasvnaBazaKlijent.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Transactions;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
@@ -32,7 +30,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 {
                     List<CasopisNaslov> cn = (from cc in _context.CasopisNaslov
                                               where cc.IdRubrika == rc.ID
-                                              select new CasopisNaslov() { Id = cc.Id, Naslov = cc.Naslov, IdRubrika = cc.IdRubrika, IdPodrubrika = cc.IdPodrubrika}).AsNoTracking().ToList();
+                                              select new CasopisNaslov() { Id = cc.Id, Naslov = cc.Naslov, IdRubrika = cc.IdRubrika, IdPodrubrika = cc.IdPodrubrika }).AsNoTracking().ToList();
                     casopis.AddRange(cn);
 
                 }
@@ -68,7 +66,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.PdfFajlovi = pdfFajlovi;
                 ViewBag.CasopisBroj = cb;
                 return View(casopis);
-           }
+            }
         }
 
         public IActionResult CitajPdf(int id)
