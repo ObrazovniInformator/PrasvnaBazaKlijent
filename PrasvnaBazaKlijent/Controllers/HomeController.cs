@@ -58,19 +58,12 @@ namespace PrasvnaBazaKlijent.Controllers
 
         private static string ToCir(string text)
         {
-
             var latin = text;
-
-            latin = latin.Replace("s", "ш");
-            latin = latin.Replace("c", "ч");
-            latin = latin.Replace("c", "ћ");
-            latin = latin.Replace("dj", "ђ");
 
             latin = latin.Replace("nj", "њ");
             latin = latin.Replace("dž", "џ");
             latin = latin.Replace("lj", "љ");
 
-            latin = latin.Replace("Dj", "Ђ");
             latin = latin.Replace("DŽ", "Џ");
             latin = latin.Replace("LJ", "Љ");
             latin = latin.Replace("NJ", "Њ");
@@ -133,7 +126,6 @@ namespace PrasvnaBazaKlijent.Controllers
             latin = latin.Replace('C', 'Ц');
             latin = latin.Replace('Č', 'Ч');
             latin = latin.Replace('Š', 'Ш');
-            latin = latin.Replace("S", "Ш");
 
             return latin;
 
