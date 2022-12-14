@@ -38,8 +38,6 @@
                     <th>
                         @Html.DisplayName("Наслов прописа")
                     </th>
-
-
                 </tr>
             </thead>
             <tbody>
@@ -51,8 +49,6 @@
                             <td style="margin-left:0px">
                                 <a href="~/TekstPropisaPP/Index/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIDatumObjavljivanja)</i></a>
                             </td>
-
-
                         </tr>   
                     }
                     else
@@ -61,16 +57,10 @@
                             <td style="margin-left:0px">
                                 <a href="~/TekstPropisaPP/Index/@item.Id" class="nav-link" style="color:darkred"><strike><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIDatumObjavljivanja) | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
                             </td>
-
-
                         </tr>
                     }
-
                 }
             </tbody>
         </table>
-
-
-    </div>
-   
+    </div> 
 </section>

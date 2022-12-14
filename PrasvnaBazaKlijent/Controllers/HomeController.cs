@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NickBuhro.Translit;
 using PrasvnaBazaKlijent.Models;
 using System;
 using System.Collections.Generic;
@@ -128,7 +127,6 @@ namespace PrasvnaBazaKlijent.Controllers
             latin = latin.Replace('Š', 'Ш');
 
             return latin;
-
         }
 
         private static string ToLatin(string text)
@@ -209,7 +207,7 @@ namespace PrasvnaBazaKlijent.Controllers
         [HttpGet]
         public IActionResult Search(string search)
         {
-            string trazeniPropis = search;/*collection["Search"];*/
+            string trazeniPropis = search;
 
             if (trazeniPropis != null)
             {
@@ -222,44 +220,7 @@ namespace PrasvnaBazaKlijent.Controllers
 
             string trazeniPojam = trazeniPropis;
 
-            //if (trazeniPropis.Contains('š') || trazeniPropis.Contains('ž') || trazeniPropis.Contains('ć') || trazeniPropis.Contains('č'))
-            //{
-
             trazeniPojam = ToCir(trazeniPropis);
-
-            //BuildQuery(trazeniPojam, true);
-            //}
-
-            //var cirilica = Transliteration.LatinToCyrillic(trazeniPojam, Language.Russian);
-
-            //if (cirilica.Contains("дз") || cirilica.Contains('й') || cirilica.Contains("дж"))
-            //{
-            //    cirilica = cirilica.Replace("дз", "џ");
-            //    cirilica = cirilica.Replace("дж", "џ");
-            //    cirilica = cirilica.Replace('й', 'ј');
-            //}
-
-            //if (cirilica.Contains("лј") || cirilica.Contains("нј"))
-            //{
-            //    cirilica = cirilica.Replace("лј", "љ");
-            //    cirilica = cirilica.Replace("нј", "њ");
-
-            //}
-
-            //if (cirilica.Contains("аци") || cirilica.Contains("близим"))
-            //{
-            //    cirilica = cirilica.Replace("аци", "аци");
-            //    cirilica = cirilica.Replace("близим", "ближим");
-            //}
-
-            //if (cirilica.Contains("скол") || cirilica.Contains("пс"))
-            //{
-            //    cirilica = cirilica.Replace("скол", "школ");
-            //    cirilica = cirilica.Replace("пс", "пш");
-
-            //}
-
-
 
             string[] reciZaTrazenje = trazeniPojam.Split(' ');
 
@@ -270,7 +231,7 @@ namespace PrasvnaBazaKlijent.Controllers
             var prosvetniPropisi = from m in _context.ProsvetnIPropis
                                    select m;
             var ostaliProsvetniPropisi = (from m in _context.ProsvetnIPropis
-                                          select new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa });
+                                          select m /*new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa })*/);
             var casopisi = from m in _context.CasopisNaslov
                            select m;
             var inAkta = from m in _context.InAkta
@@ -286,10 +247,10 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 foreach (string r in reciZaTrazenje)
                 {
-                    propisi = propisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa.Equals("Закон"));
-                    ostaliPropisi = ostaliPropisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa != "Закон");
-                    prosvetniPropisi = prosvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa.Equals("Закон"));
-                    ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa != ("Закон"));
+                    propisi = propisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
+                    ostaliPropisi = ostaliPropisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa != "Закон").OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
+                    prosvetniPropisi = prosvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
+                    ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
                     casopisi = casopisi.Where(s => s.Naslov.Contains(r));
                     inAkta = inAkta.Where(s => s.Naslov.Contains(r));
                     sluzbenaMisljenja = sluzbenaMisljenja.Where(s => s.Naslov.Contains(r));
@@ -376,42 +337,37 @@ namespace PrasvnaBazaKlijent.Controllers
             }
 
             //PREVOD NA CIRILICU JER UNOSE IMENA PROPISA I LATINICOM
-            var cirilica = Transliteration.LatinToCyrillic(pojamZaPretragu, Language.Russian);
+            var cirilica = ToCir(pojamZaPretragu);
             string cirilicaKon = cirilica;
-            if (cirilica.Contains("дз"))
-            {
-                cirilicaKon = cirilica.Replace("дз", "џ");
-            }
 
             //PRETRAGA PO ODABRANIM POJMOVMA
             if (propisiCB == "on")
             {
                 var propis = from p in _context.Propis
+                             //orderby p.RedniBroj ascending
                              select p;
-                propis = propis.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIdatumObjavljivanja.Contains(cirilica));
+                propis = (IOrderedQueryable<Propis>)propis.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIdatumObjavljivanja.Contains(cirilica)).OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
                 if (nivoVazenjaSel != "nista")
                 {
-                    propis = propis.Where(s => s.NivoVazenja.Equals(nivoVazenjaSel));
+                    propis = (IOrderedQueryable<Propis>)propis.Where(s => s.NivoVazenja.Equals(nivoVazenjaSel)).OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
                 }
 
                 if (vrstaPropisa != "nista")
                 {
-                    propis = propis.Where(s => s.VrstaPropisa.Equals(vrstaPropisa));
+                    propis = (IOrderedQueryable<Propis>)propis.Where(s => s.VrstaPropisa.Equals(vrstaPropisa)).OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
                 }
 
                 if (vaznost.Equals("nista") == false)
                 {
                     if (vaznost.Equals("vazeci"))
                     {
-                        propis = propis.Where(s => !(s.DatumPrestankaVazenjaPropisa.HasValue) && !(s.DatumPrestankaVerzije.HasValue));
+                        propis = (IOrderedQueryable<Propis>)propis.Where(s => !(s.DatumPrestankaVazenjaPropisa.HasValue) && !(s.DatumPrestankaVerzije.HasValue)).OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
                     }
                     else
                     {
-                        propis = propis.Where(s => (s.DatumPrestankaVazenjaPropisa.HasValue) && (s.DatumPrestankaVazenjaPropisa.HasValue));
+                        propis = (IOrderedQueryable<Propis>)propis.Where(s => (s.DatumPrestankaVazenjaPropisa.HasValue) && (s.DatumPrestankaVazenjaPropisa.HasValue)).OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
                     }
                 }
-
-
                 ViewBag.Propis = propis;
             }
 
@@ -426,8 +382,9 @@ namespace PrasvnaBazaKlijent.Controllers
             if (prosvetniPropisiCB == "on")
             {
                 var prosvetniPropisi = from pp in _context.ProsvetnIPropis
+                                       //orderby pp.RedniBroj ascending
                                        select pp;
-                prosvetniPropisi = prosvetniPropisi.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIDatumObjavljivanja.Contains(cirilicaKon));
+                prosvetniPropisi = (IOrderedQueryable<ProsvetniPropis>)prosvetniPropisi.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIDatumObjavljivanja.Contains(cirilicaKon)).OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
                 ViewBag.ProsvetniPropisi = prosvetniPropisi;
             }
 
@@ -476,7 +433,6 @@ namespace PrasvnaBazaKlijent.Controllers
             }
 
             return View();
-
         }
 
         [HttpGet]
@@ -498,42 +454,38 @@ namespace PrasvnaBazaKlijent.Controllers
             var vaznost = HttpContext.Session.GetString("vaznost");
 
             //PREVOD NA CIRILICU JER UNOSE IMENA PROPISA I LATINICOM
-            var cirilica = Transliteration.LatinToCyrillic(pojamZaPretragu, Language.Russian);
+            var cirilica = ToCir(pojamZaPretragu);
             string cirilicaKon = cirilica;
-            if (cirilica.Contains("дз"))
-            {
-                cirilicaKon = cirilica.Replace("дз", "џ");
-            }
 
             //PRETRAGA PO ODABRANIM POJMOVMA
             if (propisiCB == "on")
             {
                 var propis = from p in _context.Propis
+                             orderby p.RedniBroj ascending
                              select p;
-                propis = propis.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIdatumObjavljivanja.Contains(cirilica));
+                propis = (IOrderedQueryable<Propis>)propis.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIdatumObjavljivanja.Contains(cirilica));
                 if (nivoVazenjaSel != "nista")
                 {
-                    propis = propis.Where(s => s.NivoVazenja.Equals(nivoVazenjaSel));
+                    propis = (IOrderedQueryable<Propis>)propis.Where(s => s.NivoVazenja.Equals(nivoVazenjaSel));
                 }
 
                 if (vrstaPropisa != "nista")
                 {
-                    propis = propis.Where(s => s.VrstaPropisa.Equals(vrstaPropisa));
+                    propis = (IOrderedQueryable<Propis>)propis.Where(s => s.VrstaPropisa.Equals(vrstaPropisa));
                 }
 
                 if (vaznost != "nista")
                 {
                     if (vaznost == "vazeci")
                     {
-                        propis = propis.Where(s => s.DatumPrestankaVazenjaPropisa.Value == null && s.DatumPrestankaVerzije.Value == null);
+                        propis = (IOrderedQueryable<Propis>)propis.Where(s => s.DatumPrestankaVazenjaPropisa.Value == null && s.DatumPrestankaVerzije.Value == null);
                     }
 
                     if (vaznost == "nevazeci")
                     {
-                        propis = propis.Where(s => s.DatumPrestankaVazenjaPropisa.Value != null && s.DatumPrestankaVerzije.Value != null);
+                        propis = (IOrderedQueryable<Propis>)propis.Where(s => s.DatumPrestankaVazenjaPropisa.Value != null && s.DatumPrestankaVerzije.Value != null);
                     }
                 }
-
 
                 ViewBag.Propis = propis;
             }
@@ -549,8 +501,9 @@ namespace PrasvnaBazaKlijent.Controllers
             if (prosvetniPropisiCB == "on")
             {
                 var prosvetniPropisi = from pp in _context.ProsvetnIPropis
+                                       orderby pp.RedniBroj ascending
                                        select pp;
-                prosvetniPropisi = prosvetniPropisi.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIDatumObjavljivanja.Contains(cirilicaKon));
+                prosvetniPropisi = (IOrderedQueryable<ProsvetniPropis>)prosvetniPropisi.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIDatumObjavljivanja.Contains(cirilicaKon));
                 ViewBag.ProsvetniPropisi = prosvetniPropisi;
             }
 
@@ -599,7 +552,6 @@ namespace PrasvnaBazaKlijent.Controllers
             }
 
             return View();
-
         }
 
         [HttpGet]
