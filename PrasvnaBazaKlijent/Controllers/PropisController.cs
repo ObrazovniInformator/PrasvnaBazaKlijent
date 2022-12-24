@@ -31,7 +31,7 @@ namespace PrasvnaBazaKlijent.Controllers
                                                 DatumPrestankaVerzije = p.DatumPrestankaVerzije, 
                                                 DatumPrestankaVazenjaPropisa = p.DatumPrestankaVazenjaPropisa }).AsNoTracking().ToList();
 
-                var propisiList = propisList.OrderByDescending(m => m.RedniBroj != null).ThenBy(m => m.RedniBroj == null);
+                var propisiList = propisList.OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 ViewBag.IdPodrubrika = id;
                 return View(propisiList);
             }

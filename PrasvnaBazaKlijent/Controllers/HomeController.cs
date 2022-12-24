@@ -31,7 +31,6 @@ namespace PrasvnaBazaKlijent.Controllers
             }))
             using (var _context = new obrazovn_AdminPanelContext())
             {
-
                 List<PropisVest> vezaPropis = _context.PropisVest.AsNoTracking().ToList();
                 Vest[] vesti = _context.Vest.OrderBy(id => id.Id).AsNoTracking().ToArray();
                 List<string> propisiN = (from p in _context.Propis
@@ -204,72 +203,367 @@ namespace PrasvnaBazaKlijent.Controllers
 
         }
 
-        [HttpGet]
-        public IActionResult Search(string search)
+        //[HttpGet]
+        public IActionResult Search(IFormCollection formCollection)
         {
-            string trazeniPropis = search;
+            var pojamZaPretragu = formCollection["search"];
 
-            if (trazeniPropis != null)
+            var inAktaCB = formCollection["InAktaCB"];
+            var propisCB = formCollection["PropisCB"];
+            var prosvetniPropisCB = formCollection["ProsvetniPropisCB"];
+            var sudskaPraksaCB = formCollection["SudskaPraksaCB"];
+            var sluzbenoMisljenjeCB = formCollection["SluzbenoMisljenjeCB"];
+            var casopisCB = formCollection["CasopisCB"]; 
+            var primerKnjizenjaCB = formCollection["PrimerKnjizenjaCB"];
+
+            HttpContext.Session.SetString("pojamZaPretragu", pojamZaPretragu);
+            if (String.IsNullOrEmpty(inAktaCB) == false)
             {
-                HttpContext.Session.SetString("trazeni", trazeniPropis);
+                HttpContext.Session.SetString("inAktaCB", inAktaCB);
+            }
+            if (String.IsNullOrEmpty(propisCB) == false)
+            {
+                HttpContext.Session.SetString("propisCB", propisCB);
+            }
+            if (String.IsNullOrEmpty(prosvetniPropisCB) == false)
+            {
+                HttpContext.Session.SetString("prosvetniPropisCB", prosvetniPropisCB);
+            }
+            if (String.IsNullOrEmpty(sudskaPraksaCB) == false)
+            {
+                HttpContext.Session.SetString("sudskaPraksaCB", sudskaPraksaCB);
+            }
+            if (String.IsNullOrEmpty(sluzbenoMisljenjeCB) == false)
+            {
+                HttpContext.Session.SetString("sluzbenoMisljenjeCB", sluzbenoMisljenjeCB);
+            }
+            if (String.IsNullOrEmpty(casopisCB) == false)
+            {
+                HttpContext.Session.SetString("casopisCB", casopisCB);
+            }
+            if (String.IsNullOrEmpty(primerKnjizenjaCB) == false)
+            {
+                HttpContext.Session.SetString("primerKnjizenjaCB", primerKnjizenjaCB);
+            }
+
+            if (inAktaCB == "on")
+            {
+                string trazeniPropis = pojamZaPretragu;
+
+                if (trazeniPropis != null)
+                {
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
+                }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                string[] reciZaTrazenje = trazeniPojam.Split(' ');
+
+                var inAkta = from m in _context.InAkta
+                             select m;
+
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    foreach (string r in reciZaTrazenje)
+                    {
+                        inAkta = inAkta.Where(s => s.Tekst.Contains(r));
+                    }
+                }
+
+                ViewBag.Reci = reciZaTrazenje;
+                ViewBag.InAkta = inAkta;
+
+                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>> (null, null, null, inAkta, null, null, null));
+            }
+            else if(propisCB == "on")
+            {
+                string trazeniPropis = pojamZaPretragu;
+
+                if (trazeniPropis != null)
+                {
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
+                }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                string[] reciZaTrazenje = trazeniPojam.Split(' ');
+
+                var propisi = from m in _context.Propis
+                              select m;
+                var ostaliPropisi = from m in _context.Propis
+                                    select m;
+
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    foreach (string r in reciZaTrazenje)
+                    {
+                        propisi = propisi.Where(s => (s.TekstPropisa.Contains(r)) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                        ostaliPropisi = ostaliPropisi.Where(s => (s.TekstPropisa.Contains(r)) && s.VrstaPropisa != "Закон").OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                    }
+                }
+
+                ViewBag.OstaliPropisi = ostaliPropisi;
+                ViewBag.Reci = reciZaTrazenje;
+
+                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(propisi, null, null, null, null, null, null));
+            }
+            else if( prosvetniPropisCB == "on")
+            {
+                string trazeniPropis = pojamZaPretragu;
+
+                if (trazeniPropis != null)
+                {
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
+                }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                string[] reciZaTrazenje = trazeniPojam.Split(' ');
+
+                var prosvetniPropisi = from m in _context.ProsvetnIPropis
+                                       select m;
+                var ostaliProsvetniPropisi = (from m in _context.ProsvetnIPropis
+                                              select m /*new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa })*/);
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    foreach (string r in reciZaTrazenje)
+                    {
+                        prosvetniPropisi = prosvetniPropisi.Where(s => s.TekstPropisa.Contains(r) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                        ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.TekstPropisa.Contains(r) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                    }
+                }
+
+                ViewBag.Reci = reciZaTrazenje;
+                ViewBag.ProsvetniPropisi = prosvetniPropisi;
+                ViewBag.OstaliProsvetniPropisi = ostaliProsvetniPropisi;
+
+                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, prosvetniPropisi, null, null, null, null, null));
+            }
+            else if (sudskaPraksaCB == "on")
+            {
+                string trazeniPropis = pojamZaPretragu;
+
+                if (trazeniPropis != null)
+                {
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
+                }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                string[] reciZaTrazenje = trazeniPojam.Split(' ');
+
+                var sudskePrakse = from m in _context.SudskaPraksa
+                                   select m;
+
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    foreach (string r in reciZaTrazenje)
+                    {
+                        sudskePrakse = sudskePrakse.Where(s => s.Tekst.Contains(r));
+                    }
+                }
+
+                ViewBag.Reci = reciZaTrazenje;
+                ViewBag.SudskePrakse = sudskePrakse;
+
+                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, null, null, null, null, sudskePrakse, null));
+            }
+            else if (sluzbenoMisljenjeCB == "on")
+            {
+                string trazeniPropis = pojamZaPretragu;
+
+                if (trazeniPropis != null)
+                {
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
+                }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                string[] reciZaTrazenje = trazeniPojam.Split(' ');
+
+                var sluzbenaMisljenja = from m in _context.SluzbenoMisljenje
+                                        select m;
+
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    foreach (string r in reciZaTrazenje)
+                    {
+                        sluzbenaMisljenja = sluzbenaMisljenja.Where(s => s.Tekst.Contains(r));
+                    }
+                }
+
+                ViewBag.Reci = reciZaTrazenje;
+                ViewBag.SluzbenaMisljenja = sluzbenaMisljenja;
+
+                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, null, null, null, sluzbenaMisljenja, null, null));
+            }
+            else if (casopisCB == "on")
+            {
+                string trazeniPropis = pojamZaPretragu;
+
+                if (trazeniPropis != null)
+                {
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
+                }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                string[] reciZaTrazenje = trazeniPojam.Split(' ');
+
+
+                var casopisi = from m in _context.CasopisNaslov
+                               select m;
+
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    foreach (string r in reciZaTrazenje)
+                    {
+                        casopisi = casopisi.Where(s => s.Tekst.Contains(r));
+                    }
+                }
+
+                ViewBag.Reci = reciZaTrazenje;
+                ViewBag.Casopisi = casopisi;
+
+                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, null, casopisi, null, null, null, null));
+            }
+            else if (casopisCB == "on")
+            {
+                string trazeniPropis = pojamZaPretragu;
+
+                if (trazeniPropis != null)
+                {
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
+                }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                string[] reciZaTrazenje = trazeniPojam.Split(' ');
+
+                var primeriKnjizenja = from m in _context.PrimeriKnjizenja
+                                       select m;
+
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    foreach (string r in reciZaTrazenje)
+                    {
+                        primeriKnjizenja = primeriKnjizenja.Where(s => s.Tekst.Contains(r));
+                    }
+                }
+
+                ViewBag.Reci = reciZaTrazenje;
+                ViewBag.PrimeriKnjizenja = primeriKnjizenja;
+
+                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, null, null, null, null, null, primeriKnjizenja));
             }
             else
             {
-                trazeniPropis = "Zakon";
-            }
+                string trazeniPropis = pojamZaPretragu;
 
-            string trazeniPojam = trazeniPropis;
-
-            trazeniPojam = ToCir(trazeniPropis);
-
-            string[] reciZaTrazenje = trazeniPojam.Split(' ');
-
-            var propisi = from m in _context.Propis
-                          select m;
-            var ostaliPropisi = from m in _context.Propis
-                                select m;
-            var prosvetniPropisi = from m in _context.ProsvetnIPropis
-                                   select m;
-            var ostaliProsvetniPropisi = (from m in _context.ProsvetnIPropis
-                                          select m /*new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa })*/);
-            var casopisi = from m in _context.CasopisNaslov
-                           select m;
-            var inAkta = from m in _context.InAkta
-                         select m;
-            var sluzbenaMisljenja = from m in _context.SluzbenoMisljenje
-                                    select m;
-            var sudskePrakse = from m in _context.SudskaPraksa
-                               select m;
-            var primeriKnjizenja = from m in _context.PrimeriKnjizenja
-                                   select m;
-
-            if (!String.IsNullOrEmpty(trazeniPropis))
-            {
-                foreach (string r in reciZaTrazenje)
+                if (trazeniPropis != null)
                 {
-                    propisi = propisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                    ostaliPropisi = ostaliPropisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa != "Закон").OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                    prosvetniPropisi = prosvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                    ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                    casopisi = casopisi.Where(s => s.Naslov.Contains(r));
-                    inAkta = inAkta.Where(s => s.Naslov.Contains(r));
-                    sluzbenaMisljenja = sluzbenaMisljenja.Where(s => s.Naslov.Contains(r));
-                    sudskePrakse = sudskePrakse.Where(s => s.Naslov.Contains(r));
-                    primeriKnjizenja = primeriKnjizenja.Where(s => s.Naslov.Contains(r));
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
                 }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                string[] reciZaTrazenje = trazeniPojam.Split(' ');
+
+                var propisi = from m in _context.Propis
+                              select m;
+                var ostaliPropisi = from m in _context.Propis
+                                    select m;
+                var prosvetniPropisi = from m in _context.ProsvetnIPropis
+                                       select m;
+                var ostaliProsvetniPropisi = (from m in _context.ProsvetnIPropis
+                                              select m /*new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa })*/);
+                var casopisi = from m in _context.CasopisNaslov
+                               select m;
+                var inAkta = from m in _context.InAkta
+                             select m;
+                var sluzbenaMisljenja = from m in _context.SluzbenoMisljenje
+                                        select m;
+                var sudskePrakse = from m in _context.SudskaPraksa
+                                   select m;
+                var primeriKnjizenja = from m in _context.PrimeriKnjizenja
+                                       select m;
+
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    foreach (string r in reciZaTrazenje)
+                    {
+                        propisi = propisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                        ostaliPropisi = ostaliPropisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa != "Закон").OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                        prosvetniPropisi = prosvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                        ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                        casopisi = casopisi.Where(s => s.Naslov.Contains(r));
+                        inAkta = inAkta.Where(s => s.Naslov.Contains(r));
+                        sluzbenaMisljenja = sluzbenaMisljenja.Where(s => s.Naslov.Contains(r));
+                        sudskePrakse = sudskePrakse.Where(s => s.Naslov.Contains(r));
+                        primeriKnjizenja = primeriKnjizenja.Where(s => s.Naslov.Contains(r));
+                    }
+                }
+
+                ViewBag.OstaliPropisi = ostaliPropisi;
+                ViewBag.Reci = reciZaTrazenje;
+                ViewBag.ProsvetniPropisi = prosvetniPropisi;
+                ViewBag.OstaliProsvetniPropisi = ostaliProsvetniPropisi;
+                ViewBag.Casopisi = casopisi;
+                ViewBag.InAkta = inAkta;
+                ViewBag.SluzbenaMisljenja = sluzbenaMisljenja;
+                ViewBag.SudskePrakse = sudskePrakse;
+                ViewBag.PrimeriKnjizenja = primeriKnjizenja;
+
+                return View(Tuple.Create(propisi, prosvetniPropisi, casopisi, inAkta, sluzbenaMisljenja, sudskePrakse, primeriKnjizenja));
             }
-
-            ViewBag.OstaliPropisi = ostaliPropisi;
-            ViewBag.Reci = reciZaTrazenje;
-            ViewBag.ProsvetniPropisi = prosvetniPropisi;
-            ViewBag.OstaliProsvetniPropisi = ostaliProsvetniPropisi;
-            ViewBag.Casopisi = casopisi;
-            ViewBag.InAkta = inAkta;
-            ViewBag.SluzbenaMisljenja = sluzbenaMisljenja;
-            ViewBag.SudskePrakse = sudskePrakse;
-            ViewBag.PrimeriKnjizenja = primeriKnjizenja;
-
-            return View(Tuple.Create(propisi, prosvetniPropisi, casopisi, inAkta, sluzbenaMisljenja, sudskePrakse, primeriKnjizenja));
         }
 
         public IActionResult NaprednaPretraga(IFormCollection formCollection)
@@ -344,7 +638,7 @@ namespace PrasvnaBazaKlijent.Controllers
             if (propisiCB == "on")
             {
                 var propis = from p in _context.Propis
-                             //orderby p.RedniBroj ascending
+                                 //orderby p.RedniBroj ascending
                              select p;
                 propis = (IOrderedQueryable<Propis>)propis.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIdatumObjavljivanja.Contains(cirilica)).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 if (nivoVazenjaSel != "nista")
@@ -382,7 +676,7 @@ namespace PrasvnaBazaKlijent.Controllers
             if (prosvetniPropisiCB == "on")
             {
                 var prosvetniPropisi = from pp in _context.ProsvetnIPropis
-                                       //orderby pp.RedniBroj ascending
+                                           //orderby pp.RedniBroj ascending
                                        select pp;
                 prosvetniPropisi = (IOrderedQueryable<ProsvetniPropis>)prosvetniPropisi.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIDatumObjavljivanja.Contains(cirilicaKon)).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 ViewBag.ProsvetniPropisi = prosvetniPropisi;
