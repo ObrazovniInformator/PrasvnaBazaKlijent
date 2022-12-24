@@ -20,7 +20,7 @@ namespace PrasvnaBazaKlijent.Models
         public int IdPropis { get; set; }
 
         public ProsvetniPropis IdPropisNavigation { get; set; }
-        public PodnaslovPP? IdPodnaslovNavigation { get; set; }
+        public PodnaslovPP IdPodnaslovNavigation { get; set; }
         public ICollection<StavPP> StavPP { get; set; }
         //public ICollection<SudskaPraksa> SudskaPraksa { get; set; }
         //public ICollection<SluzbenoMisljenje> SluzbenoMisljenje { get; set; }
