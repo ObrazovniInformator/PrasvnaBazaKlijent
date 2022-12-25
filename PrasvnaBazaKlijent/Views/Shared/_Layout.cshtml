@@ -802,26 +802,7 @@
 
             </div>
 
-            @*<div class="filter">
-            <form asp-action="NaprednaPretraga" asp-controller="Home">
-                <span class="close" style="margin-right: 15px; margin-top: 1px;">&times;</span>
-                <div class="feaderfiltera">
-                    <input type="text" name="pojamZaPretragu" class="feaderfiltera" placeholder="Овде унесите појам за претрагу..." style="width:28%;position:absolute; text-align:center; margin: auto;" />
-                </div>
-
-                <div style="width: 50%;display:grid; float: left;">
-                    <label>
-                        <p style=" position: absolute;margin-left: 70px; margin-top: 12px;">Прописи</p>
-                        <input type="checkbox" checked name="Propisi" class="ios-switch green" />
-                        <div>
-                            <div></div>
-                        </div>
-                    </label>
-                </div>*@
-
-
-
-            <!-- SEARCH FORM -->
+        <!-- SEARCH FORM -->
         <form class="form-inline ml-3" asp-action="Search" asp-controller="Home">
             <div class="input-group input-group-sm" title="Pади прецизније и детаљније претраге користите корен речи у појму за претрагу, нпр: Зак основ систем образ">
                 <input class="form-control form-control-navbar" type="search" style="font-family: InfluBG; height: 35px; background-color: white;" placeholder="Претрага" name="search" aria-label="Search">
@@ -1071,8 +1052,7 @@
                 </div>
             </div>
 
-            <div style="margin-left: 250px; margin-top: 12px;">Претрага по тексту (чекирати модул за који ће бити укључена претрага)</div>
-            <div style="margin-left: 350px; margin-top: 12px;">
+            <div style="margin-left: 300px; margin-top: 12px;" class="input-group-sm" title="Претрага по тексту (чекирати модул за који ће бити укључена претрага)">
                 <label style="display:inline-block;">
                     <p style=" position: absolute;margin-left: -250px; margin-top: 12px; font-size:smaller;">Прописи</p>
                     <input type="checkbox" name="PropisCB" class="ios-switch green">
