@@ -16,11 +16,12 @@ namespace PrasvnaBazaKlijent.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
+        private readonly obrazovn_AdminPanelContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, obrazovn_AdminPanelContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
