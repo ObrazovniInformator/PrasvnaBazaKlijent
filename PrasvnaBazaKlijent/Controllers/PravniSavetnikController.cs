@@ -81,7 +81,7 @@ namespace PrasvnaBazaKlijent.Controllers
             var _context = new obrazovn_AdminPanelContext();
             PdfFajlCasopis fajl = (from p in _context.PdfFajlCasopis
                                    where p.Id == id
-                                   select p).Single();
+                                   select p).SingleOrDefault();
             string putanja = fajl.PdfPath;
             return File(System.IO.File.ReadAllBytes(putanja), "application/pdf");
         }
