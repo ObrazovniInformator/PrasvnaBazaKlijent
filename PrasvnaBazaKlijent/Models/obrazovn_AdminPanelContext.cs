@@ -45,6 +45,9 @@ namespace PrasvnaBazaKlijent.Models
         public virtual DbSet<SudskaPraksa> SudskaPraksa { get; set; }
         public virtual DbSet<Tacka> Tacka { get; set; }
         public virtual DbSet<RubrikaVesti> RubrikaVesti { get; set; }
+
+        public virtual DbSet<PdfFajlPropis> PdfFajlPropis { get; set; }
+        public virtual DbSet<PdfFajlProsvetniPropis> PdfFajlProsvetniPropis { get; set; }
         //VESTI
         public virtual DbSet<Vest> Vest { get; set; }
         //CASOPISI
@@ -576,6 +579,24 @@ namespace PrasvnaBazaKlijent.Models
                 .WithMany(p => p.PdfFajlCasopis)
                 .HasForeignKey(d => d.IdCasopis)
                 .HasConstraintName("FK_PdfFajl_Casopis");
+
+            });
+
+            modelBuilder.Entity<PdfFajlPropis>(entity =>
+            {
+                entity.HasOne(d => d.IdPropisNavigation)
+                .WithMany(p => p.PdfFajlPropis)
+                .HasForeignKey(d => d.IdPropis)
+                .HasConstraintName("FK_PdfFajl_Propis");
+
+            });
+
+            modelBuilder.Entity<PdfFajlProsvetniPropis>(entity =>
+            {
+                entity.HasOne(d => d.IdProsvetniPropisNavigation)
+                .WithMany(p => p.PdfFajlProsvetniPropis)
+                .HasForeignKey(d => d.IdProsvetniPropis)
+                .HasConstraintName("FK_PdfFajl_ProsvetniPropis");
 
             });
 

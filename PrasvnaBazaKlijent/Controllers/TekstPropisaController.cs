@@ -24,7 +24,10 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 Propis propis = (from pr in _context.Propis
                                  where pr.Id == id
-                                 select pr).AsNoTracking().Single();
+                                 select pr).AsNoTracking().SingleOrDefault();
+                List<PdfFajlPropis> pdfFajlovi = (from pd in _context.PdfFajlPropis
+                                                  where pd.IdPropis == id
+                                                   select pd).ToList();
                 List<Podnaslov> podnaslov = (from p in _context.Podnaslov
                                              where p.IdPropis == propis.Id
                                              select p).AsNoTracking().ToList();
@@ -40,9 +43,6 @@ namespace PrasvnaBazaKlijent.Controllers
                                    where clanId.Contains((int)s.IdClan)
                                    select s).AsNoTracking().ToList();
 
-
-
-
                 var stavId = (from s in _context.Stav
                               where clanId.Contains((int)s.IdClan)
                               select s.Id).ToList();
@@ -51,11 +51,9 @@ namespace PrasvnaBazaKlijent.Controllers
                                      where stavId.Contains((int)s.IdStav)
                                      select s).AsNoTracking().ToList();
 
-
                 List<Alineja> alineja = (from s in _context.Alineja
                                          where stavId.Contains((int)s.IdStav)
                                          select s).AsNoTracking().ToList();
-
 
                 //VEZA SA SLUZBENIM MISLJENJEM
                 List<PropisSluzbenoMisljenje> vezeSluzbenoMisljenje = (from v in _context.PropisSluzbenoMisljenje
@@ -100,6 +98,7 @@ namespace PrasvnaBazaKlijent.Controllers
                                          where spv.IdPropis == id
                                          select spv.IdStav).Distinct().ToList();
                 ViewBag.Propis = propis;
+                ViewBag.PdfFajlovi = pdfFajlovi;
                 ViewBag.Podnaslovi = podnaslov;
                 ViewBag.Clanovi = clan;
                 ViewBag.Stavovi = stav;
@@ -283,11 +282,16 @@ namespace PrasvnaBazaKlijent.Controllers
                 Propis propis = _context.Propis.Find(id);
                 return new ViewAsPdf("StampajPropis", propis);
             }
-
-
         }
 
-
-
+        public IActionResult CitajPdf(int id)
+        {
+            var _context = new obrazovn_AdminPanelContext();
+            PdfFajlPropis fajl = (from p in _context.PdfFajlPropis
+                                  where p.Id == id
+                                   select p).SingleOrDefault();
+            string putanja = fajl.PdfPath;
+            return File(System.IO.File.ReadAllBytes(putanja), "application/pdf");
+        }
     }
 }

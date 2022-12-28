@@ -24,7 +24,10 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 ProsvetniPropis propis = (from pr in _context.ProsvetnIPropis
                                           where pr.Id == id
-                                          select pr).AsNoTracking().Single();
+                                          select pr).AsNoTracking().SingleOrDefault();
+                List<PdfFajlProsvetniPropis> pdfFajlovi = (from pd in _context.PdfFajlProsvetniPropis
+                                                           where pd.IdProsvetniPropis == id
+                                                  select pd).ToList();
                 List<PodnaslovPP> podnaslov = (from p in _context.PodnaslovPP
                                                where p.IdPropis == propis.Id
                                                select p).AsNoTracking().ToList();
@@ -91,6 +94,7 @@ namespace PrasvnaBazaKlijent.Controllers
                                                              select sm).AsNoTracking().ToList();
 
                 ViewBag.Propis = propis;
+                ViewBag.PdfFajlovi = pdfFajlovi;
                 ViewBag.Podnaslovi = podnaslov;
                 ViewBag.Clanovi = clan;
                 ViewBag.Stavovi = stav;
@@ -225,6 +229,16 @@ namespace PrasvnaBazaKlijent.Controllers
             }
 
 
+        }
+
+        public IActionResult CitajPdf(int id)
+        {
+            var _context = new obrazovn_AdminPanelContext();
+            PdfFajlProsvetniPropis fajl = (from p in _context.PdfFajlProsvetniPropis
+                                  where p.Id == id
+                                  select p).SingleOrDefault();
+            string putanja = fajl.PdfPath;
+            return File(System.IO.File.ReadAllBytes(putanja), "application/pdf");
         }
     }
 }

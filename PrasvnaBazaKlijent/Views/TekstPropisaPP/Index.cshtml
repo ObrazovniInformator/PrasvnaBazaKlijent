@@ -20,6 +20,7 @@
 
     Dictionary<int, SluzbenoMisljenje> dictSluzbenaMisljenja = new Dictionary<int, SluzbenoMisljenje>();
     bool isAdded = false;
+    List<PdfFajlProsvetniPropis> pdfFajlovi = ViewBag.PdfFajlovi;
 }
 
 
@@ -705,51 +706,51 @@
                             if (stav.IdClan == clan.Id)
                             {
                                 @*<table>
-                                        <tr>
-                                            @Html.Raw(stav.Tekst)
+                                    <tr>
+                                        @Html.Raw(stav.Tekst)
 
-                                            @if (idStavovaInAKta.Contains(stav.Id) || idStavSmDis.Contains(stav.Id))
-                                            {
-                                            <td>
-                                                <select onchange="location = this.value;" id="selectid" style=" width:auto; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
-                                                    <option>
-                                                    </option>
-                                                    <optgroup label="Службена мишљења">
-                                                        @foreach (ProsvetniPropisSluzbenoMisljenje psm in vezeSluzbenaMisljenja)
+                                        @if (idStavovaInAKta.Contains(stav.Id) || idStavSmDis.Contains(stav.Id))
+                                        {
+                                        <td>
+                                            <select onchange="location = this.value;" id="selectid" style=" width:auto; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
+                                                <option>
+                                                </option>
+                                                <optgroup label="Службена мишљења">
+                                                    @foreach (ProsvetniPropisSluzbenoMisljenje psm in vezeSluzbenaMisljenja)
+                                                    {
+                                                        @if (psm.IdStavPP == stav.Id)
                                                         {
-                                                            @if (psm.IdStavPP == stav.Id)
+                                                            @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
                                                             {
-                                                                @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+                                                                @if (sm.Id == psm.IdSluzbenoMisljenje)
                                                                 {
-                                                                    @if (sm.Id == psm.IdSluzbenoMisljenje)
-                                                                    {
-                                                                        <option value="/./TekstPropisaPP/VezeProsvetniPropisSluzbenoMisljenje/@propis.Id/@sm.Id/#@psm.IdClanPP"> @sm.Naslov</option>
-                                                                    }
+                                                                    <option value="/./TekstPropisaPP/VezeProsvetniPropisSluzbenoMisljenje/@propis.Id/@sm.Id/#@psm.IdClanPP"> @sm.Naslov</option>
                                                                 }
                                                             }
                                                         }
-                                                    </optgroup>
-                                                    <optgroup label="ИнАкта">
-                                                        @foreach (ProsvetniPropisInAkta psm in vezeInAKta)
+                                                    }
+                                                </optgroup>
+                                                <optgroup label="ИнАкта">
+                                                    @foreach (ProsvetniPropisInAkta psm in vezeInAKta)
+                                                    {
+                                                        @if (psm.IdStavPP == stav.Id)
                                                         {
-                                                            @if (psm.IdStavPP == stav.Id)
-                                                            {
 
-                                                                @foreach (InAkta sm in inAKta)
+                                                            @foreach (InAkta sm in inAKta)
+                                                            {
+                                                                if (sm.Id == psm.IdInAkta && psm.IdTackaPP == 0)
                                                                 {
-                                                                    if (sm.Id == psm.IdInAkta && psm.IdTackaPP == 0)
-                                                                    {
-                                                                        <option value="/./TekstPropisaPP/VezaProsvetniPropisInAkta/@propis.Id/@sm.Id/#@psm.IdClanPP"> @sm.Naslov</option>
-                                                                    }
+                                                                    <option value="/./TekstPropisaPP/VezaProsvetniPropisInAkta/@propis.Id/@sm.Id/#@psm.IdClanPP"> @sm.Naslov</option>
                                                                 }
                                                             }
                                                         }
-                                                    </optgroup>
-                                                </select>
-                                            </td>
-                                            }
-                                        </tr>
-                                    </table>*@
+                                                    }
+                                                </optgroup>
+                                            </select>
+                                        </td>
+                                        }
+                                    </tr>
+                                </table>*@
 
                                 <table>
                                     <tr>
@@ -878,24 +879,43 @@
 
         </div>
 
+        <div class="glavnopolje navbar-expand" id="glavnopolje">
+            @*<div class="action1" onclick="actionToggle1();">
+                <span><i class="fas fa-ellipsis-h"></i></span>
+                <ul>
+                    <li><i class="fas fa-print"></i> Штампај</li>
+                    <li><i class="far fa-save"></i> Сачувај</li>
+                    <li><i class="fas fa-fingerprint"></i> Везе</li>
+
+                </ul>
+            </div>*@
+
+            @*<p><a href="~/PodsetnikZaDirektore/Index/@Model.IdBroj">Врати се на списак наслова. Издање: @cb.Naziv</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
+            @Html.Raw(@Model.Tekst)*@
+            @foreach (PdfFajlProsvetniPropis pdf in pdfFajlovi)
+            {
+                <p><a href="~/TekstPropisaPP/CitajPdf/@pdf.Id" target="_blank">@pdf.NaslovPdf</a></p>
+            }
+        </div>
+
         <div id="poljesluzbenamisljenja" style="float:right; width:30%; background-color:gainsboro; height:auto; padding-right: 15px;">
             <div id="zaglavljesluzbenihmisljenja">
 
                 @foreach (ProsvetniPropisSluzbenoMisljenje psm in vezeSluzbenaMisljenja)
                 {
                     @*@foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
+                    {
+                        @if (sm.Id == psm.IdSluzbenoMisljenje)
                         {
-                            @if (sm.Id == psm.IdSluzbenoMisljenje)
-                            {
-                                string classString = String.Format("linkclan_{0}stav_{1}", psm.IdClanPP, psm.IdStavPP);
-                                <p id="smLink_@sm.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
-                                    <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
-                                        <a onclick="funShowTextSluzbenoMisljenje(@sm.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sm.Naslov</i></a>
-                                    </span>
-                                    <br />
-                                </p>
-                            }
-                        }*@
+                            string classString = String.Format("linkclan_{0}stav_{1}", psm.IdClanPP, psm.IdStavPP);
+                            <p id="smLink_@sm.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
+                                <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
+                                    <a onclick="funShowTextSluzbenoMisljenje(@sm.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sm.Naslov</i></a>
+                                </span>
+                                <br />
+                            </p>
+                        }
+                    }*@
 
                     SluzbenoMisljenje sm = sluzbenaMisljenja.FirstOrDefault(x => x.Id == psm.IdSluzbenoMisljenje);
 

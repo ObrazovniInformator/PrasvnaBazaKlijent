@@ -58,5 +58,6 @@ namespace PrasvnaBazaKlijent.Models
         //public ICollection<PropisInAkta> PropisInAkta { get; set; }
         public ICollection<ProsvetniPropisInAkta> ProsvetniPropisInAkta { get; set; }
         public ICollection<ProsvetniPropisSluzbenoMisljenje> ProsvetniPropisSluzbenoMisljenje { get; set; }
+        public ICollection<PdfFajlProsvetniPropis> PdfFajlProsvetniPropis { get; set; }
     }
 }

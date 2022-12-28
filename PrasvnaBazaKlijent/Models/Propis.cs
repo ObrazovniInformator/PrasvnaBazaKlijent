@@ -56,5 +56,6 @@ namespace PrasvnaBazaKlijent.Models
         public ICollection<PropisCasopis> PropisCasopis { get; set; }
         public ICollection<PropisInAkta> PropisInAkta { get; set; }
         public ICollection<PropisVest> PropisVest { get; set; }
+        public ICollection<PdfFajlPropis> PdfFajlPropis { get; set; }
     }
 }
