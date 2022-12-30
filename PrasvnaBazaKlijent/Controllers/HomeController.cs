@@ -527,6 +527,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 var ostaliProsvetniPropisi = (from m in _context.ProsvetnIPropis
                                               select m /*new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa })*/);
                 var casopisi = from m in _context.CasopisNaslov
+                               //where m.IdOblast == 1 || m.IdOblast == 2 || m.IdOblast == 3
                                select m;
                 var inAkta = from m in _context.InAkta
                              select m;

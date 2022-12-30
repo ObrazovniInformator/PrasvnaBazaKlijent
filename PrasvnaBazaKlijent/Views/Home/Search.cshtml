@@ -34,176 +34,173 @@
             <tbody>
                 @if (Model.Item1 != null)
                 {
-                    @foreach (var item in Model.Item1)
+                @foreach (var item in Model.Item1)
                     {
-                        @if (item.DatumPrestankaVazenjaPropisa == null && item.DatumPrestankaVerzije == null)
+                @if (item.DatumPrestankaVazenjaPropisa == null && item.DatumPrestankaVerzije == null)
                         {
 
-                            <tr style="margin-left:0px;">
-                                <td style="margin-left:0px">
-                                    <a href="~/TekstPropisa/Index/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja)</i></a>
-                                </td>
-                            </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/TekstPropisa/Index/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja)</i></a>
+                    </td>
+                </tr>
                         }
                         else
                         {
-                            <tr style="margin-left:0px;">
-                                <td style="margin-left:0px; color:#525A65!important; " id="listahover">
-                                    <a href="~/TekstPropisa/Index/@item.Id" class="nav-link" style="color:darkred"><strike><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja) | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
-                                </td>
-                            </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px; color:#525A65!important; " id="listahover">
+                        <a href="~/TekstPropisa/Index/@item.Id" class="nav-link" style="color:darkred"><strike><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja) | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
+                    </td>
+                </tr>
                         }
                     }
                 }
 
                 @if (ostaliPropisi != null)
                 {
-                    @foreach (Propis op in ostaliPropisi)
+                @foreach (Propis op in ostaliPropisi)
                     {
-                        @if (op.DatumPrestankaVazenjaPropisa == null && op.DatumPrestankaVerzije == null)
+                @if (op.DatumPrestankaVazenjaPropisa == null && op.DatumPrestankaVerzije == null)
                         {
 
-                            <tr style="margin-left:0px;">
-                                <td style="margin-left:0px">
-                                    <a href="~/TekstPropisa/Index/@op.Id" class="nav-link"><strong>@op.Naslov</strong> <span style="margin-left:10px;"></span> <i>@op.GlasiloIdatumObjavljivanja</i></a>
-                                </td>
-                            </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/TekstPropisa/Index/@op.Id" class="nav-link"><strong>@op.Naslov</strong> <span style="margin-left:10px;"></span> <i>@op.GlasiloIdatumObjavljivanja</i></a>
+                    </td>
+                </tr>
                         }
                         else
                         {
-                            <tr style="margin-left:0px;">
-                                <td style="margin-left:0px">
-                                    <a href="~/TekstPropisa/Index/@op.Id" class="nav-link" style="color:darkred"><strike><strong>@op.Naslov</strong> <span style="margin-left:10px;"></span> <i>@op.GlasiloIdatumObjavljivanja | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
-                                </td>
-                            </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/TekstPropisa/Index/@op.Id" class="nav-link" style="color:darkred"><strike><strong>@op.Naslov</strong> <span style="margin-left:10px;"></span> <i>@op.GlasiloIdatumObjavljivanja | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
+                    </td>
+                </tr>
                         }
                     }
                 }
 
                 @if (Model.Item2 != null)
                 {
-                    @foreach (var opp in Model.Item2)
+                @foreach (var opp in Model.Item2)
                     {
-                        @if (opp.DatumPrestankaVazenjaPropisa == null && opp.DatumPrestankaVerzije == null)
+                @if (opp.DatumPrestankaVazenjaPropisa == null && opp.DatumPrestankaVerzije == null)
                         {
-                            <tr style="margin-left:0px;">
-                                <td style="margin-left:0px">
-                                    <a href="~/TekstPropisaPP/Index/@opp.Id" class="nav-link"><strong>@opp.Naslov</strong> | <span style="margin-left:10px;"><i>@opp.GlasiloIDatumObjavljivanja</i></span></a>
-                                </td>
-                            </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/TekstPropisaPP/Index/@opp.Id" class="nav-link"><strong>@opp.Naslov</strong> | <span style="margin-left:10px;"><i>@opp.GlasiloIDatumObjavljivanja</i></span></a>
+                    </td>
+                </tr>
                         }
                         else
                         {
-                            <tr style="margin-left:0px;">
-                                <td style="margin-left:0px">
-                                    <a href="~/TekstPropisaPP/Index/@opp.Id" class="nav-link" style="color:darkred"><strike><strong>@opp.Naslov</strong> | <span style="margin-left:10px;"><i>@opp.GlasiloIDatumObjavljivanja</i></span></strike></a>
-                                </td>
-                            </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/TekstPropisaPP/Index/@opp.Id" class="nav-link" style="color:darkred"><strike><strong>@opp.Naslov</strong> | <span style="margin-left:10px;"><i>@opp.GlasiloIDatumObjavljivanja</i></span></strike></a>
+                    </td>
+                </tr>
                         }
                     }
                 }
 
                 @if (ostaliProsveetniPropisi != null)
                 {
-                    @foreach (ProsvetniPropis pp in ostaliProsveetniPropisi)
+                @foreach (ProsvetniPropis pp in ostaliProsveetniPropisi)
                     {
-                        @if (pp.DatumPrestankaVazenjaPropisa == null && pp.DatumPrestankaVerzije == null)
+                @if (pp.DatumPrestankaVazenjaPropisa == null && pp.DatumPrestankaVerzije == null)
                         {
-                            <tr style="margin-left:0px;">
-                                <td style="margin-left:0px">
-                                    <a href="~/TekstPropisaPP/Index/@pp.Id" class="nav-link"><strong>@pp.Naslov</strong> <span style="margin-left:10px;"></span> <i>@pp.GlasiloIDatumObjavljivanja</i></a>
-                                </td>
-                            </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/TekstPropisaPP/Index/@pp.Id" class="nav-link"><strong>@pp.Naslov</strong> <span style="margin-left:10px;"></span> <i>@pp.GlasiloIDatumObjavljivanja</i></a>
+                    </td>
+                </tr>
                         }
                         else
                         {
-                            <tr style="margin-left:0px;">
-                                <td style="margin-left:0px">
-                                    <a href="~/TekstPropisaPP/Index/@pp.Id" class="nav-link" style="color:darkred"><strike><strong>@pp.Naslov</strong> <span style="margin-left:10px;"></span> <i>@pp.GlasiloIDatumObjavljivanja | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
-                                </td>
-                            </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/TekstPropisaPP/Index/@pp.Id" class="nav-link" style="color:darkred"><strike><strong>@pp.Naslov</strong> <span style="margin-left:10px;"></span> <i>@pp.GlasiloIDatumObjavljivanja | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
+                    </td>
+                </tr>
                         }
                     }
                 }
 
                 @if (Model.Item3 != null)
                 {
-                    @foreach (var cas in Model.Item3)
+                @foreach (var cas in Model.Item3)
                     {
-                        @if (cas.IdPodrubrika > 0)
+                @if (cas.IdPodrubrika >= 0 && cas.IdOblast == 2)
                         {
-                            <tr style="margin-left:0px;">
-                                <td style="margin-left:0px">
-                                    <a href="~/PravniSavetnik/Prikaz/@cas.Id" class="nav-link"><strong>@cas.Naslov</strong></a>
-                                </td>
-                            </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/PravniSavetnik/Prikaz/@cas.Id" class="nav-link"><strong>@cas.Naslov</strong></a>
+                    </td>
+                </tr>
                         }
-                    }
-
-                    @foreach (var cas in Model.Item3)
-                    {
-                        <tr style="margin-left:0px;">
-                            <td style="margin-left:0px">
-                                <a href="~/BudzetskoRacunovodstvo/Prikaz/@cas.Id" class="nav-link"><strong>@cas.Naslov</strong></a>
-                            </td>
-                        </tr>
-                    }
-
-
-                    @foreach (var cas in Model.Item3)
-                    {
-                        <tr style="margin-left:0px;">
-                            <td style="margin-left:0px">
-                                <a href="~/PodsetnikZaDirektore/Prikaz/@cas.Id" class="nav-link"><strong>@cas.Naslov</strong></a>
-                            </td>
-                        </tr>
+                        else if (cas.IdPodrubrika >= 0 && cas.IdOblast == 1)
+                        {
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/BudzetskoRacunovodstvo/Prikaz/@cas.Id" class="nav-link"><strong>@cas.Naslov</strong></a>
+                    </td>
+                </tr>
+                        }
+                        else
+                        {
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/PodsetnikZaDirektore/Prikaz/@cas.Id" class="nav-link"><strong>@cas.Naslov</strong></a>
+                    </td>
+                </tr>
+                        }
                     }
                 }
                 @if (Model.Item4 != null)
                 {
-                    @foreach (var ia in Model.Item4)
+                @foreach (var ia in Model.Item4)
                     {
-                        <tr style="margin-left:0px;">
-                            <td style="margin-left:0px">
-                                <a href="~/InAkta/Prikaz/@ia.Id" class="nav-link"><strong>@ia.Naslov</strong></a>
-                            </td>
-                        </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/InAkta/Prikaz/@ia.Id" class="nav-link"><strong>@ia.Naslov</strong></a>
+                    </td>
+                </tr>
                     }
                 }
                 @if (Model.Item5 != null)
                 {
-                    @foreach (var sm in Model.Item5)
+                @foreach (var sm in Model.Item5)
                     {
-                        <tr style="margin-left:0px;">
-                            <td style="margin-left:0px">
-                                <a href="~/SluzbenaMisljenja/Prikaz/@sm.Id" class="nav-link"><strong>@sm.Naslov</strong></a>
-                            </td>
-                        </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/SluzbenaMisljenja/Prikaz/@sm.Id" class="nav-link"><strong>@sm.Naslov</strong></a>
+                    </td>
+                </tr>
                     }
                 }
                 @if (Model.Item6 != null)
                 {
-                    @foreach (var sp in Model.Item6)
+                @foreach (var sp in Model.Item6)
                     {
-                        <tr style="margin-left:0px;">
-                            <td style="margin-left:0px">
-                                <a href="~/SudskaPraksa/Prikaz/@sp.Id" class="nav-link"><strong>@sp.Naslov</strong> | <span style="margin-left:10px;"><i>@sp.Podnaslov</i></span> | <span style="margin-left:10px;"><i>@sp.Datum</i></span></a>
-                            </td>
-                        </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/SudskaPraksa/Prikaz/@sp.Id" class="nav-link"><strong>@sp.Naslov</strong> | <span style="margin-left:10px;"><i>@sp.Podnaslov</i></span> | <span style="margin-left:10px;"><i>@sp.Datum</i></span></a>
+                    </td>
+                </tr>
                     }
                 }
                 @if (Model.Item7 != null)
                 {
-                    @foreach (var pk in Model.Item7)
+                @foreach (var pk in Model.Item7)
                     {
-                        <tr style="margin-left:0px;">
-                            <td style="margin-left:0px">
-                                <a href="~/PrimeriKnjizenja/Prikaz/@pk.Id" class="nav-link"><strong>@pk.Naslov</strong></a>
-                            </td>
-                        </tr>
+                <tr style="margin-left:0px;">
+                    <td style="margin-left:0px">
+                        <a href="~/PrimeriKnjizenja/Prikaz/@pk.Id" class="nav-link"><strong>@pk.Naslov</strong></a>
+                    </td>
+                </tr>
                     }
                 }
-                </tbody>
+            </tbody>
         </table>
     </div>
 </section>
