@@ -464,7 +464,7 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, null, casopisi, null, null, null, null));
             }
-            else if (casopisCB == "on")
+            else if (primerKnjizenjaCB == "on")
             {
                 string trazeniPropis = pojamZaPretragu;
 
@@ -537,7 +537,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 var primeriKnjizenja = from m in _context.PrimeriKnjizenja
                                        select m;
 
-                if (!String.IsNullOrEmpty(trazeniPropis))
+                if (!String.IsNullOrEmpty(trazeniPojam))
                 {
                     foreach (string r in reciZaTrazenje)
                     {
