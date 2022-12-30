@@ -214,7 +214,7 @@ namespace PrasvnaBazaKlijent.Controllers
             var prosvetniPropisCB = formCollection["ProsvetniPropisCB"];
             var sudskaPraksaCB = formCollection["SudskaPraksaCB"];
             var sluzbenoMisljenjeCB = formCollection["SluzbenoMisljenjeCB"];
-            var casopisCB = formCollection["CasopisCB"]; 
+            var casopisCB = formCollection["CasopisCB"];
             var primerKnjizenjaCB = formCollection["PrimerKnjizenjaCB"];
 
             HttpContext.Session.SetString("pojamZaPretragu", pojamZaPretragu);
@@ -280,9 +280,9 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Reci = reciZaTrazenje;
                 ViewBag.InAkta = inAkta;
 
-                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>> (null, null, null, inAkta, null, null, null));
+                return View();
             }
-            else if(propisCB == "on")
+            else if (propisCB == "on")
             {
                 string trazeniPropis = pojamZaPretragu;
 
@@ -318,9 +318,9 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.OstaliPropisi = ostaliPropisi;
                 ViewBag.Reci = reciZaTrazenje;
 
-                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(propisi, null, null, null, null, null, null));
+                return View();
             }
-            else if( prosvetniPropisCB == "on")
+            else if (prosvetniPropisCB == "on")
             {
                 string trazeniPropis = pojamZaPretragu;
 
@@ -356,7 +356,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.ProsvetniPropisi = prosvetniPropisi;
                 ViewBag.OstaliProsvetniPropisi = ostaliProsvetniPropisi;
 
-                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, prosvetniPropisi, null, null, null, null, null));
+                return View();
             }
             else if (sudskaPraksaCB == "on")
             {
@@ -391,7 +391,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Reci = reciZaTrazenje;
                 ViewBag.SudskePrakse = sudskePrakse;
 
-                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, null, null, null, null, sudskePrakse, null));
+                return View();
             }
             else if (sluzbenoMisljenjeCB == "on")
             {
@@ -426,7 +426,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Reci = reciZaTrazenje;
                 ViewBag.SluzbenaMisljenja = sluzbenaMisljenja;
 
-                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, null, null, null, sluzbenaMisljenja, null, null));
+                return View();
             }
             else if (casopisCB == "on")
             {
@@ -462,7 +462,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Reci = reciZaTrazenje;
                 ViewBag.Casopisi = casopisi;
 
-                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, null, casopisi, null, null, null, null));
+                return View();
             }
             else if (primerKnjizenjaCB == "on")
             {
@@ -497,7 +497,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Reci = reciZaTrazenje;
                 ViewBag.PrimeriKnjizenja = primeriKnjizenja;
 
-                return View(Tuple.Create<IQueryable<Propis>, IQueryable<ProsvetniPropis>, IQueryable<CasopisNaslov>, IQueryable<InAkta>, IQueryable<SluzbenoMisljenje>, IQueryable<SudskaPraksa>, IQueryable<PrimeriKnjizenja>>(null, null, null, null, null, null, primeriKnjizenja));
+                return View();
             }
             else
             {
@@ -527,7 +527,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 var ostaliProsvetniPropisi = (from m in _context.ProsvetnIPropis
                                               select m /*new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa })*/);
                 var casopisi = from m in _context.CasopisNaslov
-                               //where m.IdOblast == 1 || m.IdOblast == 2 || m.IdOblast == 3
+                                   //where m.IdOblast == 1 || m.IdOblast == 2 || m.IdOblast == 3
                                select m;
                 var inAkta = from m in _context.InAkta
                              select m;
@@ -554,6 +554,7 @@ namespace PrasvnaBazaKlijent.Controllers
                     }
                 }
 
+                ViewBag.Propisi = propisi;
                 ViewBag.OstaliPropisi = ostaliPropisi;
                 ViewBag.Reci = reciZaTrazenje;
                 ViewBag.ProsvetniPropisi = prosvetniPropisi;
@@ -564,7 +565,8 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.SudskePrakse = sudskePrakse;
                 ViewBag.PrimeriKnjizenja = primeriKnjizenja;
 
-                return View(Tuple.Create(propisi, prosvetniPropisi, casopisi, inAkta, sluzbenaMisljenja, sudskePrakse, primeriKnjizenja));
+                // return View(Tuple.Create(propisi, prosvetniPropisi, casopisi, inAkta, sluzbenaMisljenja, sudskePrakse, primeriKnjizenja));
+                return View();
             }
         }
 

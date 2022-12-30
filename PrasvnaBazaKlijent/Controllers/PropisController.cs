@@ -25,11 +25,14 @@ namespace PrasvnaBazaKlijent.Controllers
                 IList<Propis> propisList = (from p in _context.Propis
                                             where p.IdPodrubrike == id
                                             orderby p.RedniBroj
-                                            select new Propis() { Id = p.Id, 
-                                                Naslov = p.Naslov, 
-                                                GlasiloIdatumObjavljivanja = p.GlasiloIdatumObjavljivanja, 
-                                                DatumPrestankaVerzije = p.DatumPrestankaVerzije, 
-                                                DatumPrestankaVazenjaPropisa = p.DatumPrestankaVazenjaPropisa }).AsNoTracking().ToList();
+                                            select new Propis()
+                                            {
+                                                Id = p.Id,
+                                                Naslov = p.Naslov,
+                                                GlasiloIdatumObjavljivanja = p.GlasiloIdatumObjavljivanja,
+                                                DatumPrestankaVerzije = p.DatumPrestankaVerzije,
+                                                DatumPrestankaVazenjaPropisa = p.DatumPrestankaVazenjaPropisa
+                                            }).AsNoTracking().ToList();
 
                 var propisiList = propisList.OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 ViewBag.IdPodrubrika = id;

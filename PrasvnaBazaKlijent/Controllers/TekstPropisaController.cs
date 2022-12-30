@@ -27,7 +27,7 @@ namespace PrasvnaBazaKlijent.Controllers
                                  select pr).AsNoTracking().SingleOrDefault();
                 List<PdfFajlPropis> pdfFajlovi = (from pd in _context.PdfFajlPropis
                                                   where pd.IdPropis == id
-                                                   select pd).ToList();
+                                                  select pd).ToList();
                 List<Podnaslov> podnaslov = (from p in _context.Podnaslov
                                              where p.IdPropis == propis.Id
                                              select p).AsNoTracking().ToList();
@@ -289,7 +289,7 @@ namespace PrasvnaBazaKlijent.Controllers
             var _context = new obrazovn_AdminPanelContext();
             PdfFajlPropis fajl = (from p in _context.PdfFajlPropis
                                   where p.Id == id
-                                   select p).SingleOrDefault();
+                                  select p).SingleOrDefault();
             string putanja = fajl.PdfPath;
             return File(System.IO.File.ReadAllBytes(putanja), "application/pdf");
         }

@@ -22,12 +22,16 @@ namespace PrasvnaBazaKlijent.Controllers
             using (var _context = new obrazovn_AdminPanelContext())
             {
                 IList<ProsvetniPropis> propisList = (from p in _context.ProsvetnIPropis
-                                                where p.IdPodrubrike == id
-                                                orderby p.RedniBroj
-                                                select new ProsvetniPropis() { Id = p.Id, 
-                                                    Naslov = p.Naslov, GlasiloIDatumObjavljivanja = p.GlasiloIDatumObjavljivanja, 
-                                                    DatumPrestankaVerzije = p.DatumPrestankaVerzije, 
-                                                    DatumPrestankaVazenjaPropisa = p.DatumPrestankaVazenjaPropisa }).AsNoTracking().ToList();
+                                                     where p.IdPodrubrike == id
+                                                     orderby p.RedniBroj
+                                                     select new ProsvetniPropis()
+                                                     {
+                                                         Id = p.Id,
+                                                         Naslov = p.Naslov,
+                                                         GlasiloIDatumObjavljivanja = p.GlasiloIDatumObjavljivanja,
+                                                         DatumPrestankaVerzije = p.DatumPrestankaVerzije,
+                                                         DatumPrestankaVazenjaPropisa = p.DatumPrestankaVazenjaPropisa
+                                                     }).AsNoTracking().ToList();
 
                 var propisiList = propisList.OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 ViewBag.PodrubrikaPP = id;

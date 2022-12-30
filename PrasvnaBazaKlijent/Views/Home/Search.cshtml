@@ -4,8 +4,9 @@
 @{
     ViewData["Title"] = "Index";
 
-    IQueryable<ProsvetniPropis> prosvetniPropiisi = (IQueryable<ProsvetniPropis>)ViewBag.ProsvetniPropisi;
+    IQueryable<Propis> propisi = ViewBag.Propisi;
     IQueryable<Propis> ostaliPropisi = (IQueryable<Propis>)ViewBag.OstaliPropisi;
+    IQueryable<ProsvetniPropis> prosvetniPropiisi = (IQueryable<ProsvetniPropis>)ViewBag.ProsvetniPropisi;
     IQueryable<ProsvetniPropis> ostaliProsveetniPropisi = (IQueryable<ProsvetniPropis>)ViewBag.OstaliProsvetniPropisi;
     IQueryable<CasopisNaslov> casopisi = (IQueryable<CasopisNaslov>)ViewBag.Casopisi;
     IQueryable<InAkta> inAkta = (IQueryable<InAkta>)ViewBag.InAkta;
@@ -32,9 +33,9 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model.Item1 != null)
+                @if (propisi != null)
                 {
-                @foreach (var item in Model.Item1)
+                @foreach (var item in propisi)
                     {
                 @if (item.DatumPrestankaVazenjaPropisa == null && item.DatumPrestankaVerzije == null)
                         {
@@ -80,9 +81,9 @@
                     }
                 }
 
-                @if (Model.Item2 != null)
+                @if (prosvetniPropiisi != null)
                 {
-                @foreach (var opp in Model.Item2)
+                @foreach (var opp in prosvetniPropiisi)
                     {
                 @if (opp.DatumPrestankaVazenjaPropisa == null && opp.DatumPrestankaVerzije == null)
                         {
@@ -126,9 +127,9 @@
                     }
                 }
 
-                @if (Model.Item3 != null)
+                @if (casopisi != null)
                 {
-                @foreach (var cas in Model.Item3)
+                @foreach (var cas in casopisi)
                     {
                 @if (cas.IdPodrubrika >= 0 && cas.IdOblast == 2)
                         {
@@ -156,9 +157,9 @@
                         }
                     }
                 }
-                @if (Model.Item4 != null)
+                @if (inAkta != null)
                 {
-                @foreach (var ia in Model.Item4)
+                @foreach (var ia in inAkta)
                     {
                 <tr style="margin-left:0px;">
                     <td style="margin-left:0px">
@@ -167,9 +168,9 @@
                 </tr>
                     }
                 }
-                @if (Model.Item5 != null)
+                @if (sluzbenaMisljenja != null)
                 {
-                @foreach (var sm in Model.Item5)
+                @foreach (var sm in sluzbenaMisljenja)
                     {
                 <tr style="margin-left:0px;">
                     <td style="margin-left:0px">
@@ -178,9 +179,9 @@
                 </tr>
                     }
                 }
-                @if (Model.Item6 != null)
+                @if (sudskePrakse != null)
                 {
-                @foreach (var sp in Model.Item6)
+                @foreach (var sp in sudskePrakse)
                     {
                 <tr style="margin-left:0px;">
                     <td style="margin-left:0px">
@@ -189,9 +190,9 @@
                 </tr>
                     }
                 }
-                @if (Model.Item7 != null)
+                @if (primeriKnjizenja != null)
                 {
-                @foreach (var pk in Model.Item7)
+                @foreach (var pk in primeriKnjizenja)
                     {
                 <tr style="margin-left:0px;">
                     <td style="margin-left:0px">
