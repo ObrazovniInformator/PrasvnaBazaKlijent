@@ -209,19 +209,16 @@ namespace PrasvnaBazaKlijent.Controllers
         {
             var pojamZaPretragu = formCollection["search"];
 
-            var inAktaCB = formCollection["InAktaCB"];
             var propisCB = formCollection["PropisCB"];
             var prosvetniPropisCB = formCollection["ProsvetniPropisCB"];
-            var sudskaPraksaCB = formCollection["SudskaPraksaCB"];
-            var sluzbenoMisljenjeCB = formCollection["SluzbenoMisljenjeCB"];
             var casopisCB = formCollection["CasopisCB"];
+            var inAktaCB = formCollection["InAktaCB"];
+            var sluzbenoMisljenjeCB = formCollection["SluzbenoMisljenjeCB"];
+            var sudskaPraksaCB = formCollection["SudskaPraksaCB"];
             var primerKnjizenjaCB = formCollection["PrimerKnjizenjaCB"];
 
             HttpContext.Session.SetString("pojamZaPretragu", pojamZaPretragu);
-            if (String.IsNullOrEmpty(inAktaCB) == false)
-            {
-                HttpContext.Session.SetString("inAktaCB", inAktaCB);
-            }
+            
             if (String.IsNullOrEmpty(propisCB) == false)
             {
                 HttpContext.Session.SetString("propisCB", propisCB);
@@ -230,24 +227,28 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 HttpContext.Session.SetString("prosvetniPropisCB", prosvetniPropisCB);
             }
-            if (String.IsNullOrEmpty(sudskaPraksaCB) == false)
+            if (String.IsNullOrEmpty(casopisCB) == false)
             {
-                HttpContext.Session.SetString("sudskaPraksaCB", sudskaPraksaCB);
+                HttpContext.Session.SetString("casopisCB", casopisCB);
+            }
+            if (String.IsNullOrEmpty(inAktaCB) == false)
+            {
+                HttpContext.Session.SetString("inAktaCB", inAktaCB);
             }
             if (String.IsNullOrEmpty(sluzbenoMisljenjeCB) == false)
             {
                 HttpContext.Session.SetString("sluzbenoMisljenjeCB", sluzbenoMisljenjeCB);
             }
-            if (String.IsNullOrEmpty(casopisCB) == false)
+            if (String.IsNullOrEmpty(sudskaPraksaCB) == false)
             {
-                HttpContext.Session.SetString("casopisCB", casopisCB);
+                HttpContext.Session.SetString("sudskaPraksaCB", sudskaPraksaCB);
             }
             if (String.IsNullOrEmpty(primerKnjizenjaCB) == false)
             {
                 HttpContext.Session.SetString("primerKnjizenjaCB", primerKnjizenjaCB);
             }
 
-            if (inAktaCB == "on")
+            if (propisCB == "on")
             {
                 string trazeniPropis = pojamZaPretragu;
 
@@ -263,43 +264,6 @@ namespace PrasvnaBazaKlijent.Controllers
                 string trazeniPojam = trazeniPropis;
 
                 trazeniPojam = ToCir(trazeniPropis);
-
-                string[] reciZaTrazenje = trazeniPojam.Split(' ');
-
-                var inAkta = from m in _context.InAkta
-                             select m;
-
-                if (!String.IsNullOrEmpty(trazeniPropis))
-                {
-                    foreach (string r in reciZaTrazenje)
-                    {
-                        inAkta = inAkta.Where(s => s.Tekst.Contains(r));
-                    }
-                }
-
-                ViewBag.Reci = reciZaTrazenje;
-                ViewBag.InAkta = inAkta;
-
-                return View();
-            }
-            else if (propisCB == "on")
-            {
-                string trazeniPropis = pojamZaPretragu;
-
-                if (trazeniPropis != null)
-                {
-                    HttpContext.Session.SetString("trazeni", trazeniPropis);
-                }
-                else
-                {
-                    trazeniPropis = "Zakon";
-                }
-
-                string trazeniPojam = trazeniPropis;
-
-                trazeniPojam = ToCir(trazeniPropis);
-
-                string[] reciZaTrazenje = trazeniPojam.Split(' ');
 
                 var propisi = from m in _context.Propis
                               select m;
@@ -308,17 +272,13 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 if (!String.IsNullOrEmpty(trazeniPropis))
                 {
-                    foreach (string r in reciZaTrazenje)
-                    {
-                        propisi = propisi.Where(s => (s.TekstPropisa.Contains(r)) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                        ostaliPropisi = ostaliPropisi.Where(s => (s.TekstPropisa.Contains(r)) && s.VrstaPropisa != "Закон").OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                    }
+                    propisi = propisi.Where(s => (s.TekstPropisa.Contains(trazeniPojam)) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                    ostaliPropisi = ostaliPropisi.Where(s => (s.TekstPropisa.Contains(trazeniPojam)) && s.VrstaPropisa != "Закон").OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 }
 
                 ViewBag.OstaliPropisi = ostaliPropisi;
-                ViewBag.Reci = reciZaTrazenje;
 
-                return View();
+                return View(Tuple.Create<List<Propis>, List<ProsvetniPropis>, List<CasopisNaslov>, List<InAkta>, List<SluzbenoMisljenje>, List<SudskaPraksa>, List<PrimeriKnjizenja>>(propisi.ToList(), null, null, null, null, null, null));
             }
             else if (prosvetniPropisCB == "on")
             {
@@ -337,7 +297,7 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 trazeniPojam = ToCir(trazeniPropis);
 
-                string[] reciZaTrazenje = trazeniPojam.Split(' ');
+                //string[] reciZaTrazenje = trazeniPojam.Split(' ');
 
                 var prosvetniPropisi = from m in _context.ProsvetnIPropis
                                        select m;
@@ -345,88 +305,18 @@ namespace PrasvnaBazaKlijent.Controllers
                                               select m /*new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa })*/);
                 if (!String.IsNullOrEmpty(trazeniPropis))
                 {
-                    foreach (string r in reciZaTrazenje)
-                    {
-                        prosvetniPropisi = prosvetniPropisi.Where(s => s.TekstPropisa.Contains(r) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                        ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.TekstPropisa.Contains(r) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                    }
+                    //foreach (string r in reciZaTrazenje)
+                    //{
+                        prosvetniPropisi = prosvetniPropisi.Where(s => s.TekstPropisa.Contains(trazeniPojam) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                        ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.TekstPropisa.Contains(trazeniPojam) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                    //}
                 }
 
-                ViewBag.Reci = reciZaTrazenje;
+                //ViewBag.Reci = reciZaTrazenje;
                 ViewBag.ProsvetniPropisi = prosvetniPropisi;
                 ViewBag.OstaliProsvetniPropisi = ostaliProsvetniPropisi;
 
-                return View();
-            }
-            else if (sudskaPraksaCB == "on")
-            {
-                string trazeniPropis = pojamZaPretragu;
-
-                if (trazeniPropis != null)
-                {
-                    HttpContext.Session.SetString("trazeni", trazeniPropis);
-                }
-                else
-                {
-                    trazeniPropis = "Zakon";
-                }
-
-                string trazeniPojam = trazeniPropis;
-
-                trazeniPojam = ToCir(trazeniPropis);
-
-                string[] reciZaTrazenje = trazeniPojam.Split(' ');
-
-                var sudskePrakse = from m in _context.SudskaPraksa
-                                   select m;
-
-                if (!String.IsNullOrEmpty(trazeniPropis))
-                {
-                    foreach (string r in reciZaTrazenje)
-                    {
-                        sudskePrakse = sudskePrakse.Where(s => s.Tekst.Contains(r));
-                    }
-                }
-
-                ViewBag.Reci = reciZaTrazenje;
-                ViewBag.SudskePrakse = sudskePrakse;
-
-                return View();
-            }
-            else if (sluzbenoMisljenjeCB == "on")
-            {
-                string trazeniPropis = pojamZaPretragu;
-
-                if (trazeniPropis != null)
-                {
-                    HttpContext.Session.SetString("trazeni", trazeniPropis);
-                }
-                else
-                {
-                    trazeniPropis = "Zakon";
-                }
-
-                string trazeniPojam = trazeniPropis;
-
-                trazeniPojam = ToCir(trazeniPropis);
-
-                string[] reciZaTrazenje = trazeniPojam.Split(' ');
-
-                var sluzbenaMisljenja = from m in _context.SluzbenoMisljenje
-                                        select m;
-
-                if (!String.IsNullOrEmpty(trazeniPropis))
-                {
-                    foreach (string r in reciZaTrazenje)
-                    {
-                        sluzbenaMisljenja = sluzbenaMisljenja.Where(s => s.Tekst.Contains(r));
-                    }
-                }
-
-                ViewBag.Reci = reciZaTrazenje;
-                ViewBag.SluzbenaMisljenja = sluzbenaMisljenja;
-
-                return View();
+                return View(Tuple.Create<List<Propis>, List<ProsvetniPropis>, List<CasopisNaslov>, List<InAkta>, List<SluzbenoMisljenje>, List<SudskaPraksa>, List<PrimeriKnjizenja>>(null, prosvetniPropisi.ToList(), null, null, null, null, null));
             }
             else if (casopisCB == "on")
             {
@@ -445,24 +335,102 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 trazeniPojam = ToCir(trazeniPropis);
 
-                string[] reciZaTrazenje = trazeniPojam.Split(' ');
-
-
                 var casopisi = from m in _context.CasopisNaslov
                                select m;
 
                 if (!String.IsNullOrEmpty(trazeniPropis))
                 {
-                    foreach (string r in reciZaTrazenje)
-                    {
-                        casopisi = casopisi.Where(s => s.Tekst.Contains(r));
-                    }
+                    casopisi = casopisi.Where(s => s.Tekst.Contains(trazeniPojam));
                 }
 
-                ViewBag.Reci = reciZaTrazenje;
                 ViewBag.Casopisi = casopisi;
 
-                return View();
+                return View(Tuple.Create<List<Propis>, List<ProsvetniPropis>, List<CasopisNaslov>, List<InAkta>, List<SluzbenoMisljenje>, List<SudskaPraksa>, List<PrimeriKnjizenja>>(null, null, casopisi.ToList(), null, null, null, null));
+            }
+            else if (inAktaCB == "on")
+            {
+                string trazeniPropis = pojamZaPretragu;
+
+                if (trazeniPropis != null)
+                {
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
+                }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                var inAkta = from m in _context.InAkta
+                             select m;
+
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    inAkta = inAkta.Where(s => s.Tekst.Contains(trazeniPojam));
+                }
+                ViewBag.InAkta = inAkta;
+
+                return View(Tuple.Create<List<Propis>, List<ProsvetniPropis>, List<CasopisNaslov>, List<InAkta>, List<SluzbenoMisljenje>, List<SudskaPraksa>, List<PrimeriKnjizenja>>(null, null, null, inAkta.ToList(), null, null, null));
+            }
+            else if (sluzbenoMisljenjeCB == "on")
+            {
+                string trazeniPropis = pojamZaPretragu;
+
+                if (trazeniPropis != null)
+                {
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
+                }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                var sluzbenaMisljenja = from m in _context.SluzbenoMisljenje
+                                        select m;
+
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    sluzbenaMisljenja = sluzbenaMisljenja.Where(s => s.Tekst.Contains(trazeniPojam));
+                }
+
+                ViewBag.SluzbenaMisljenja = sluzbenaMisljenja;
+
+                return View(Tuple.Create<List<Propis>, List<ProsvetniPropis>, List<CasopisNaslov>, List<InAkta>, List<SluzbenoMisljenje>, List<SudskaPraksa>, List<PrimeriKnjizenja>>(null, null, null, null, sluzbenaMisljenja.ToList(), null, null));
+            }
+            else if (sudskaPraksaCB == "on")
+            {
+                string trazeniPropis = pojamZaPretragu;
+
+                if (trazeniPropis != null)
+                {
+                    HttpContext.Session.SetString("trazeni", trazeniPropis);
+                }
+                else
+                {
+                    trazeniPropis = "Zakon";
+                }
+
+                string trazeniPojam = trazeniPropis;
+
+                trazeniPojam = ToCir(trazeniPropis);
+
+                var sudskePrakse = from m in _context.SudskaPraksa
+                                   select m;
+
+                if (!String.IsNullOrEmpty(trazeniPropis))
+                {
+                    sudskePrakse = sudskePrakse.Where(s => s.Tekst.Contains(trazeniPojam));
+                }
+                ViewBag.SudskePrakse = sudskePrakse;
+
+                return View(Tuple.Create<List<Propis>, List<ProsvetniPropis>, List<CasopisNaslov>, List<InAkta>, List<SluzbenoMisljenje>, List<SudskaPraksa>, List<PrimeriKnjizenja>>(null, null, null, null, null, sudskePrakse.ToList(), null));
             }
             else if (primerKnjizenjaCB == "on")
             {
@@ -481,23 +449,17 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 trazeniPojam = ToCir(trazeniPropis);
 
-                string[] reciZaTrazenje = trazeniPojam.Split(' ');
-
                 var primeriKnjizenja = from m in _context.PrimeriKnjizenja
                                        select m;
 
                 if (!String.IsNullOrEmpty(trazeniPropis))
                 {
-                    foreach (string r in reciZaTrazenje)
-                    {
-                        primeriKnjizenja = primeriKnjizenja.Where(s => s.Tekst.Contains(r));
-                    }
-                }
 
-                ViewBag.Reci = reciZaTrazenje;
+                    primeriKnjizenja = primeriKnjizenja.Where(s => s.Tekst.Contains(trazeniPojam));
+                }
                 ViewBag.PrimeriKnjizenja = primeriKnjizenja;
 
-                return View();
+                return View(Tuple.Create<List<Propis>, List<ProsvetniPropis>, List<CasopisNaslov>, List<InAkta>, List<SluzbenoMisljenje>, List<SudskaPraksa>, List<PrimeriKnjizenja>>(null, null, null, null, null, null, primeriKnjizenja.ToList()));
             }
             else
             {
@@ -516,8 +478,6 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 trazeniPojam = ToCir(trazeniPropis);
 
-                string[] reciZaTrazenje = trazeniPojam.Split(' ');
-
                 var propisi = from m in _context.Propis
                               select m;
                 var ostaliPropisi = from m in _context.Propis
@@ -527,7 +487,6 @@ namespace PrasvnaBazaKlijent.Controllers
                 var ostaliProsvetniPropisi = (from m in _context.ProsvetnIPropis
                                               select m /*new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa })*/);
                 var casopisi = from m in _context.CasopisNaslov
-                                   //where m.IdOblast == 1 || m.IdOblast == 2 || m.IdOblast == 3
                                select m;
                 var inAkta = from m in _context.InAkta
                              select m;
@@ -538,35 +497,20 @@ namespace PrasvnaBazaKlijent.Controllers
                 var primeriKnjizenja = from m in _context.PrimeriKnjizenja
                                        select m;
 
-                if (!String.IsNullOrEmpty(trazeniPojam))
-                {
-                    foreach (string r in reciZaTrazenje)
-                    {
-                        propisi = propisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                        ostaliPropisi = ostaliPropisi.Where(s => (s.Naslov.Contains(r)) && s.VrstaPropisa != "Закон").OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                        prosvetniPropisi = prosvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                        ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.Naslov.Contains(r) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                        casopisi = casopisi.Where(s => s.Naslov.Contains(r));
-                        inAkta = inAkta.Where(s => s.Naslov.Contains(r));
-                        sluzbenaMisljenja = sluzbenaMisljenja.Where(s => s.Naslov.Contains(r));
-                        sudskePrakse = sudskePrakse.Where(s => s.Naslov.Contains(r));
-                        primeriKnjizenja = primeriKnjizenja.Where(s => s.Naslov.Contains(r));
-                    }
-                }
+                propisi = _context.Propis.Where(s => (s.Naslov.Contains(trazeniPojam)) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                ostaliPropisi = ostaliPropisi.Where(s => (s.Naslov.Contains(trazeniPojam)) && s.VrstaPropisa != "Закон").OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                prosvetniPropisi = _context.ProsvetnIPropis.Where(s => s.Naslov.Contains(trazeniPojam) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.Naslov.Contains(trazeniPojam) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                casopisi = _context.CasopisNaslov.Where(s => s.Naslov.Contains(trazeniPojam));
+                inAkta = _context.InAkta.Where(s => s.Naslov.Contains(trazeniPojam));
+                sluzbenaMisljenja = _context.SluzbenoMisljenje.Where(s => s.Naslov.Contains(trazeniPojam));
+                sudskePrakse = _context.SudskaPraksa.Where(s => s.Naslov.Contains(trazeniPojam));
+                primeriKnjizenja = _context.PrimeriKnjizenja.Where(s => s.Naslov.Contains(trazeniPojam));
 
-                ViewBag.Propisi = propisi;
                 ViewBag.OstaliPropisi = ostaliPropisi;
-                ViewBag.Reci = reciZaTrazenje;
-                ViewBag.ProsvetniPropisi = prosvetniPropisi;
                 ViewBag.OstaliProsvetniPropisi = ostaliProsvetniPropisi;
-                ViewBag.Casopisi = casopisi;
-                ViewBag.InAkta = inAkta;
-                ViewBag.SluzbenaMisljenja = sluzbenaMisljenja;
-                ViewBag.SudskePrakse = sudskePrakse;
-                ViewBag.PrimeriKnjizenja = primeriKnjizenja;
 
-                // return View(Tuple.Create(propisi, prosvetniPropisi, casopisi, inAkta, sluzbenaMisljenja, sudskePrakse, primeriKnjizenja));
-                return View();
+                return View(Tuple.Create(propisi.ToList(), prosvetniPropisi.ToList(), casopisi.ToList(), inAkta.ToList(), sluzbenaMisljenja.ToList(), sudskePrakse.ToList(), primeriKnjizenja.ToList())); ;
             }
         }
 
