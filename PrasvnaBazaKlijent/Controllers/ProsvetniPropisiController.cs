@@ -11,8 +11,6 @@ namespace PrasvnaBazaKlijent.Controllers
     [Authorize]
     public class ProsvetniPropisiController : Controller
     {
-        //obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
-
         public IActionResult Index(int id)
         {
             using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
@@ -23,7 +21,7 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 IList<ProsvetniPropis> propisList = (from p in _context.ProsvetnIPropis
                                                      where p.IdPodrubrike == id
-                                                     orderby p.RedniBroj
+                                                     orderby p.RedniBroj descending
                                                      select new ProsvetniPropis()
                                                      {
                                                          Id = p.Id,
