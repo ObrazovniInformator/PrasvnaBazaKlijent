@@ -9,15 +9,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Transactions;
+using X.PagedList;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
     [Authorize]
     public class InAktaController : Controller
     {
-        //obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
-        public IActionResult Index(int id)
+        public IActionResult Index(int id, int? page)
         {
+            var pageNumber = page ?? 1;
             using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
             {
                 IsolationLevel = IsolationLevel.ReadUncommitted
@@ -28,7 +29,7 @@ namespace PrasvnaBazaKlijent.Controllers
                                         where i.IdPodpodrubrika == id
                                         select new InAkta() { Id = i.Id, Naslov = i.Naslov, DatumObjavljivanja = i.DatumObjavljivanja }).AsNoTracking().ToList();
                 ViewBag.IdPodpodrubrike = id;
-                return View(inAktas);
+                return View(inAktas.ToPagedList(pageNumber, 10));
             }
         }
         public IActionResult Prikaz(int id)

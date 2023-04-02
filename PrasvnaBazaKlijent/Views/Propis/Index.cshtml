@@ -1,37 +1,40 @@
 ﻿@model IEnumerable<PrasvnaBazaKlijent.Models.Propis>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Common;
 
 @{
     ViewData["Title"] = "Index";
     obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
     int p = ViewBag.IdPodrubrika;
-    int r =(int)(from rub in _context.Podrubrika
-                 where rub.Id == p
-                 select rub.IdRubrika).Single();
-    int go =(int) (from gl in _context.Rubrika
-              where gl.Id == r
-              select gl.IdOblast).Single();
+    int r = (int)(from rub in _context.Podrubrika
+                  where rub.Id == p
+                  select rub.IdRubrika).Single();
+    int go = (int)(from gl in _context.Rubrika
+                   where gl.Id == r
+                   select gl.IdOblast).Single();
 }
 <style>
-    .slika{
-        width:auto;
-
+    .slika {
+        width: auto;
         background-attachment: fixed;
         background-repeat: no-repeat;
-        
     }
+
     .glavnopolje {
-       background-image: url("");
-       box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.25);
-       
+        background-image: url("");
+        box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.25);
     }
+
     #listahover {
         /*color:#525A65;*/
     }
-    #listahover:hover{
-        border-radius:10px;
-        background-color:#cccdfd;
-        /*color:#525A65;*/
-    }
+
+        #listahover:hover {
+            border-radius: 10px;
+            background-color: #cccdfd;
+            /*color:#525A65;*/
+        }
 </style>
 <script>
 
@@ -55,56 +58,48 @@
             position: relative
         }
     </style>
-    @*<div class="content-wrapper">
-        <img id="slika" src="~/slike/background img.png">*@
- 
-        <div class="glavnopolje navbar-expand">
-            <div>
 
-                <h1>
-                    ПРОПИСИ <br>
-                </h1>
+    <div class="glavnopolje navbar-expand">
+        <div>
 
-                <table class="table float-lg-right" style="margin-top:4%; width:100%">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayName("Наслов прописа")
-                            </th>
+            <h1>
+                ПРОПИСИ <br>
+            </h1>
 
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
+            <table class="table float-lg-right" style="margin-top:4%; width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayName("Наслов прописа")
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        @if (item.DatumPrestankaVerzije != null || item.DatumPrestankaVazenjaPropisa != null)
                         {
-                            @if (item.DatumPrestankaVerzije != null || item.DatumPrestankaVazenjaPropisa !=null)
-                            {
-                                <tr style="margin-left:0px;">
-                                    <td style="margin-left:0px; color:#525A65!important; " id="listahover">
-                                        <a href="~/TekstPropisa/Index/@item.Id" class="nav-link" style="color:darkred"><strike><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja) | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
-                                    </td>
-
-
-                                </tr>
-
-                            }
-                            else
-                            {
-                                <tr style="margin-left:0px;">
-                                    <td style="margin-left:0px">
-                                        <a href="~/TekstPropisa/Index/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja)</i></a>
-                                    </td>
-
-
-                                </tr>
-
-                            }
+                            <tr style="margin-left:0px;">
+                                <td style="margin-left:0px; color:#525A65!important; " id="listahover">
+                                    <a href="~/TekstPropisa/Index/@item.Id" class="nav-link" style="color:darkred"><strike><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja) | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
+                                </td>
+                            </tr>
                         }
-                    </tbody>
-                </table>
-            </div>
+                        else
+                        {
+                            <tr style="margin-left:0px;">
+                                <td style="margin-left:0px">
+                                    <a href="~/TekstPropisa/Index/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja)</i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
         </div>
+    </div>
 
-    @*</div>*@
+    <div class="glavnopolje navbar-expand">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", "Propis", new { page = page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< Прва", LinkToPreviousPageFormat = "< Претходна", LinkToNextPageFormat = "Следећа >", LinkToLastPageFormat = "Последња >>", LiElementClasses = new string[] { "page-item" }, PageClasses = new string[] { "page-link" } })
+    </div>
 </section>

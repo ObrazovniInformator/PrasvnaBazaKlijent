@@ -5,14 +5,16 @@ using PrasvnaBazaKlijent.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using X.PagedList;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
     [Authorize]
     public class ProsvetniPropisiController : Controller
     {
-        public IActionResult Index(int id)
+        public IActionResult Index(int id, int? page)
         {
+            var pageNumber = page ?? 1;
             using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
             {
                 IsolationLevel = IsolationLevel.ReadUncommitted
@@ -33,7 +35,7 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 var propisiList = propisList.OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 ViewBag.PodrubrikaPP = id;
-                return View(propisiList);
+                return View(propisiList.ToPagedList(pageNumber, 10));
             }
         }
     }

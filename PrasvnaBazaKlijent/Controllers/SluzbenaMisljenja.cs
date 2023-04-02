@@ -6,6 +6,7 @@ using Rotativa.AspNetCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using X.PagedList;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
@@ -14,8 +15,9 @@ namespace PrasvnaBazaKlijent.Controllers
     {
         //obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
 
-        public IActionResult Index(int id)
+        public IActionResult Index(int id, int? page)
         {
+            var pageNumber = page ?? 1;
             using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
             {
                 IsolationLevel = IsolationLevel.ReadUncommitted
@@ -26,7 +28,7 @@ namespace PrasvnaBazaKlijent.Controllers
                                                               where sm.IdRubrikaSm == id
                                                               select new SluzbenoMisljenje() { Id = sm.Id, Naslov = sm.Naslov, Podnaslov = sm.Podnaslov, DatumDonosenja = sm.DatumDonosenja }).AsNoTracking().ToList();
                 ViewBag.Podrubrika = id;
-                return View(sluzbenaMisljenjas);
+                return View(sluzbenaMisljenjas.ToPagedList(pageNumber, 10));
             }
         }
 

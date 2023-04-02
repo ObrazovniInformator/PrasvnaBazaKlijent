@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<PrasvnaBazaKlijent.Models.InAkta>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Common;
 
 @{
     ViewData["Title"] = "Index";
@@ -50,7 +53,9 @@
                 }
             </tbody>
         </table>
+    </div>
 
-
+    <div class="glavnopolje navbar-expand">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", "InAkta", new { page = page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< Прва", LinkToPreviousPageFormat = "< Претходна", LinkToNextPageFormat = "Следећа >", LinkToLastPageFormat = "Последња >>", LiElementClasses = new string[] { "page-item" }, PageClasses = new string[] { "page-link" } })
     </div>
 </section>

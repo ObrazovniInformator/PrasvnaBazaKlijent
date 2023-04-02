@@ -1,16 +1,21 @@
 ﻿@model IEnumerable<PrasvnaBazaKlijent.Models.SluzbenoMisljenje>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Common;
+
 @{
     obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
     int p = ViewBag.Podrubrika;
-   
+
 }
 <style>
 
     .glavnopolje {
-        width:90%;
+        width: 90%;
         margin-left: 5%;
         box-shadow: 0 1px 4px 0;
     }
+
         .glavnopolje h1 {
             font-style: normal;
             width: 100%;
@@ -57,7 +62,9 @@
                 }
             </tbody>
         </table>
+    </div>
 
-
+    <div class="glavnopolje navbar-expand">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", "SluzbenaMisljenja", new { page = page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< Прва", LinkToPreviousPageFormat = "< Претходна", LinkToNextPageFormat = "Следећа >", LinkToLastPageFormat = "Последња >>", LiElementClasses = new string[] { "page-item" }, PageClasses = new string[] { "page-link" } })
     </div>
 </section>

@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<PrasvnaBazaKlijent.Models.ProsvetniPropis>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Common;
 
 @{
     ViewData["Title"] = "Index";
@@ -7,12 +10,11 @@
     int rp = (from rub in _context.PodrubrikaPP
               where rub.ID == pr
               select rub.IdRubrika).Single();
- 
+
 }
 <style>
 </style>
 <style>
-
 </style>
 <script>
     //BACKGROUND
@@ -49,7 +51,8 @@
                             <td style="margin-left:0px">
                                 <a href="~/TekstPropisaPP/Index/@item.Id" class="nav-link"><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIDatumObjavljivanja)</i></a>
                             </td>
-                        </tr>   
+                        </tr>
+
                     }
                     else
                     {
@@ -62,5 +65,9 @@
                 }
             </tbody>
         </table>
-    </div> 
+    </div>
+
+    <div class="glavnopolje navbar-expand">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", "ProsvetniPropisi", new { page = page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< Прва", LinkToPreviousPageFormat = "< Претходна", LinkToNextPageFormat = "Следећа >", LinkToLastPageFormat = "Последња >>", LiElementClasses = new string[] { "page-item" }, PageClasses = new string[] { "page-link" } })
+    </div>
 </section>
