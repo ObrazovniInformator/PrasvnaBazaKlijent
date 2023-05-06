@@ -27,8 +27,9 @@ namespace PrasvnaBazaKlijent.Controllers
                 List<SluzbenoMisljenje> sluzbenaMisljenjas = (from sm in _context.SluzbenoMisljenje
                                                               where sm.IdRubrikaSm == id
                                                               select new SluzbenoMisljenje() { Id = sm.Id, Naslov = sm.Naslov, Podnaslov = sm.Podnaslov, DatumDonosenja = sm.DatumDonosenja }).AsNoTracking().ToList();
+                var sluzbenaMisljenja = sluzbenaMisljenjas.OrderByDescending(m => m.Id);
                 ViewBag.Podrubrika = id;
-                return View(sluzbenaMisljenjas.ToPagedList(pageNumber, 10));
+                return View(sluzbenaMisljenja.ToPagedList(pageNumber, 10));
             }
         }
 
