@@ -25,9 +25,17 @@ namespace PrasvnaBazaKlijent.Controllers
             using (var _context = new obrazovn_AdminPanelContext())
             {
                 List<SluzbenoMisljenje> sluzbenaMisljenjas = (from sm in _context.SluzbenoMisljenje
-                                                              where sm.IdRubrikaSm == id
-                                                              select new SluzbenoMisljenje() { Id = sm.Id, Naslov = sm.Naslov, Podnaslov = sm.Podnaslov, DatumDonosenja = sm.DatumDonosenja }).AsNoTracking().ToList();
-                var sluzbenaMisljenja = sluzbenaMisljenjas.OrderByDescending(m => m.Id);
+                                                              where sm.IdPodrubrikaSm == id
+                                                              orderby sm.RedniBroj descending
+                                                              select new SluzbenoMisljenje() 
+                                                              { 
+                                                                  Id = sm.Id, 
+                                                                  Naslov = sm.Naslov, 
+                                                                  Podnaslov = sm.Podnaslov, 
+                                                                  DatumDonosenja = sm.DatumDonosenja 
+                                                              }).AsNoTracking().ToList();
+                
+                var sluzbenaMisljenja = sluzbenaMisljenjas.OrderByDescending(m => m.Id).ThenBy(m => m.RedniBroj == null);
                 ViewBag.Podrubrika = id;
                 return View(sluzbenaMisljenja.ToPagedList(pageNumber, 10));
             }

@@ -397,7 +397,7 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 if (!String.IsNullOrEmpty(trazeniPropis))
                 {
-                    sluzbenaMisljenja = sluzbenaMisljenja.Where(s => s.Tekst.Contains(trazeniPojam));
+                    sluzbenaMisljenja = sluzbenaMisljenja.Where(s => s.Tekst.Contains(trazeniPojam)).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 }
 
                 ViewBag.SluzbenaMisljenja = sluzbenaMisljenja;
@@ -503,7 +503,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.Naslov.Contains(trazeniPojam) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 casopisi = _context.CasopisNaslov.Where(s => s.Naslov.Contains(trazeniPojam));
                 inAkta = _context.InAkta.Where(s => s.Naslov.Contains(trazeniPojam));
-                sluzbenaMisljenja = _context.SluzbenoMisljenje.Where(s => s.Naslov.Contains(trazeniPojam));
+                sluzbenaMisljenja = _context.SluzbenoMisljenje.Where(s => s.Naslov.Contains(trazeniPojam)).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 sudskePrakse = _context.SudskaPraksa.Where(s => s.Naslov.Contains(trazeniPojam));
                 primeriKnjizenja = _context.PrimeriKnjizenja.Where(s => s.Naslov.Contains(trazeniPojam));
 
@@ -642,7 +642,7 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 var sluzbenoMisljenje = from sm in _context.SluzbenoMisljenje
                                         select sm;
-                sluzbenoMisljenje = sluzbenoMisljenje.Where(s => s.Naslov.Contains(cirilicaKon) || s.Podnaslov.Contains(cirilicaKon));
+                sluzbenoMisljenje = sluzbenoMisljenje.Where(s => s.Naslov.Contains(cirilicaKon) || s.Podnaslov.Contains(cirilicaKon)).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 ViewBag.SluzbenoMisljenje = sluzbenoMisljenje;
             }
 

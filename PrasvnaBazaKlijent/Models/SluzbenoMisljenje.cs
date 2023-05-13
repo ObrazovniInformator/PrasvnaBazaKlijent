@@ -23,6 +23,7 @@ namespace PrasvnaBazaKlijent.Models
         public int? IdPodrubrikaSm { get; set; }
         public int? IdPodpodrubrikaSm { get; set; }
         public int? IdDonosilacSm { get; set; }
+        public int? RedniBroj { get; set; }
 
         public Clan IdClanNavigation { get; set; }
         public DonosilacSm IdDonosilacSmNavigation { get; set; }
