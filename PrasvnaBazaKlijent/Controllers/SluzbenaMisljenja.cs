@@ -25,7 +25,7 @@ namespace PrasvnaBazaKlijent.Controllers
             using (var _context = new obrazovn_AdminPanelContext())
             {
                 List<SluzbenoMisljenje> sluzbenaMisljenjas = (from sm in _context.SluzbenoMisljenje
-                                                              where sm.IdPodrubrikaSm == id
+                                                              where sm.IdRubrikaSm == id
                                                               orderby sm.RedniBroj descending
                                                               select new SluzbenoMisljenje() 
                                                               { 
