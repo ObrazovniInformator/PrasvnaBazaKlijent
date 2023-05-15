@@ -281,58 +281,6 @@
             //documnent.getElementById('glavnopolje'.style.display=)
         }
     }
-
-    @*window.load = function mojafunkcija() {
-        var d = new Date("@propis.DatumStupanjaNaSnaguOsnovnogTekstaPropisa");
-        document.getElementById("demo").innerHTML = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
-
-
-    }*@
-    @*window.onload = function mojafunkcija1() {
-        var d = new Date("@propis.DatumPrestankaVerzije");
-        document.getElementById("demo1").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
-    }
-
-    window.onload = function datumDatumStupanjaNaSnaguVerzijePropisa() {
-        var d = new Date("@propis.DatumStupanjaNaSnaguVerzijePropisa");
-        document.getElementById("demo2").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
-    }*@
-
-    @*window.onload = function datumDatumObjavljivanjaVerzije() {
-         var d = new Date("@propis.DatumObjavljivanjaVerzije");
-        document.getElementById("demo3").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
-    }
-    window.onload = function datumDatumObjavljivanjaOsnovnogTeksta() {
-         var d = new Date("@propis.DatumObjavljivanjaOsnovnogTeksta");
-        document.getElementById("demo4").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
-    }
-    window.onload = function datumDatumStupanjaNaSnaguMeđunarodnogUgovora() {
-         var d = new Date("@propis.DatumStupanjaNaSnaguMeđunarodnogUgovora");
-        document.getElementById("demo5").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
-    }
-    window.onload = function datumDatumPrestankaVazenjaPropisa() {
-         var d = new Date("@propis.DatumPrestankaVazenjaPropisa");
-        document.getElementById("demo6").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
-    }
-    window.onload = function datumDatumPocetkaPrimene() {
-         var d = new Date("@propis.DatumPocetkaPrimene");
-        document.getElementById("demo7").innerHTML = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
-    }*@
-
-    //function myFunction1() {
-    //    var x = document.getElementById("myDIV1");
-    //    var z = document.getElementById("glavnopolje");
-    //    if (x.style.display === "block") {
-    //        x.style.display = "none";
-    //        z.setAttribute('style', 'width:90%');
-    //    } else {
-    //        x.style.display = "block";
-    //        z.setAttribute('style', 'width:70%');
-    //        document.getElementById('myDIV').style.display = "none";
-    //        document.getElementById('myDIV2').style.display = "none";
-    //        document.getElementById('myDIV3').style.display = "none";
-    //    }
-    //}
     function myFunction2() {
         var x = document.getElementById("myDIV2");
         var z = document.getElementById("glavnopolje");
@@ -376,7 +324,6 @@
         //document.getElementById("tekstPropisa").style.width = "100%";
     }
     });
-
 
     function funPrikaziLinkoveSluzbenihMisljenja(clanid, stavid, tackaid ) {
 
@@ -453,6 +400,9 @@
         document.getElementById(divId).style.display = "inline";
     }
 
+    function print() {
+        window.print();
+    }
 
     function funCloseOpenedText() {
 
@@ -483,7 +433,8 @@
             @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
             {
             <div id="sluzbenomisljenje_@sm.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
-                <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span>
+                <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span><br />
+                <a id="printButton" onclick="print()" href="~/SluzbenaMisljenja/Stampaj/@sm.Id" style="float: right; cursor: pointer;">Одштампај</a>
                 <br />
                 @Html.Raw(@sm.Tekst)
             </div>
@@ -491,20 +442,22 @@
 
             @foreach (InAkta ia in inAkta)
             {
-            <div id="inakta_@ia.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
-                <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span>
-                <br />
-                @Html.Raw(@ia.Tekst)
-            </div>
+        <div id="inakta_@ia.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
+            <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span><br />
+            <a id="printButton" onclick="print()" href="~/InAkta/Stampaj/@ia.Id" style="float: right; cursor: pointer;">Одштампај</a>
+            <br />
+            @Html.Raw(@ia.Tekst)
+        </div>
             }
 
             @foreach (SudskaPraksa sp in sudskaPraksa)
             {
-            <div id="sudskapraksa_@sp.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
-                <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span>
-                <br />
-                @Html.Raw(@sp.Tekst)
-            </div>
+        <div id="sudskapraksa_@sp.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
+            <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span><br />
+            <a id="printButton" onclick="print()" href="~/SudskaPraksa/Stampaj/@sp.Id" style="float: right; cursor: pointer;">Одштампај</a>
+            <br />
+            @Html.Raw(@sp.Tekst)
+        </div>
             }
         </div>
 

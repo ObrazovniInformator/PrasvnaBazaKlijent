@@ -588,6 +588,9 @@
         document.getElementById(divId).style.display = "inline";
     }
 
+    function print() {
+        window.print();
+    }
 
     function funCloseOpenedText() {
 
@@ -654,20 +657,22 @@
         <div class="glavnopolje" id="selecteddocumenttextcontainer" style="height:100%;">
             @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
             {
-                <div id="sluzbenomisljenje_@sm.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
-                    <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span>
-                    <br />
-                    @Html.Raw(@sm.Tekst)
-                </div>
+            <div id="sluzbenomisljenje_@sm.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
+                <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span><br />
+                <a id="printButton" onclick="print()" href="~/SluzbenaMisljenja/Stampaj/@sm.Id" style="float: right; cursor: pointer;">Одштампај</a>
+                <br />
+                @Html.Raw(@sm.Tekst)
+            </div>
             }
 
             @foreach (InAkta ia in inAKta)
             {
-                <div id="inakta_@ia.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
-                    <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span>
-                    <br />
-                    @Html.Raw(@ia.Tekst)
-                </div>
+        <div id="inakta_@ia.Id" style="height:100%;  background-color:Gainsboro; visibility: hidden; display: none;">
+            <span id="close" onclick="funCloseOpenedText()" style="float: right; cursor: pointer;">X</span><br />
+            <a id="printButton" onclick="print()" href="~/InAkta/Stampaj/@ia.Id" style="float: right; cursor: pointer;">Одштампај</a>
+            <br />
+            @Html.Raw(@ia.Tekst)
+        </div>
             }
         </div>
 
