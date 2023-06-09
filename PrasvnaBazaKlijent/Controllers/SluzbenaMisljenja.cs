@@ -13,8 +13,6 @@ namespace PrasvnaBazaKlijent.Controllers
     [Authorize]
     public class SluzbenaMisljenja : Controller
     {
-        //obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
-
         public IActionResult Index(int id, int? page)
         {
             var pageNumber = page ?? 1;
@@ -90,7 +88,6 @@ namespace PrasvnaBazaKlijent.Controllers
                 SluzbenoMisljenje sluzbenoMisljenje = _context.SluzbenoMisljenje.Find(id);
                 return new ViewAsPdf("Stampaj", sluzbenoMisljenje);
             }
-
         }
     }
 }

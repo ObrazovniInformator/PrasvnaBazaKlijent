@@ -12,8 +12,6 @@ namespace PrasvnaBazaKlijent.Controllers
     [Authorize]
     public class TekstPropisaPPController : Controller
     {
-        //obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
-
         public IActionResult Index(int id)
         {
             using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
@@ -130,6 +128,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 List<ClanPP> clan = (from c in _context.ClanPP
                                      where c.IdPropis == propis.Id
                                      select c).ToList();
+
                 List<int> idClan = (from c in _context.ClanPP
                                     where c.IdPropis == id
                                     select c.Id).ToList();
@@ -142,11 +141,9 @@ namespace PrasvnaBazaKlijent.Controllers
                                     where idClan.Contains(st.IdClan)
                                     select st.Id).ToList();
 
-
                 List<TackaPP> tacka = (from tac in _context.TackaPP
                                        where idStav.Contains(tac.IdStav)
                                        select tac).ToList();
-
 
                 List<AlinejaPP> alineja = (from a in _context.AlinejaPP
                                            where idStav.Contains(a.IdStav)
@@ -211,8 +208,6 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Alineje = alineja;
                 return View();
             }
-
-
         }
 
         public IActionResult StampajPropis(int id)
@@ -227,8 +222,6 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 return new ViewAsPdf("StampajPropis", propis);
             }
-
-
         }
 
         public IActionResult CitajPdf(int id)

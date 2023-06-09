@@ -12,8 +12,6 @@ using System.Text;
 
 namespace PrasvnaBazaKlijent.Controllers
 {
-
-
     public class LoginController : Controller
     {
         obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
@@ -52,27 +50,7 @@ namespace PrasvnaBazaKlijent.Controllers
 
                     var authProperties = new AuthenticationProperties
                     {
-                        //AllowRefresh = <bool>,
-                        // Refreshing the authentication session should be allowed.
-
-                        //ExpiresUtc = DateTimeOffset.UtcNow.AddHours(4),
-                        //ExpiresUtc = DateTimeOffset.UtcNow.AddHours(10),
-                        // The time at which the authentication ticket expires. A 
-                        // value set here overrides the ExpireTimeSpan option of 
-                        // CookieAuthenticationOptions set with AddCookie.
-
                         IsPersistent = true,
-                        // Whether the authentication session is persisted across 
-                        // multiple requests. When used with cookies, controls
-                        // whether the cookie's lifetime is absolute (matching the
-                        // lifetime of the authentication ticket) or session-based.
-
-                        //IssuedUtc = DateTime.Now,
-                        // The time at which the authentication ticket was issued.
-
-                        //RedirectUri = "Home/Index"
-                        // The full path or absolute URI to be used as an http 
-                        // redirect response value.
                     };
 
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties
@@ -80,12 +58,8 @@ namespace PrasvnaBazaKlijent.Controllers
                         IsPersistent = true,
                         ExpiresUtc = DateTime.UtcNow.AddHours(4)
                     });
-                    //HttpContext.Session.SetString("Ime", pretplatnik.Ime);
-                    //HttpContext.Session.SetString("Prezime", pretplatnik.Prezime);
 
                     return RedirectPermanent(ReturnUrl);
-
-
                 }
             }
             catch (Exception e)
@@ -159,14 +133,5 @@ namespace PrasvnaBazaKlijent.Controllers
                 }
             }
         }
-
-        //private void DeleteCookies()
-        //{
-        //    HttpContext _con = new DefaultHttpContext();
-        //    foreach (var cookie in _con.Request.Cookies)
-        //    {
-        //        _con.Response.Cookies.Delete(cookie.Key);
-        //    }
-        //}
     }
 }

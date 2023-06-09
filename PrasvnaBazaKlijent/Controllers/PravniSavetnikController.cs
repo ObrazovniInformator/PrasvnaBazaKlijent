@@ -11,8 +11,6 @@ namespace PrasvnaBazaKlijent.Controllers
     [Authorize]
     public class PravniSavetnikController : Controller
     {
-        //obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
-
         public IActionResult Index(int id)
         {
             using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
@@ -45,7 +43,6 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Podrubrike = podrubrike;
                 return View(rubrikeCasopisBR);
             }
-
         }
 
         public IActionResult Prikaz(int id)

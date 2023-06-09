@@ -12,8 +12,6 @@ namespace PrasvnaBazaKlijent.Controllers
     [Authorize]
     public class TekstPropisaController : Controller
     {
-        //obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
-
         public IActionResult Index(int id)
         {
             using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
@@ -214,7 +212,6 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 return View();
             }
-
         }
 
         [HttpGet]

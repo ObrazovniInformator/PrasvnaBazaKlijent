@@ -11,8 +11,6 @@ namespace PrasvnaBazaKlijent.Controllers
     [Authorize]
     public class PodsetnikZaDirektoreController : Controller
     {
-        //obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
-
         public IActionResult Index(int id)
         {
             using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
@@ -32,7 +30,6 @@ namespace PrasvnaBazaKlijent.Controllers
                                               where cc.IdRubrika == rc.ID
                                               select new CasopisNaslov() { Id = cc.Id, Naslov = cc.Naslov, IdRubrika = cc.IdRubrika, IdPodrubrika = cc.IdPodrubrika }).AsNoTracking().ToList();
                     casopis.AddRange(cn);
-
                 }
 
                 ViewBag.Casopisi = casopis;

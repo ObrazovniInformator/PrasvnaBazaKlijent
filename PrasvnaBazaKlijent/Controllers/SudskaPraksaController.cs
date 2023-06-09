@@ -13,8 +13,6 @@ namespace PrasvnaBazaKlijent.Controllers
     [Authorize]
     public class SudskaPraksaController : Controller
     {
-        //obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
-
         public IActionResult Index(int id, int? page)
         {
             var pageNumber = page ?? 1;

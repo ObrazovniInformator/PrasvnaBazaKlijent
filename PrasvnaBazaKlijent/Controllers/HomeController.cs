@@ -204,7 +204,6 @@ namespace PrasvnaBazaKlijent.Controllers
 
         }
 
-        //[HttpGet]
         public IActionResult Search(IFormCollection formCollection)
         {
             var pojamZaPretragu = formCollection["search"];
@@ -297,22 +296,16 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 trazeniPojam = ToCir(trazeniPropis);
 
-                //string[] reciZaTrazenje = trazeniPojam.Split(' ');
-
                 var prosvetniPropisi = from m in _context.ProsvetnIPropis
                                        select m;
                 var ostaliProsvetniPropisi = (from m in _context.ProsvetnIPropis
-                                              select m /*new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa })*/);
+                                              select m);
                 if (!String.IsNullOrEmpty(trazeniPropis))
                 {
-                    //foreach (string r in reciZaTrazenje)
-                    //{
-                        prosvetniPropisi = prosvetniPropisi.Where(s => s.TekstPropisa.Contains(trazeniPojam) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                        ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.TekstPropisa.Contains(trazeniPojam) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
-                    //}
+                    prosvetniPropisi = prosvetniPropisi.Where(s => s.TekstPropisa.Contains(trazeniPojam) && s.VrstaPropisa.Equals("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
+                    ostaliProsvetniPropisi = ostaliProsvetniPropisi.Where(s => s.TekstPropisa.Contains(trazeniPojam) && s.VrstaPropisa != ("Закон")).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 }
 
-                //ViewBag.Reci = reciZaTrazenje;
                 ViewBag.ProsvetniPropisi = prosvetniPropisi;
                 ViewBag.OstaliProsvetniPropisi = ostaliProsvetniPropisi;
 
@@ -454,7 +447,6 @@ namespace PrasvnaBazaKlijent.Controllers
 
                 if (!String.IsNullOrEmpty(trazeniPropis))
                 {
-
                     primeriKnjizenja = primeriKnjizenja.Where(s => s.Tekst.Contains(trazeniPojam));
                 }
                 ViewBag.PrimeriKnjizenja = primeriKnjizenja;
@@ -485,7 +477,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 var prosvetniPropisi = from m in _context.ProsvetnIPropis
                                        select m;
                 var ostaliProsvetniPropisi = (from m in _context.ProsvetnIPropis
-                                              select m /*new ProsvetniPropis { Id = m.Id, Naslov = m.Naslov, GlasiloIDatumObjavljivanja = m.GlasiloIDatumObjavljivanja, VrstaPropisa = m.VrstaPropisa, DatumPrestankaVerzije = m.DatumPrestankaVerzije, DatumPrestankaVazenjaPropisa = m.DatumPrestankaVazenjaPropisa })*/);
+                                              select m);
                 var casopisi = from m in _context.CasopisNaslov
                                select m;
                 var inAkta = from m in _context.InAkta
@@ -586,7 +578,6 @@ namespace PrasvnaBazaKlijent.Controllers
             if (propisiCB == "on")
             {
                 var propis = from p in _context.Propis
-                                 //orderby p.RedniBroj ascending
                              select p;
                 propis = (IOrderedQueryable<Propis>)propis.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIdatumObjavljivanja.Contains(cirilica)).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 if (nivoVazenjaSel != "nista")
@@ -624,7 +615,6 @@ namespace PrasvnaBazaKlijent.Controllers
             if (prosvetniPropisiCB == "on")
             {
                 var prosvetniPropisi = from pp in _context.ProsvetnIPropis
-                                           //orderby pp.RedniBroj ascending
                                        select pp;
                 prosvetniPropisi = (IOrderedQueryable<ProsvetniPropis>)prosvetniPropisi.Where(s => s.Naslov.Contains(cirilicaKon) || s.GlasiloIDatumObjavljivanja.Contains(cirilicaKon)).OrderByDescending(m => m.RedniBroj).ThenBy(m => m.RedniBroj == null);
                 ViewBag.ProsvetniPropisi = prosvetniPropisi;
