@@ -515,17 +515,7 @@
         <a onclick="myFunction()" href="#home"><i class="far fa-lightbulb" style="padding-left: 4px; color: white;" aria-hidden="true"></i></a>
         <a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>
     </div>
-    <div class="glavnopolje  navbar-expand" id="glavnopolje">
-        @*<div class="action1" onclick="actionToggle1();">
-                <span><i class="fas fa-ellipsis-h"></i></span>
-                <ul>
-                    <li><i class="fas fa-print"></i> Штампај</li>
-                    <li><i class="far fa-save"></i> Сачувај</li>
-                    <li><i class="fas fa-fingerprint"></i> Везе</li>
-
-                </ul>
-            </div>*@
-       
+    <div class="glavnopolje  navbar-expand" id="glavnopolje">       
         <div class="duplopolje">
             <p><a href="~/BudzetskoRacunovodstvo/Index/@Model.IdBroj">Врати се на списак наслова. Издање: @cb.Naziv</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
             @Html.Raw(@Model.Tekst)
@@ -542,7 +532,6 @@
             <li>Датум објављивања: @Model.DatumObjavljivanja</li>
             <br />
             <li>Аутор:  @Model.Autor</li>
-
         </ul>
     </div>
     <div id="myDIV1">
@@ -551,9 +540,6 @@
         </h3>
         <br />
         <h4 style="font-size:15px; color:#565682"><i>Прописи:</i></h4>
-        
-
-
         <ul>
             @foreach (Propis propis in propsiVeza)
             {
@@ -566,5 +552,4 @@
             }
         </ul>
     </div>
-       
 </section>

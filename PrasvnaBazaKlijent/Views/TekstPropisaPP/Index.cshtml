@@ -501,29 +501,6 @@
 
 <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-
-     //function funShowTextSluzbenoMisljenje(clanid, stavid) {
-
-    //    funCloseOpenedText();
-
-    //    var cllasstring = ".smtextclan_" + clanid + "stav_" + stavid;
-
-    //    $(cllasstring).each(function () {
-    //        this.style.visibility = "visible";
-    //        this.style.display = "inline";
-    //    });
-    //}
-
-     //function funCloseOpenedText(clanid, stavid) {
-
-    //    var cllasstring = ".smtextclan_" + clanid + "stav_" + stavid;
-
-    //    $(cllasstring).each(function () {
-    //        this.style.visibility = "hidden";
-    //        this.style.display = "none";
-    //    });
-    //}
-
     $(document).ready(function () {
 
         //alert("test-IN");
@@ -561,11 +538,9 @@
         });
     }
 
-
     function funObrisiLinkoveSluzbenihMisljenja() {
         $("#zaglavljesluzbenihmisljenja").find("p").css({ "visibility": "collapse", "display": "none" });
     }
-
 
     function funShowTextSluzbenoMisljenje(id) {
 
@@ -576,7 +551,6 @@
         document.getElementById(divId).style.visibility = "visible";
         document.getElementById(divId).style.display = "inline";
     }
-
 
     function funShowTextInAkta(id) {
 
@@ -646,8 +620,6 @@
 <section>
     <div class="sidebarmoj">
         <a onclick="myFunction()" href="#home"><i class="far fa-lightbulb" style="padding-left: 4px; color: white;" aria-hidden="true"></i></a>
-        @*<a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>*@
-
         <a onclick="myFunction2()" href="#home"><i class="fas fa-align-right" style="color: white;" aria-hidden="true"></i></a>
         <a onclick="myFunction3()" href="~/TekstPropisaPP/StampajPropis/@propis.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
     </div>
@@ -677,17 +649,11 @@
         </div>
 
         <div id="tekstPropisa" class="scroll">
-            @*<div id="tekstPropisa" class="scroll" style="width:70%; float:left; padding-right:15px;">*@
-            @*<div id="tekstPropisa" style="background-color:lightgreen; width:70%; float:left;">*@
-
             <p><a href="~/ProsvetniPropisi/Index/@propis.IdPodrubrike">Врати се на претходну страну</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
-            @*<p>@Html.Raw(@propis.Preambula)</p>*@
-            <h1 style="width:100%;
-             margin: 0 auto;
-
-             text-align: center;">
+            <h1 style="width:100%; margin: 0 auto; text-align: center;">
                 @propis.Naslov
-            </h1><br />
+            </h1>
+            <br />
             <br />
             <h4 style=" justify-content:center; text-align: center;">
                 @propis.GlasiloIDatumObjavljivanja
@@ -710,53 +676,6 @@
                         {
                             if (stav.IdClan == clan.Id)
                             {
-                                @*<table>
-                                    <tr>
-                                        @Html.Raw(stav.Tekst)
-
-                                        @if (idStavovaInAKta.Contains(stav.Id) || idStavSmDis.Contains(stav.Id))
-                                        {
-                                        <td>
-                                            <select onchange="location = this.value;" id="selectid" style=" width:auto; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">
-                                                <option>
-                                                </option>
-                                                <optgroup label="Службена мишљења">
-                                                    @foreach (ProsvetniPropisSluzbenoMisljenje psm in vezeSluzbenaMisljenja)
-                                                    {
-                                                        @if (psm.IdStavPP == stav.Id)
-                                                        {
-                                                            @foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
-                                                            {
-                                                                @if (sm.Id == psm.IdSluzbenoMisljenje)
-                                                                {
-                                                                    <option value="/./TekstPropisaPP/VezeProsvetniPropisSluzbenoMisljenje/@propis.Id/@sm.Id/#@psm.IdClanPP"> @sm.Naslov</option>
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                </optgroup>
-                                                <optgroup label="ИнАкта">
-                                                    @foreach (ProsvetniPropisInAkta psm in vezeInAKta)
-                                                    {
-                                                        @if (psm.IdStavPP == stav.Id)
-                                                        {
-
-                                                            @foreach (InAkta sm in inAKta)
-                                                            {
-                                                                if (sm.Id == psm.IdInAkta && psm.IdTackaPP == 0)
-                                                                {
-                                                                    <option value="/./TekstPropisaPP/VezaProsvetniPropisInAkta/@propis.Id/@sm.Id/#@psm.IdClanPP"> @sm.Naslov</option>
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                </optgroup>
-                                            </select>
-                                        </td>
-                                        }
-                                    </tr>
-                                </table>*@
-
                                 <table>
                                     <tr>
                                         @Html.Raw(stav.Tekst)
@@ -764,13 +683,9 @@
                                         @if (idStavovaInAKta.Contains(stav.Id) || idStavSmDis.Contains(stav.Id))
                                         {
                                             <td>
-                                                @*<select onchange="location = this.value;" id="selectid" style=" width:auto; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">*@
-                                                @*<select onchange="funShowSluzbenoMisljenje(this.value);" id="selectid" style=" width:auto; border: none; border-radius: 8px; padding: 4px 0 4px 24px; background-image: url('https://i.postimg.cc/85XYjhvD/oi-logo.png'); background-repeat: no-repeat;">*@
-
                                                 @if (sluzbenaMisljenja.Count > 0)
                                                 {
                                                     isAdded = false;
-                                                    @*<p>Службена мишљења</p>*@
                                                     @foreach (ProsvetniPropisSluzbenoMisljenje psm in vezeSluzbenaMisljenja)
                                                     {
                                                         @if (psm.IdStavPP == stav.Id)
@@ -796,7 +711,6 @@
                                                 {
                                                     <br />
                                                     isAdded = false;
-                                                    @*<p>ИнАкта</p>*@
                                                     @foreach (ProsvetniPropisInAkta psm in vezeInAKta)
                                                     {
                                                         @if (psm.IdStavPP == stav.Id)
@@ -823,15 +737,12 @@
                                     </tr>
                                 </table>
 
-
                                 @foreach (TackaPP tacka in tacke)
                                 {
                                     if (tacka.IdStav == stav.Id)
                                     {
                                         <table>
                                             <tr>
-                                                @*<td>*@
-
                                                 @Html.Raw(tacka.Tekst)
                                                 @*</td>*@
                                                 @foreach (int idTackePP in idTackeDIs)
@@ -885,18 +796,6 @@
         </div>
 
         <div class="glavnopolje navbar-expand" id="glavnopolje">
-            @*<div class="action1" onclick="actionToggle1();">
-                <span><i class="fas fa-ellipsis-h"></i></span>
-                <ul>
-                    <li><i class="fas fa-print"></i> Штампај</li>
-                    <li><i class="far fa-save"></i> Сачувај</li>
-                    <li><i class="fas fa-fingerprint"></i> Везе</li>
-
-                </ul>
-            </div>*@
-
-            @*<p><a href="~/PodsetnikZaDirektore/Index/@Model.IdBroj">Врати се на списак наслова. Издање: @cb.Naziv</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
-            @Html.Raw(@Model.Tekst)*@
             @foreach (PdfFajlProsvetniPropis pdf in pdfFajlovi)
             {
                 <p><a href="~/TekstPropisaPP/CitajPdf/@pdf.Id" target="_blank">@pdf.NaslovPdf</a></p>
@@ -908,20 +807,6 @@
 
                 @foreach (ProsvetniPropisSluzbenoMisljenje psm in vezeSluzbenaMisljenja)
                 {
-                    @*@foreach (SluzbenoMisljenje sm in sluzbenaMisljenja)
-                    {
-                        @if (sm.Id == psm.IdSluzbenoMisljenje)
-                        {
-                            string classString = String.Format("linkclan_{0}stav_{1}", psm.IdClanPP, psm.IdStavPP);
-                            <p id="smLink_@sm.Id" class="@classString" style="visibility:hidden; display: none!important; text-align: left; text-indent: 24pt; line-height: normal; font-size: 8pt; font-family: Calibri, sans-serif;">
-                                <span style="font-size: 8.0pt; font-family: Verdana, sans-serif; color: #333333;">
-                                    <a onclick="funShowTextSluzbenoMisljenje(@sm.Id)" href="#"> <i class="fa fa-print" style="color: white;" aria-hidden="true">@sm.Naslov</i></a>
-                                </span>
-                                <br />
-                            </p>
-                        }
-                    }*@
-
                     SluzbenoMisljenje sm = sluzbenaMisljenja.FirstOrDefault(x => x.Id == psm.IdSluzbenoMisljenje);
 
                     @if (sm != null)
@@ -950,13 +835,10 @@
                             <br />
                         </p>
                     }
-
                 }
             </div>
         </div>
-
     </div>
-
 
     <div id="myDIV">
         <ul>
@@ -1035,36 +917,21 @@
                         text-transform: uppercase;
                     }
                 </style>
-
             }
         </ul>
         <br />
         <h4 style="font-size:17px; color:#565682"><i>ИнАкта:</i></h4>
         <ul>
-
-
-
             @foreach (InAkta sm in inAKta)
             {
-
                 <li><a style="font-size:14px; color:#565682; text-transform: capitalize;" href="~/InAkta/Prikaz/@sm.Id">@sm.Naslov </a></li>
                 <style>
                     .moja ul li a:first-letter {
                         text-transform: uppercase;
                     }
                 </style>
-
-
-
             }
-
-
-
-
-
         </ul>
-
-
     </div>
     <div id="myDIV2">
         <ul>

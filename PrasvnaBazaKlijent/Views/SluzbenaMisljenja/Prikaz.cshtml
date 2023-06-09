@@ -457,8 +457,6 @@
         if (x.style.display === "block") {
             x.style.display = "none";
             z.setAttribute('style', 'width:90%');
-
-
         } else {
             x.style.display = "block";
             z.setAttribute('style', 'width:70%');
@@ -516,15 +514,8 @@
         <a onclick="myFunction()" href="#home"><i class="far fa-lightbulb" style="padding-left: 4px; color: white;" aria-hidden="true"></i></a>
         <a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>
         <a onclick="myFunction3()" href="~/SluzbenaMisljenja/Stampaj/@Model.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
-
-
-
-
-
     </div>
     <div class="glavnopolje" id="glavnopolje" style="width:90%;">
-
-
         <p><a href="~/SluzbenaMisljenja/Index/@Model.IdRubrikaSm">Врати се на списак службених мишљења у рубрици</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
         @Html.Raw(Model.Tekst)
     </div>
@@ -540,7 +531,6 @@
             <li>Датум доношења: @Model.DatumDonosenja</li>
             <br />
             <li>Напомена: @Model.Napomena</li>
-
         </ul>
     </div>
     <div id="myDIV1">
@@ -550,9 +540,6 @@
         <br />
         <h4 style="font-size:15px; color:#565682"><i>Прописи:</i></h4>
         <ul>
-
-
-
             @foreach (Propis sm in propisi)
             {
 
@@ -569,15 +556,7 @@
                         </style>
                     }
                 }
-
-
-
-
-
             }
-
-
-
         </ul>
         <br />
         <br />
@@ -595,6 +574,5 @@
         </ul>
     </div>
     <div id="myDIV2">
-       
     </div>
 </section>

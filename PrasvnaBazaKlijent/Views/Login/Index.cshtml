@@ -2,7 +2,6 @@
     ViewData["Title"] = "Log in";
     Layout = null;
     string ReturnUrl = ViewBag.Url;
-
 }
 
 <link rel="stylesheet" type="text/css" href="styles.css" />
@@ -11,8 +10,6 @@
     <title>Infoleks Log in</title>
 </head>
 
-<!DOCTYPE html>
-<html>
 <style>
     body {
         font-family: 'influbg';
@@ -282,8 +279,6 @@
         animation: dash 1s ease-in infinite alternate;
     }
 
-
-
     .u-loading {
         width: 25px;
         height: 25px;
@@ -314,9 +309,10 @@
         cursor: pointer;
     }
 </style>
+
+<!DOCTYPE html>
+<html>
 <body>
-
-
     <div class="bojapreko">
         <div class="background-img">
             <img style="position: fixed;
@@ -336,24 +332,19 @@
         ПРАВНА БАЗА
     </h2>
     <div style=" text-align: center; width: 100%; height: 600px;">
-
         <img id="slika" src="~/slike/box background cc.png">
     </div>
     <div class="Mask">
-
-
         <section>
             <form id="account" asp-action="Index" asp-route-ReturnUrl="@ReturnUrl" class="login" asp->
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="kutija">
                     <h3 id="proba">ПРИЈАВА</h3>
                     <div class="form-group">
-
                         <input type="email" class="polje" id="text1" name="Email" placeholder="Мејл адреса" />
                         <span class="text-danger"></span>
                     </div>
                     <div class="form-group">
-
                         <input type="password" id="myInput" name="Lozinka" class="polje2" onchange="checkFilled()" placeholder="Лозинка" />
                         <input type="checkbox" onclick="myFunction()" style="float:left; width:100%;"><br />Прикажи лозинку
 
@@ -375,79 +366,11 @@
                     </div>
                     @if (ViewBag.Msg != null)
                     {
-
                         <p style="color:red">@ViewBag.Msg</p>
-
                     }
-
-                    @*@if(ViewBag.Url != null)
-                        {
-                            <p style="color:red"> @ViewBag.Url</p>
-                        }*@
                 </div>
-
-
-
             </form>
         </section>
     </div>
-
-
 </body>
 </html>
-<!--section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
--->
-@*@{
-        ViewData["Title"] = "Log in";
-        Layout = null;
-
-    }
-
-    <h1>@ViewData["Title"]</h1>
-
-        <div class="col-md-10">
-            <section>
-                <form id="account" method="post">
-                    <h4>Use a local account to log in.</h4>
-                    <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Input.Email"></label>
-                        <input asp-for="Input.Email" class="form-control" />
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.Password"></label>
-                        <input asp-for="Input.Password" class="form-control" />
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label asp-for="Input.RememberMe">
-                                <input asp-for="Input.RememberMe" />
-                                @Html.DisplayNameFor(m => m.Input.RememberMe)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Log in</button>
-                    </div>
-                    <div class="form-group">
-                        <p>
-                            <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                        </p>
-                        <p>
-                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                        </p>
-                    </div>
-                </form>
-            </section>
-        </div>
-
-
-
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }*@

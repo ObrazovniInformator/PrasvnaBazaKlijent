@@ -1,72 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     List<Vest> vesti = ViewBag.Vesti;
 }
-    <div class="container">
+<div class="container">
+    <div>
+        <h1>
+            Архива вести <br>
+        </h1>
 
-        <div>
-
-            <h1>
-                Архива вести <br>
-            </h1>
-
-            <table class="table float-lg-right" style="margin-top:4%; width:100%">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayName("Наслов вести")
-                        </th>
-                         
-
-
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    
-                    @foreach (var v in vesti)
-                    {
-                        <tr>
-                            <td><div>
-                                <span>@v.DanUMesecu<a>.</a> @v.Mesec<a>.</a> @v.Godina<a>.</a></span>
-                                </div>
-                                <a href="~/Home/JednaVest/@v.Id">@v.Naslov</a>
-                            </td>
-                        </tr>
-                    
-                    }
-                    @*else
-        {
-            <tr style="margin-left:0px;">
-                <td style="margin-left:0px; color:#525A65!important; " id="listahover">
-                    <a href="~/TekstPropisa/Index/@item.Id" class="nav-link" style="color:darkred"><strike><strong>@Html.DisplayFor(modelItem => item.Naslov)</strong> <span style="margin-left:10px;"></span> <i>@Html.DisplayFor(modelItem => item.GlasiloIdatumObjavljivanja) | ПРЕСТАО СА ВАЖЕЊЕМ</i></strike></a>
-                </td>
-
-
-            </tr>
-        }*@
-                    
-                </tbody>
-            </table>
-        </div>
-
-
-
-
-
-        @*<table class="table table-light">
-            <tr>
-                <td><strong>Naslov :</strong></td>
-            </tr>
-            @foreach (var v in vesti)
-            {
+        <table class="table float-lg-right" style="margin-top:4%; width:100%">
+            <thead>
                 <tr>
-                    <td>
-                        <a href="~/Home/JednaVest/@v.Key">@v.Value</a>
-                    </td>
+                    <th>
+                        @Html.DisplayName("Наслов вести")
+                    </th>
                 </tr>
-            }
-        </table>*@
+            </thead>
+            <tbody>
+                @foreach (var v in vesti)
+                {
+                    <tr>
+                        <td><div>
+                            <span>@v.DanUMesecu<a>.</a> @v.Mesec<a>.</a> @v.Godina<a>.</a></span>
+                            </div>
+                            <a href="~/Home/JednaVest/@v.Id">@v.Naslov</a>
+                        </td>
+                    </tr>
+                }                    
+            </tbody>
+        </table>
     </div>
+</div>

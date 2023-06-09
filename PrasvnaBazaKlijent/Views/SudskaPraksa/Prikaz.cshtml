@@ -532,38 +532,12 @@
     <div class="sidebarmoj">
         <a onclick="myFunction()" href="#home"><i class="far fa-lightbulb" style="color: white;" aria-hidden="true"></i></a>
         <a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>
-
         <a onclick="myFunction2()" href="~/SudskaPraksa/Stampaj/@Model.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
-
     </div>
     <div class="glavnopolje" id="glavnopolje">
-
-
-        @*<div class="action1" onclick="actionToggle1();">
-            <span><i class="fas fa-ellipsis-h"></i></span>
-            <ul>
-                <li><a href="~/SudskaPraksa/Stampaj/@Model.Id"><i class="fas fa-print"></i> Штампај</a></li>
-
-
-            </ul>
-        </div>
-        <div class="action2" onclick="actionToggle2();">
-            <span><i class="far fa-lightbulb"></i></span>
-            <ul>
-                <li>Наслов: @Model.Naslov</li>
-                <li>Поднаслов: @Model.Podnaslov</li>
-                <li>Број:  @Model.Broj</li>
-                <li>Напомена: @Model.Napomena</li>
-
-            </ul>
-
-        </div>*@
         <p><a href="~/SudskaPraksa/Index/@Model.IdRubrikaSp">Врати се на списак судских пракси у рубрици</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
         @Html.Raw(@Model.Tekst)
     </div>
-
-
-
     <div id="myDIV">
         <div>
             <ul class="novalista">
@@ -598,12 +572,8 @@
         <br />
         <h4 style="font-size:15px; color:#565682"><i>Прописи:</i></h4>
         <ul>
-
-
-
             @foreach (Propis sm in propisi)
             {
-
                 @foreach (PropisSudskaPraksa vsp in vezePropis)
                 {
                     if (sm.Id == vsp.IdPropis)
@@ -611,89 +581,8 @@
                         <li><a style="font-size:14px; color:#565682;font-weight:600; text-transform: lowercase; " href="/./TekstPropisa/VezaPropisSP/@sm.Id/@Model.Id/#@vsp.IdStav">@sm.Naslov</a></li>
                     }
                 }
-
-
-
-
-
             }
-
-
-
-
         </ul>
         <br />
-        @*<h4 style="font-size:15px; color:#565682"><i>Просветни прописи::</i></h4>
-        <ul>
-            @foreach (ProsvetniPropisInAkta pina in vezeProsvetni)
-                    {
-            @foreach (ProsvetniPropis i in prosvetniPropisi)
-                        {
-            @if (i.Id == pina.IdProsvetniPropis)
-                            {
-            <li><a style="font-size:14px; color:#565682; text-transform: lowercase;" href="~/TekstPropisaPP/Index/@i.Id">@i.Naslov</a></li>
-            <style>
-                .moja ul li a:first-letter {
-                    text-transform: uppercase
-                }
-            </style>
-                            }
-                        }
-                    }
-        </ul>
-    </div>*@
-    @*<div class="glavnopolje2" style="width:25%; background-color:white; height:1000px; float:right;margin-right: 4%; margin-top: 1%;">
-            <div class="moja" style="padding: 20px; border: 1px gray">
-                <h3 style="font-size:17px; color:#565682">
-                    Прописи који су у вези са овим документом:
-                </h3>
-                <br />
-                <h4 style="font-size:15px; color:#565682"><i>Прописи:</i></h4>
-                <ul>
-
-
-
-                        @foreach (Propis sm in propisi)
-                        {
-
-
-
-                                <li><a style="font-size:14px; color:#565682;font-weight:600; text-transform: lowercase; " href="~/TekstPropisa/Index/@sm.Id">@sm.Naslov</a></li>
-                                <style>
-                                    .moja ul li a:first-letter {
-                                        text-transform: uppercase
-                                    }
-                                </style>
-
-
-                            }
-                        }
-
-
-
-                </ul>
-                <br />*@
-                @*<h4 style="font-size:15px; color:#565682"><i>Просветни прописи::</i></h4>
-                <ul>
-                    @foreach (ProsvetniPropisInAkta pina in vezeProsvetni)
-                    {
-                        @foreach (ProsvetniPropis i in prosvetniPropisi)
-                        {
-                            @if (i.Id == pina.IdProsvetniPropis)
-                            {
-                                <li><a style="font-size:14px; color:#565682; text-transform: lowercase;" href="~/TekstPropisaPP/Index/@i.Id">@i.Naslov</a></li>
-                                <style>
-                                    .moja ul li a:first-letter {
-                                        text-transform: uppercase
-                                    }
-                                </style>
-                            }
-                        }
-                    }
-                </ul>*@
-
-
-            </div>
-        </div>
-
+    </div>
 </section>

@@ -6,9 +6,6 @@
 @{
     obrazovn_AdminPanelContext _context = new obrazovn_AdminPanelContext();
     int idP = ViewBag.Podrubrika;
-    //int idR = (int)(from rub in _context.PodrubrikaSp
-    //           where rub.Id == idP
-    //           select rub.IdRubrika).Single();
 }
 <style>
 
@@ -22,8 +19,6 @@
     document.getElementById("SudskaPraksa").style.backgroundColor = "#565682";
     document.getElementById("SudskaPraksaR @idP").style.backgroundColor = "#60608a";
     @*document.getElementById("SudskaPraksaP @idP").style.backgroundColor = "#73739c";*@
-
-
 
     //Slova
     document.getElementById("SudskaPraksaP").style.color = "#fff";

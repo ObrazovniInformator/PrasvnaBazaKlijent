@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     Propis propis = (Propis)ViewBag.Propis;
     SudskaPraksa sp = ViewBag.SudskaPraksa;
     List<Podnaslov> podnaslovi = ViewBag.Podnaslovi;
@@ -15,16 +12,12 @@
     <div class="col-md-6">
         <section>
             <div class="glavnopolje " style="width:93%; height:90vh;overflow:scroll; padding:15px;">
-                <h1 style="width:100%;
-             margin: 0 auto;
-
-             text-align: center;">
+                <h1 style="width:100%; margin: 0 auto; text-align: center;">
                     @propis.Naslov
-                </h1><br />
+                </h1>
                 <br />
-                <h4 style=" justify-content:center;
-        text-align: center;">
-
+                <br />
+                <h4 style=" justify-content:center; text-align: center;">
                     @propis.GlasiloIdatumObjavljivanja
                 </h4>
                 @foreach (Podnaslov podnaslov in podnaslovi)
@@ -44,8 +37,6 @@
                             {
                                 if (stav.IdClan == clan.Id)
                                 {
-
-
                                     <span id="@stav.Id">  @Html.Raw(stav.Tekst)</span>
 
                                     @foreach (Tacka tacka in tacke)
@@ -68,19 +59,12 @@
                         }
                     }
                 }
-
-
             </div>
         </section>
     </div>
     <style>
     </style>
-    <div class="col-md-6 border-danger" style="background-color: white;
-        margin-top: 0.5%;
-
-        border: 2px yellow;
-        height: 90vh;
-        overflow: scroll">
+    <div class="col-md-6 border-danger" style="background-color: white; margin-top: 0.5%; border: 2px yellow; height: 90vh; overflow: scroll">
         <div class="container">
             <div style="width:93%; margin-left:2%; margin-right:0px; border:1px yellow;">
                 @Html.Raw(@sp.Tekst)

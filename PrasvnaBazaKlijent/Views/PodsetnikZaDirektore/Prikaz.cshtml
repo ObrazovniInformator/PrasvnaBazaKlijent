@@ -1,7 +1,4 @@
 ﻿@model PrasvnaBazaKlijent.Models.CasopisNaslov
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
     List<Propis> vezaPropis = ViewBag.VezaPropis;
     List<PdfFajlCasopis> pdfFajlovi = ViewBag.PdfFajlovi;
@@ -524,16 +521,6 @@
         <a onclick="myFunction1()" href="#home"><i class="fa fa-link" style="color: white;" aria-hidden="true"></i></a>
     </div>
     <div class="glavnopolje navbar-expand" id="glavnopolje">
-        @*<div class="action1" onclick="actionToggle1();">
-            <span><i class="fas fa-ellipsis-h"></i></span>
-            <ul>
-                <li><i class="fas fa-print"></i> Штампај</li>
-                <li><i class="far fa-save"></i> Сачувај</li>
-                <li><i class="fas fa-fingerprint"></i> Везе</li>
-
-            </ul>
-        </div>*@
-
         <p><a href="~/PodsetnikZaDirektore/Index/@Model.IdBroj">Врати се на списак наслова. Издање: @cb.Naziv</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
         @Html.Raw(@Model.Tekst)
         @foreach (PdfFajlCasopis pdf in pdfFajlovi)
@@ -541,15 +528,12 @@
             <p><a href="~/PodsetnikZaDirektore/CitajPdf/@pdf.Id" target="_blank">@pdf.NaslovPdf</a></p>
         }
     </div>
-
-
     <div id="myDIV">
         <ul>
             <li>Наслов:<br /> @Model.Naslov</li><br />
             <li>Датум објављивања:<br /> @Model.DatumObjavljivanja</li><br />
             <li>Аутор: <br />  @Model.Autor</li><br />
         </ul>
-
     </div>
     <div id="myDIV1">
         <h3 style="font-size:17px; color:#565682">

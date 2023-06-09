@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     PrimeriKnjizenja pk = ViewBag.PK;
    
 }
@@ -393,19 +392,7 @@
         <a onclick="myFunction3()" href="~/PrimeriKnjizenja/Stampaj/@pk.Id"><i class="fa fa-print" style="color: white;" aria-hidden="true"></i></a>
         <a onclick="myFunction4()" href="~/PrimeriKnjizenja/OtvoriVord/@pk.Id"><i class="far fa-file-word" style="color: white;" aria-hidden="false"></i></a>
     </div>
-    <div class="glavnopolje" id="glavnopolje">
-        @*<div class="action" onclick="actionToggle();">
-                <span><i class="fas fa-align-right"></i></span>
-                <ul>
-                    @foreach (Podnaslov p in podnaslovi)
-                    {
-                        <li><a href="#@p.Id">@Html.Raw(@p.PodnaslovTekst)</a></li>
-                    }
-                </ul>
-            </div>*@
-
-
-        
+    <div class="glavnopolje" id="glavnopolje">     
         <p><a href="~/PrimeriKnjizenja/Index/@pk.IdRubrikaPK">Врати се на рубрику</a><a style="float:right">За претрагу текста користити: CTRL+F</a></p>
         @Html.Raw(@pk.Tekst)
     </div>
@@ -415,13 +402,10 @@
                 <li>Наслов:<br />@pk.Naslov</li>
                 <br />
                 <li>Поднаслов:<br />@pk.Podnaslov</li>
-                 
                 <br />
                 <li>Напомена:<br />  @pk.Napomena</li>
                 <br />
             </ul>
         </div>
     </div>
-
-
 </section>

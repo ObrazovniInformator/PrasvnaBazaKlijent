@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<PrasvnaBazaKlijent.Models.ProsvetniPropis>
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
-@using X.PagedList.Mvc.Common;
 
 @{
     ViewData["Title"] = "Index";
@@ -12,16 +11,11 @@
               select rub.IdRubrika).Single();
 
 }
-<style>
-</style>
-<style>
-</style>
 <script>
     //BACKGROUND
     document.getElementById("ProsvetniPropis").style.backgroundColor = "#565682";
     document.getElementById("RubrikePP @rp").style.backgroundColor = "#60608a";
     document.getElementById("PodrubrikaPP @pr").style.backgroundColor = "#73739c";
-
 
     //SLOVA
     document.getElementById("ProsvetniPropisiP").style.color = "#fff";
