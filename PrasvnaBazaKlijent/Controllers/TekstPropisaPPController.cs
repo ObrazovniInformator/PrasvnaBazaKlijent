@@ -14,100 +14,124 @@ namespace PrasvnaBazaKlijent.Controllers
     {
         public IActionResult Index(int id)
         {
-            using (new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
+            using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
             {
                 IsolationLevel = IsolationLevel.ReadUncommitted
             }))
-            using (var _context = new obrazovn_AdminPanelContext())
+
             {
-                ProsvetniPropis propis = (from pr in _context.ProsvetnIPropis
-                                          where pr.Id == id
-                                          select pr).AsNoTracking().SingleOrDefault();
-                List<PdfFajlProsvetniPropis> pdfFajlovi = (from pd in _context.PdfFajlProsvetniPropis
-                                                           where pd.IdProsvetniPropis == id
-                                                           select pd).ToList();
-                List<PodnaslovPP> podnaslov = (from p in _context.PodnaslovPP
-                                               where p.IdPropis == propis.Id
-                                               select p).AsNoTracking().ToList();
-                List<ClanPP> clan = (from c in _context.ClanPP
-                                     where c.IdPropis == propis.Id
-                                     select c).AsNoTracking().ToList();
-                List<int> idClana = (from c in _context.ClanPP
-                                     where c.IdPropis == id
-                                     select c.Id).ToList();
+                using (var _context = new obrazovn_AdminPanelContext())
+                {
+                    var propis = _context.ProsvetnIPropis
+                        .AsNoTracking()
+                        .SingleOrDefault(pr => pr.Id == id);
 
-                List<StavPP> stav = (from st in _context.StavPP
-                                     where idClana.Contains(st.IdClan)
-                                     select st).AsNoTracking().ToList();
+                    var pdfFajlovi = _context.PdfFajlProsvetniPropis
+                        .AsNoTracking()
+                        .Where(pd => pd.IdProsvetniPropis == id)
+                        .ToList();
 
+                    var podnaslov = _context.PodnaslovPP
+                        .AsNoTracking()
+                        .Where(p => p.IdPropis == propis.Id)
+                        .ToList();
 
-                List<int> idStav = (from st in _context.StavPP
-                                    where idClana.Contains(st.IdClan)
-                                    select st.Id).ToList();
+                    var clan = _context.ClanPP
+                        .AsNoTracking()
+                        .Where(c => c.IdPropis == propis.Id)
+                        .ToList();
 
-                List<TackaPP> tacka = (from tac in _context.TackaPP
-                                       where idStav.Contains(tac.IdStav)
-                                       select tac).AsNoTracking().ToList();
+                    var idClana = _context.ClanPP
+                        .Where(c => c.IdPropis == id)
+                        .Select(c => c.Id)
+                        .ToList();
 
+                    var stav = _context.StavPP
+                        .AsNoTracking()
+                        .Where(st => idClana.Contains(st.IdClan))
+                        .ToList();
 
-                List<AlinejaPP> alineja = (from a in _context.AlinejaPP
-                                           where idStav.Contains(a.IdStav)
-                                           select a).AsNoTracking().ToList();
+                    var idStav = _context.StavPP
+                        .Where(st => idClana.Contains(st.IdClan))
+                        .Select(st => st.Id)
+                        .ToList();
 
-                //IN AKTA VEZA
-                List<ProsvetniPropisInAkta> vezeProsvetniPropisInAkta = (from v in _context.ProsvetniPropisInAkta
-                                                                         where v.IdProsvetniPropis == id
-                                                                         select v).AsNoTracking().ToList();
+                    var tacka = _context.TackaPP
+                        .AsNoTracking()
+                        .Where(tac => idStav.Contains(tac.IdStav))
+                        .ToList();
 
-                List<int?> idVezeInAkta = (from v in _context.ProsvetniPropisInAkta
-                                           where v.IdProsvetniPropis == id
-                                           select v.IdInAkta).ToList();
+                    var alineja = _context.AlinejaPP
+                        .AsNoTracking()
+                        .Where(a => idStav.Contains(a.IdStav))
+                        .ToList();
 
-                List<int?> idStavovaDis = (from st in _context.ProsvetniPropisInAkta
-                                           where st.IdProsvetniPropis == id
-                                           select st.IdStavPP).Distinct().ToList();
+                    var vezeProsvetniPropisInAkta = _context.ProsvetniPropisInAkta
+                        .AsNoTracking()
+                        .Where(v => v.IdProsvetniPropis == id)
+                        .ToList();
 
-                List<int?> idTackeDis = (from t in _context.ProsvetniPropisInAkta
-                                         where t.IdProsvetniPropis == id && t.IdTackaPP != 0
-                                         select t.IdTackaPP).Distinct().ToList();
+                    var idVezeInAkta = _context.ProsvetniPropisInAkta
+                        .Where(v => v.IdProsvetniPropis == id)
+                        .Select(v => v.IdInAkta)
+                        .ToList();
 
-                List<InAkta> inAKta = (from inAk in _context.InAkta
-                                       where idVezeInAkta.Contains(inAk.Id)
-                                       select inAk).AsNoTracking().ToList();
+                    var idStavovaDis = _context.ProsvetniPropisInAkta
+                        .Where(st => st.IdProsvetniPropis == id)
+                        .Select(st => st.IdStavPP)
+                        .Distinct()
+                        .ToList();
 
-                //SLUZBENO MISLJENJE VEZA
-                List<ProsvetniPropisSluzbenoMisljenje> vezaPPSM = (from veza in _context.ProsvetniPropisSluzbenoMisljenje
-                                                                   where veza.IdProsvetniPropis == id
-                                                                   select veza).AsNoTracking().ToList();
+                    var idTackeDis = _context.ProsvetniPropisInAkta
+                        .Where(t => t.IdProsvetniPropis == id && t.IdTackaPP != 0)
+                        .Select(t => t.IdTackaPP)
+                        .Distinct()
+                        .ToList();
 
-                List<int?> idStavovaSMDis = (from st in _context.ProsvetniPropisSluzbenoMisljenje
-                                             where st.IdProsvetniPropis == id
-                                             select st.IdStavPP).ToList();
+                    var inAKta = _context.InAkta
+                        .AsNoTracking()
+                        .Where(inAk => idVezeInAkta.Contains(inAk.Id))
+                        .ToList();
 
-                List<int?> idSmVeza = (from veza in _context.ProsvetniPropisSluzbenoMisljenje
-                                       where veza.IdProsvetniPropis == id
-                                       select veza.IdSluzbenoMisljenje).ToList();
-                List<SluzbenoMisljenje> sluzbenaMisljenja = (from sm in _context.SluzbenoMisljenje
-                                                             where idSmVeza.Contains(sm.Id)
-                                                             select sm).AsNoTracking().ToList();
+                    var vezaPPSM = _context.ProsvetniPropisSluzbenoMisljenje
+                        .AsNoTracking()
+                        .Where(veza => veza.IdProsvetniPropis == id)
+                        .ToList();
 
-                ViewBag.Propis = propis;
-                ViewBag.PdfFajlovi = pdfFajlovi;
-                ViewBag.Podnaslovi = podnaslov;
-                ViewBag.Clanovi = clan;
-                ViewBag.Stavovi = stav;
-                ViewBag.Tacke = tacka;
-                ViewBag.Alineje = alineja;
-                //IN AKTA
-                ViewBag.VezeInAkta = vezeProsvetniPropisInAkta;
-                ViewBag.IdStavovaDis = idStavovaDis;
-                ViewBag.InAkta = inAKta;
-                ViewBag.IdTackeDis = idTackeDis;
-                //Sluzbeno Misljenje
-                ViewBag.VezeSluzbenaMisljenja = vezaPPSM;
-                ViewBag.IdStavovaSmDis = idStavovaSMDis;
-                ViewBag.SluzbenoMisljenje = sluzbenaMisljenja;
-                return View();
+                    var idStavovaSMDis = _context.ProsvetniPropisSluzbenoMisljenje
+                        .Where(st => st.IdProsvetniPropis == id)
+                        .Select(st => st.IdStavPP)
+                        .ToList();
+
+                    var idSmVeza = _context.ProsvetniPropisSluzbenoMisljenje
+                        .Where(veza => veza.IdProsvetniPropis == id)
+                        .Select(veza => veza.IdSluzbenoMisljenje)
+                        .ToList();
+
+                    var sluzbenaMisljenja = _context.SluzbenoMisljenje
+                        .AsNoTracking()
+                        .Where(sm => idSmVeza.Contains(sm.Id))
+                        .ToList();
+
+                    ViewBag.Propis = propis;
+                    ViewBag.PdfFajlovi = pdfFajlovi;
+                    ViewBag.Podnaslovi = podnaslov;
+                    ViewBag.Clanovi = clan;
+                    ViewBag.Stavovi = stav;
+                    ViewBag.Tacke = tacka;
+                    ViewBag.Alineje = alineja;
+                    //IN AKTA
+                    ViewBag.VezeInAkta = vezeProsvetniPropisInAkta;
+                    ViewBag.IdStavovaDis = idStavovaDis;
+                    ViewBag.InAkta = inAKta;
+                    ViewBag.IdTackeDis = idTackeDis;
+                    //Sluzbeno Misljenje
+                    ViewBag.VezeSluzbenaMisljenja = vezaPPSM;
+                    ViewBag.IdStavovaSmDis = idStavovaSMDis;
+                    ViewBag.SluzbenoMisljenje = sluzbenaMisljenja;
+
+                    return View();
+                }
             }
         }
 
@@ -118,36 +142,42 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 IsolationLevel = IsolationLevel.ReadUncommitted
             }))
+
             using (var _context = new obrazovn_AdminPanelContext())
             {
                 ProsvetniPropis propis = _context.ProsvetnIPropis.Find(id);
+
                 InAkta inAkta = _context.InAkta.Find(idSm);
-                List<PodnaslovPP> podnaslov = (from p in _context.PodnaslovPP
-                                               where p.IdPropis == propis.Id
-                                               select p).ToList();
-                List<ClanPP> clan = (from c in _context.ClanPP
-                                     where c.IdPropis == propis.Id
-                                     select c).ToList();
 
-                List<int> idClan = (from c in _context.ClanPP
-                                    where c.IdPropis == id
-                                    select c.Id).ToList();
+                List<PodnaslovPP> podnaslov = _context.PodnaslovPP
+                    .Where(p => p.IdPropis == propis.Id)
+                    .ToList();
 
-                List<StavPP> stav = (from st in _context.StavPP
-                                     where idClan.Contains(st.IdClan)
-                                     select st).ToList();
+                List<ClanPP> clan = _context.ClanPP
+                    .Where(c => c.IdPropis == propis.Id)
+                    .ToList();
 
-                List<int> idStav = (from st in _context.StavPP
-                                    where idClan.Contains(st.IdClan)
-                                    select st.Id).ToList();
+                List<int> idClan = _context.ClanPP
+                    .Where(c => c.IdPropis == id)
+                    .Select(c => c.Id)
+                    .ToList();
 
-                List<TackaPP> tacka = (from tac in _context.TackaPP
-                                       where idStav.Contains(tac.IdStav)
-                                       select tac).ToList();
+                List<StavPP> stav = _context.StavPP
+                    .Where(st => idClan.Contains(st.IdClan))
+                    .ToList();
 
-                List<AlinejaPP> alineja = (from a in _context.AlinejaPP
-                                           where idStav.Contains(a.IdStav)
-                                           select a).ToList();
+                List<int> idStav = _context.StavPP
+                    .Where(st => idClan.Contains(st.IdClan))
+                    .Select(st => st.Id)
+                    .ToList();
+
+                List<TackaPP> tacka = _context.TackaPP
+                    .Where(tac => idStav.Contains(tac.IdStav))
+                    .ToList();
+
+                List<AlinejaPP> alineja = _context.AlinejaPP
+                    .Where(a => idStav.Contains(a.IdStav))
+                    .ToList();
 
                 ViewBag.Propis = propis;
                 ViewBag.InAkta = inAkta;
@@ -156,6 +186,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Stavovi = stav;
                 ViewBag.Tacke = tacka;
                 ViewBag.Alineje = alineja;
+
                 return View();
             }
         }
@@ -167,16 +198,20 @@ namespace PrasvnaBazaKlijent.Controllers
             {
                 IsolationLevel = IsolationLevel.ReadUncommitted
             }))
+
             using (var _context = new obrazovn_AdminPanelContext())
             {
-                ProsvetniPropis propis = _context.ProsvetnIPropis.Find(id);
-                SluzbenoMisljenje sm = _context.SluzbenoMisljenje.Find(idSm);
+                ProsvetniPropis propis = _context.ProsvetnIPropis.FirstOrDefault(pr => pr.Id == id);
+                SluzbenoMisljenje sm = _context.SluzbenoMisljenje.FirstOrDefault(s => s.Id == idSm);
+
                 List<PodnaslovPP> podnaslov = (from p in _context.PodnaslovPP
                                                where p.IdPropis == propis.Id
                                                select p).ToList();
+
                 List<ClanPP> clan = (from c in _context.ClanPP
                                      where c.IdPropis == propis.Id
                                      select c).ToList();
+
                 List<int> idClan = (from c in _context.ClanPP
                                     where c.IdPropis == id
                                     select c.Id).ToList();
@@ -189,11 +224,9 @@ namespace PrasvnaBazaKlijent.Controllers
                                     where idClan.Contains(st.IdClan)
                                     select st.Id).ToList();
 
-
                 List<TackaPP> tacka = (from tac in _context.TackaPP
                                        where idStav.Contains(tac.IdStav)
                                        select tac).ToList();
-
 
                 List<AlinejaPP> alineja = (from a in _context.AlinejaPP
                                            where idStav.Contains(a.IdStav)
@@ -206,6 +239,7 @@ namespace PrasvnaBazaKlijent.Controllers
                 ViewBag.Stavovi = stav;
                 ViewBag.Tacke = tacka;
                 ViewBag.Alineje = alineja;
+
                 return View();
             }
         }
